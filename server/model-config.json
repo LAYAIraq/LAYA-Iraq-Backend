@@ -12,5 +12,36 @@
       "../common/mixins",
       "./mixins"
     ]
+  },
+  "Account": {
+    "dataSource": "sqlite",
+    "public": true
+  },
+  "AccessToken": {
+    "dataSource": "sqlite",
+    "public": false,
+    "relations": {
+      "account": {
+        "type": "belongsTo",
+        "model": "Account",
+        "foreignKey": "accountId"
+      }
+    }
+  },
+  "User": {
+    "dataSource": "sqlite",
+    "public": false
+  },
+  "Role": {
+    "dataSource": "sqlite",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "sqlite",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "sqlite",
+    "public": false
   }
 }

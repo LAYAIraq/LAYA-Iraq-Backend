@@ -1,4 +1,10 @@
 {
+  "memory": {
+    "name": "memory",
+    "localStorage": "no",
+    "file": "",
+    "connector": "memory"
+  },
   "sqlite": {
     "name": "sqlite",
     "connector": "loopback-connector-sqlite",

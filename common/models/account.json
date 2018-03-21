@@ -1,0 +1,34 @@
+{
+  "name": "Account",
+  "plural": "accounts",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "prefs": {
+      "type": "object",
+      "default": {}
+    },
+    "lang": {
+      "type": "string",
+      "default": "de"
+    },
+    "avatar": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}
