@@ -43,5 +43,9 @@
   "ACL": {
     "dataSource": "sqlite",
     "public": false
+  },
+  "storage": {
+    "dataSource": "files",
+    "public": true
   }
 }

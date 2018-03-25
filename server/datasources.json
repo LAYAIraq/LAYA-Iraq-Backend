@@ -10,5 +10,11 @@
     "connector": "loopback-connector-sqlite",
     "file_name": "./data.sqlite3",
     "debug": false
+  },
+  "files": {
+    "name": "files",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "./server/files"
   }
 }
