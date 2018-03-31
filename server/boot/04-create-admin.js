@@ -8,7 +8,7 @@ module.exports = function(server) {
   Account.findOrCreate({where: {email: 'admin@laya'}}, {
     email: 'admin@laya',
     username: 'admin',
-    password: 'ivegotthepower',
+    password: 'secret',
   }, function(err, admin) {
     if (err) {
       return console.error(err);

@@ -11,15 +11,10 @@ module.exports = function(Storage) {
     // file wants to be renamed
     if (newName) {
       //
-      // create new name
-      let ext = name.split('.').slice(-1).pop();
-      let newFullName = `${newName}.${ext}`;
-
-      //
       // pipe old file as new with new name
       let dlData = [];
       let dlStream = Storage.downloadStream(container, name);
-      let ulStream = Storage.uploadStream(container, newFullName);
+      let ulStream = Storage.uploadStream(container, newName);
       dlStream.pipe(ulStream);
       ulStream.on('finish', () => {
         Storage.removeFile(container, name, (err) => {

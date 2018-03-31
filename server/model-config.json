@@ -47,5 +47,9 @@
   "storage": {
     "dataSource": "files",
     "public": true
+  },
+  "Course": {
+    "dataSource": "sqlite",
+    "public": true
   }
 }
