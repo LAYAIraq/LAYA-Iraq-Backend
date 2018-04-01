@@ -21,7 +21,14 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "mycourses": {
+      "type": "hasMany",
+      "model": "Course",
+      "foreignKey": "",
+      "through": "Enrollment"
+    }
+  },
   "acls": [
     {
       "accessType": "*",

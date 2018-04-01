@@ -40,6 +40,12 @@
       "type": "belongsTo",
       "model": "Account",
       "foreignKey": ""
+    },
+    "students": {
+      "type": "hasMany",
+      "model": "Account",
+      "foreignKey": "",
+      "through": "Enrollment"
     }
   },
   "acls": [],

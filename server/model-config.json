@@ -51,5 +51,9 @@
   "Course": {
     "dataSource": "sqlite",
     "public": true
+  },
+  "Enrollment": {
+    "dataSource": "sqlite",
+    "public": true
   }
 }
