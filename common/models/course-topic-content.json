@@ -1,0 +1,29 @@
+{
+  "name": "CourseTopicContent",
+  "plural": "topiccontent",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "text": {
+      "type": "string",
+      "default": ""
+    },
+    "simple": {
+      "type": "string",
+      "default": ""
+    },
+    "video": {
+      "type": "object"
+    },
+    "audio": {
+      "type": "object"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
