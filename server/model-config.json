@@ -55,5 +55,13 @@
   "Enrollment": {
     "dataSource": "sqlite",
     "public": true
+  },
+  "CourseTopic": {
+    "dataSource": "sqlite",
+    "public": true
+  },
+  "CourseTopicContent": {
+    "dataSource": "sqlite",
+    "public": true
   }
 }

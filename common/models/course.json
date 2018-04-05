@@ -46,6 +46,11 @@
       "model": "Account",
       "foreignKey": "",
       "through": "Enrollment"
+    },
+    "topics": {
+      "type": "hasMany",
+      "model": "CourseTopic",
+      "foreignKey": ""
     }
   },
   "acls": [],
