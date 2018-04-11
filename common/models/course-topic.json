@@ -19,7 +19,7 @@
   "validations": [],
   "relations": {
     "contents": {
-      "type": "hasOne",
+      "type": "hasMany",
       "model": "CourseTopicContent",
       "foreignKey": ""
     }

@@ -1,0 +1,6 @@
+Build:
+  script:
+    - sudo systemctl stop laya-khuf-backend.service
+    - cd ~/laya/repos/khuf-backend
+    - git pull && npm install --no-optional
+    - sudo systemctl start laya-khuf-backend.service

@@ -15,11 +15,18 @@
       "type": "string",
       "default": ""
     },
-    "video": {
-      "type": "object"
+    "videos": {
+      "type": [
+        "object"
+      ],
+      "default": "[]"
     },
     "audio": {
       "type": "object"
+    },
+    "lang": {
+      "type": "string",
+      "required": true
     }
   },
   "validations": [],
