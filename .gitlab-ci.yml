@@ -1,4 +1,6 @@
 Build:
+  only:
+    - master
   script:
     - sudo systemctl stop laya-khuf-backend.service
     - cd /root/laya/repos/khuf-backend
