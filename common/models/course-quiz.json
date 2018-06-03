@@ -1,0 +1,29 @@
+{
+  "name": "CourseQuiz",
+  "plural": "coursequizzes",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "category": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "contents": {
+      "type": "hasMany",
+      "model": "CourseQuizContent",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
