@@ -1,0 +1,3 @@
+#! /usr/bin/env bash
+cd /root/laya/repos/khuf-backend
+npm install && npm start
