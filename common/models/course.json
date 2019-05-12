@@ -51,6 +51,11 @@
       "type": "hasMany",
       "model": "CourseTopic",
       "foreignKey": ""
+    },
+    "quizzes": {
+      "type": "hasMany",
+      "model": "CourseQuiz",
+      "foreignKey": ""
     }
   },
   "acls": [],

@@ -63,5 +63,13 @@
   "CourseTopicContent": {
     "dataSource": "sqlite",
     "public": true
+  },
+  "CourseQuiz": {
+    "dataSource": "sqlite",
+    "public": true
+  },
+  "CourseQuizContent": {
+    "dataSource": "sqlite",
+    "public": true
   }
 }
