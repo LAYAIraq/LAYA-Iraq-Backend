@@ -1,0 +1,23 @@
+{
+  "name": "AssessmentScmcItem",
+  "plural": "assessmentscmcitems",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "text": {
+      "type": "String",
+      "required": true
+    },
+    "isCorrect": {
+      "type": "Boolean",
+      "default": "false"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

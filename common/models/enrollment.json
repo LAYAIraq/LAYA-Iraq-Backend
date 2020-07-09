@@ -23,6 +23,10 @@
       "type": "belongsTo",
       "model": "Account",
       "foreignKey": ""
+    },
+    "position": {
+      "type": "belongsTo",
+      "model": "Learninteraction"
     }
   },
   "acls": [],

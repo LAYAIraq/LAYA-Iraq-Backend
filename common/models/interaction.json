@@ -1,0 +1,32 @@
+{
+  "name": "Learninteraction",
+  "plural": "learninteractions",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "Number",
+      "id": true,
+      "generated": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "course": {
+      "type": "belongsTo",
+      "model": "Course"
+    },
+    "instance": {
+      "type": "belongsTo",
+      "polymorphic": {
+        "foreignKey": "id",
+        "discriminator": "assessmentType"
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,33 @@
+{
+  "name": "BaseInteraction",
+  "plural": "baseinteactions",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "Number",
+      "id": true
+    },
+    "title": {
+      "type": "String",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "author": {
+      "type": "belongsTo",
+      "model": "Account",
+      "foreignKey": ""
+    },
+    "course": {
+      "type": "belongsTo",
+      "model": "Course"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
