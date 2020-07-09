@@ -32,6 +32,12 @@
     },
     "endDate": {
       "type": "date"
+    },
+    "content": {
+      "type": [
+        "object"
+      ],
+      "default": []
     }
   },
   "validations": [],
@@ -56,6 +62,10 @@
       "type": "hasMany",
       "model": "CourseQuiz",
       "foreignKey": ""
+    },
+    "startInteraction": {
+      "type": "belongsTo",
+      "model": "Learninteraction"
     }
   },
   "acls": [],

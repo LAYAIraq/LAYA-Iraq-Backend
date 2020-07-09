@@ -1,0 +1,28 @@
+{
+  "name": "AssessmentScmc",
+  "plural": "assessmentscmcs",
+  "base": "Assessment",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "description": {
+      "type": "String",
+      "required": true
+    },
+    "isMultiple": {
+      "type": "Boolean",
+      "default": "true"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "items": {
+      "type": "embedsMany",
+      "model": "AssessmentScmcItem"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

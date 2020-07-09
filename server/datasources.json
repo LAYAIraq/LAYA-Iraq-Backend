@@ -17,5 +17,9 @@
     "provider": "filesystem",
     "root": "./server/files",
     "maxFileSize": 500000000
+  },
+  "transient": {
+    "name": "transient",
+    "connector": "transient"
   }
 }

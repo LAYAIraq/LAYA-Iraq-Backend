@@ -71,5 +71,25 @@
   "CourseQuizContent": {
     "dataSource": "sqlite",
     "public": true
+  },
+  "Learninteraction": {
+    "dataSource": "sqlite",
+    "public": true
+  },
+  "BaseInteraction": {
+    "dataSource": null,
+    "public": false
+  },
+  "Assessment": {
+    "dataSource": null,
+    "public": false
+  },
+  "AssessmentScmc": {
+    "dataSource": "sqlite",
+    "public": true
+  },
+  "AssessmentScmcItem": {
+    "dataSource": "transient",
+    "public": false
   }
 }

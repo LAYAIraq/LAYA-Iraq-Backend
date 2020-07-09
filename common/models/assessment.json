@@ -1,0 +1,14 @@
+{
+  "name": "Assessment",
+  "plural": "assessments",
+  "base": "BaseInteraction",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
