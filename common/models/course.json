@@ -38,6 +38,12 @@
         "object"
       ],
       "default": []
+    },
+    "feedback": {
+      "type": [
+        "object"
+      ],
+      "default": []
     }
   },
   "validations": [],
