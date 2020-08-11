@@ -59,7 +59,8 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": [
-        "getRole"
+        "getRole",
+        "changeLanguage"
       ]
     },
     {
@@ -68,8 +69,7 @@
       "principalId": "$owner",
       "permission": "ALLOW",
       "property": [
-        "__link__mycourses",
-        "changeLanguage"
+        "__link__mycourses"
       ]
     }
   ],

@@ -1,13 +1,17 @@
 "use strict";
 
 module.exports = function(app, cb) {
-  var { sqlite } = app.dataSources;
-  sqlite.isActual(function(err, actual) {
+  const { sqlite } = app.dataSources;
+  sqlite.isActual((err, actual) => {
     if (!actual) {
-      sqlite.autoupdate(function() {
+      sqlite.autoupdate( () => {
         console.log("Database updated");
         cb();
       });
-    } else cb();
+    } 
+    else {
+      console.log("No Update to Database")
+      cb();
+    }
   });
 };

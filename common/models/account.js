@@ -186,20 +186,12 @@ module.exports = (Account) => {
     let uid = data.uid
     let lang = data.spr
     let email = data.email
-    const { Model } = Account.app.models
-    console.log(Model)
-    Model.getRoles({principalId: uid}, (err, models) => {
-      console.log(models)
-      if (err) {
-        console.error(err)
-        cb(null, false)
-      } 
-      const lyModels = models.filter(Number)
-      console.log(lyModels)
-      if (lyModels.length() == 0) cb(null, false)
-      Model.findOne({where: {id: lyModels[0]}}, (err, model) => {
-        console.log(model)
-      })
+    Account.find({where: { userId: uid }}, (err, user) => {
+      if(err) console.error(err)
+      else {
+        user.lang = lang
+        console.log(`User #${uid}'s language updated to ${lang}`)
+      }
     })
     console.log(Model)
     cb(null, true)
