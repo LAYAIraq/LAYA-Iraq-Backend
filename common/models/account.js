@@ -184,16 +184,16 @@ module.exports = (Account) => {
 
   Account.changeLanguage = (data, cb) => {
     let uid = data.uid
-    let lang = data.spr
-    let email = data.email
-    Account.find({where: { userId: uid }}, (err, user) => {
+    let newlang = data.lang
+    Account.findById(uid, (err, user) => {
       if(err) console.error(err)
       else {
-        user.lang = lang
-        console.log(`User #${uid}'s language updated to ${lang}`)
+        user.updateAttributes({lang: newlang}, (err, user) => {
+          if (err) console.error(err)
+          console.log(`User #${user.id}'s language updated to ${user.lang}`)
+        })
       }
     })
-    console.log(Model)
     cb(null, true)
   };
 
@@ -202,10 +202,10 @@ module.exports = (Account) => {
       path: '/:id/change-language',
       verb: 'post',
     },
-    accepts: {
+    accepts: { 
       arg: 'data',
       type: 'object',
-      http: { source: 'body '},
+      http: {source: 'body'},
       required: true
     },
     returns: {

@@ -4,4 +4,5 @@
 rm -v data.sqlite3
 rm -rfv server/files/*
 
-echo "Cleanup successful!"
+echo "Cleanup successful, restarting..."
+npm start
