@@ -1,7 +1,9 @@
 'use strict';
 
+//import * as sampleCourse from "../../common/samplecourse.json"
+
 module.exports = function(server) {
-    let {Account, Role, RoleMapping} = server.models;
+    let {Account, Role, RoleMapping, Course} = server.models;
 
   //
   // admin account
@@ -52,6 +54,79 @@ module.exports = function(server) {
                 }
             });
         });
+    });
+
+    Course.findOrCreate({where: { name: 'Testkurs', category: 'Kurs' }}, {
+        abstract: null,
+        authorId: 1, 
+        category: "Kurs", 
+        content: [
+            {
+                "name": "laya-dialog",
+                "input":{
+                    "bg": "",
+                    "question": "New Stuff",
+                    "answers":[
+                        "Sample Answer",
+                        "Sample Answer"]
+                },
+                "nextStep": "2,3"
+            },
+            {
+                "name": "laya-plyr-vimeo",
+                "input": {
+                    "url": "https://vimeo.com/27244727"
+                },
+                "nextStep": "4"
+            },
+            {
+                "name": "laya-wysiwyg",
+                "input": {
+                    "contents": {
+                        "ops":[
+                            {"insert": "This Concludes our very small sample course.\n"}
+                        ]
+                    }
+                },
+                "nextStep": "4"
+            },
+            {
+                "name": "laya-course-feedback",
+                "input":{
+                    "title": "Course Feedback",
+                    "task": "This content block allows you to give feedback. Our goal is to make our courses as comprehesible and accessible as possible. Therefore, we kindly ask you to give your opinion about our content and conveyance. The feedback is given anonymously. If you agree to answer any question we might have about your feedback, please click the corresponding button.",
+                    "taskAudio": "",
+                    "items":[
+                        "The course has a discernible structure.",
+                        "The course has interesting contents",
+                        "The course difficulty was adequate.",
+                        "I did not feel underchallenged at any point.",
+                        "I did not feel overwhelmed at any point.",
+                        "The assessment blocks helped me understand.",
+                        "I would recommend this course to others."
+                    ],
+                    "categories":[
+                        "Do not agree",
+                        "Rather do not agree",
+                        "Neutral",
+                        "Rather agree",
+                        "Agree"
+                    ]
+                },
+                "nextStep": "0"
+            }
+        ], 
+        createDate: Date.$now, 
+        endDate: null, 
+        feedback: [], 
+        locked: false, 
+        name: "Testkurs", 
+        startDate: null, 
+        startInteractionId: null
+    }, (err, course) => {
+        if (err) return console.error(err)
+        console.log("Sample Course exists")
+        
     });
 };
 
