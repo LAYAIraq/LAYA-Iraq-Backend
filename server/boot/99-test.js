@@ -120,7 +120,8 @@ module.exports = function(server) {
         endDate: null, 
         feedback: [], 
         locked: false, 
-        name: "Testkurs", 
+        name: "Testkurs",
+        needsEnrollment: true, 
         startDate: null, 
         startInteractionId: null
     }, (err, course) => {

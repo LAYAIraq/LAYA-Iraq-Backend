@@ -44,6 +44,10 @@
         "object"
       ],
       "default": []
+    },
+    "needsEnrollment": {
+      "type": "boolean",
+      "default": false
     }
   },
   "validations": [],

@@ -10,6 +10,16 @@
     "created": {
       "type": "date",
       "default": "$now"
+    },
+    "feedback": {
+      "type": [
+        "object"
+      ],
+      "default": []
+    },
+    "progress": {
+      "type": "number",
+      "default": 0
     }
   },
   "validations": [],
@@ -23,10 +33,6 @@
       "type": "belongsTo",
       "model": "Account",
       "foreignKey": ""
-    },
-    "position": {
-      "type": "belongsTo",
-      "model": "Learninteraction"
     }
   },
   "acls": [],
