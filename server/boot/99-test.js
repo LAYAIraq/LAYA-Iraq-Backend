@@ -5,7 +5,7 @@
 module.exports = function(server) {
     let {Account, Role, RoleMapping, Course} = server.models;
 
-  //
+    
   // test account
     Account.findOrCreate({where: {email: 'test@laya'}}, {
         email: 'test@laya',
