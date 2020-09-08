@@ -183,6 +183,7 @@ module.exports = (Account) => {
   //change user's language
 
   Account.changeLanguage = (data, cb) => {
+    console.log(data)
     let uid = data.uid
     let newlang = data.lang
     Account.findById(uid, (err, user) => {
