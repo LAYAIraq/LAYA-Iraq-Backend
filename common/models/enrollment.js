@@ -64,15 +64,8 @@ module.exports = (Enrollment) => {
   Enrollment.getAllByStudentId = (userId, cb) => {
     
     Enrollment.find({where: {studentId: userId}}, (err, list)  => {
-      var subs = []
-      if (err) console.log(err)
-      else {
-        for(const sub of list) {
-          subs.push(sub.courseId)
-        }
-      }
-      //const data = {subs}
-      cb(null, subs)
+      if (err) return cb(null, err)
+      else return cb(null, list)
     })
     
   }
@@ -89,13 +82,40 @@ module.exports = (Enrollment) => {
       required: true
     },
     returns: {
-      arg: 'subList',
-      type: 'object'
+      arg: 'sublist',
+      type: 'array'
     },
     description: 'Get all Enrollments of user by User ID'
   })
 
-  //checks if a Mapping exists, returns it if yes
+  Enrollment.getCourseEnrollments = (cid, cb) => {
+    Enrollment.find({where: {courseId: cid}}, (err, list) =>{
+      console.log(list)
+      if(err) return cb(null, err)
+      else return cb (null, list)
+    })
+  } 
+
+  Enrollment.remoteMethod('getCourseEnrollments', {
+    http: {
+      path: '/getAllByCourseId',
+      verb: 'get'
+    },
+    accepts: {
+      arg: 'courseId',
+      type: 'any',
+      required: true
+    },
+    returns:  {
+      arg: 'subs',
+      type: 'array'
+    },
+    description: 'Returns a list of enrollments for a Course'
+
+  })
+
+  //checks if a Mapping exists, returns it if yes FIXME
+  //does the same as findOne 
 
   Enrollment.getEnrollment = (data, cb) => {
     console.log("Trying to find an Enrollment")
