@@ -20,6 +20,14 @@
     "progress": {
       "type": "number",
       "default": 0
+    },
+    "finished": {
+      "type": "boolean",
+      "default": "false"
+    },
+    "lastActivity": {
+      "type": "date",
+      "default": "$now"
     }
   },
   "validations": [],
@@ -32,6 +40,11 @@
     "student": {
       "type": "belongsTo",
       "model": "Account",
+      "foreignKey": ""
+    },
+    "flags": {
+      "type": "hasMany",
+      "model": "Flag",
       "foreignKey": ""
     }
   },

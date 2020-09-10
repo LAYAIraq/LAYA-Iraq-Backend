@@ -76,6 +76,10 @@
     "startInteraction": {
       "type": "belongsTo",
       "model": "Learninteraction"
+    },
+    "flags": {
+      "type": "hasMany",
+      "model": "Flag"
     }
   },
   "acls": [],
