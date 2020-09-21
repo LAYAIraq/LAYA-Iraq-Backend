@@ -25,6 +25,10 @@
       "type": "boolean",
       "default": "false"
     },
+    "returned": {
+      "type": "boolean",
+      "default": "false"
+    },
     "lastActivity": {
       "type": "date",
       "default": "$now"

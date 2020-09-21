@@ -23,7 +23,8 @@ module.exports = function(server) {
     Enrollment.findOrCreate({where: {courseId: 'Testkurs', studentId: 2}}, {
         created: Date.now(),
         courseId: 'Testkurs',
-        studentId: 2
+        studentId: 2,
+        lastActivity: Date.now()
     }, err =>{
         if(err) console.error(err)
         else console.log("Mockup Enrollment exists")
