@@ -39,12 +39,6 @@
       ],
       "default": []
     },
-    "feedback": {
-      "type": [
-        "object"
-      ],
-      "default": []
-    },
     "needsEnrollment": {
       "type": "boolean",
       "default": false

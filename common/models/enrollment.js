@@ -26,15 +26,12 @@ module.exports = (Enrollment) => {
     Enrollment.findOrCreate({where: {studentId: sid, courseId: cid}}, 
       {studentId: sid, courseId: cid, created: Date.$now}, 
       (err, newEnrollment, isNewInstance) => {
-        // if(isNewInstance) console.log("New Instance of Enrollment!")
-        // else console.log("Instance has existed beforedoing nothing...")
+
         if (err) {
           console.error(err)
           return cb(err)
         }
         else { 
-          // console.log("New User:")
-          // console.log(newEnrollment)
           cb(null, newEnrollment)
         }
     })
@@ -78,7 +75,6 @@ module.exports = (Enrollment) => {
     accepts: { 
       arg: 'uid',
       type: 'any',
-      //http: {source: 'body'},
       required: true
     },
     returns: {
@@ -118,12 +114,11 @@ module.exports = (Enrollment) => {
   //does the same as findOne 
 
   Enrollment.getEnrollment = (data, cb) => {
-    console.log("Trying to find an Enrollment")
-    console.log(data)
+
     let sid = data.studentId
     let cid = data.courseId
     if (sid == null || cid == null) {
-      console.log("Empty Object in request!")
+
       return cb(null, {})
     }
 
