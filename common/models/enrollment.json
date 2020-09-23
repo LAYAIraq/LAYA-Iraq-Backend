@@ -10,6 +10,28 @@
     "created": {
       "type": "date",
       "default": "$now"
+    },
+    "feedback": {
+      "type": [
+        "object"
+      ],
+      "default": []
+    },
+    "progress": {
+      "type": "number",
+      "default": 0
+    },
+    "finished": {
+      "type": "boolean",
+      "default": "false"
+    },
+    "returned": {
+      "type": "boolean",
+      "default": "false"
+    },
+    "lastActivity": {
+      "type": "date",
+      "default": "$now"
     }
   },
   "validations": [],
@@ -24,9 +46,10 @@
       "model": "Account",
       "foreignKey": ""
     },
-    "position": {
-      "type": "belongsTo",
-      "model": "Learninteraction"
+    "flags": {
+      "type": "hasMany",
+      "model": "Flag",
+      "foreignKey": ""
     }
   },
   "acls": [],

@@ -56,6 +56,10 @@
     "dataSource": "sqlite",
     "public": true
   },
+  "Flag": {
+    "dataSource": "sqlite",
+    "public": false
+  },
   "CourseTopic": {
     "dataSource": "sqlite",
     "public": true

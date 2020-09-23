@@ -39,11 +39,9 @@
       ],
       "default": []
     },
-    "feedback": {
-      "type": [
-        "object"
-      ],
-      "default": []
+    "needsEnrollment": {
+      "type": "boolean",
+      "default": false
     }
   },
   "validations": [],
@@ -72,6 +70,10 @@
     "startInteraction": {
       "type": "belongsTo",
       "model": "Learninteraction"
+    },
+    "flags": {
+      "type": "hasMany",
+      "model": "Flag"
     }
   },
   "acls": [],
