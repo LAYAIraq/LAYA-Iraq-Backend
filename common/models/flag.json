@@ -1,0 +1,46 @@
+{
+    "name": "Flag",
+    "plural": "flags",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+      "validateUpsert": true
+    },
+    "properties": {
+      "created": {
+        "type": "date",
+        "default": "$now"
+      },
+      "coordinates": {
+        "type": "object",
+        "default": {"x": 0, "y": 0}
+      },
+      "question": {
+        "type": "string",
+        "default": ""
+      },
+      "answered": {
+        "type": "boolean",
+        "default": "false"
+      },
+      "answers": {
+        "type": ["object"],
+        "default": []
+      }
+    },
+    "validations": [],
+    "relations": {
+      "course": {
+        "type": "belongsTo",
+        "model": "Course",
+        "foreignKey": ""
+      },
+      "author": {
+        "type": "belongsTo",
+        "model": "Account",
+        "foreignKey": ""
+      }
+    },
+    "acls": [],
+    "methods": {}
+}
