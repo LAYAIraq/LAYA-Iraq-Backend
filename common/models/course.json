@@ -22,11 +22,16 @@
     "locked": {
       "type": "boolean",
       "default": false
+     },
+     "createDate": {
+      "type": "date",
+      "default": "$now",
+      "id": true
     },
-    "createDate": {
+    "lastChanged": {
       "type": "date",
       "default": "$now"
-    },
+     },
     "startDate": {
       "type": "date"
     },

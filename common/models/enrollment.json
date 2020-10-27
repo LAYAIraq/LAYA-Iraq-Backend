@@ -39,7 +39,7 @@
     "course": {
       "type": "belongsTo",
       "model": "Course",
-      "foreignKey": ""
+      "foreignKey": "createDate"
     },
     "student": {
       "type": "belongsTo",

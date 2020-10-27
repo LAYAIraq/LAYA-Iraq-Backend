@@ -23,8 +23,8 @@ module.exports = (Enrollment) => {
     let sid = data.studentId
     let cid = data.courseId
 
-    Enrollment.findOrCreate({where: {studentId: sid, courseId: cid}}, 
-      {studentId: sid, courseId: cid, created: Date.$now}, 
+    Enrollment.findOrCreate({where: {studentId: sid, createDate: cid}}, 
+      {studentId: sid, createDate: cid, created: Date.$now}, 
       (err, newEnrollment, isNewInstance) => {
 
         if (err) {
@@ -85,7 +85,7 @@ module.exports = (Enrollment) => {
   })
 
   Enrollment.getCourseEnrollments = (cid, cb) => {
-    Enrollment.find({where: {courseId: cid}}, (err, list) =>{
+    Enrollment.find({where: {createDate: cid}}, (err, list) =>{
       console.log(list)
       if(err) return cb(null, err)
       else return cb (null, list)
@@ -116,13 +116,13 @@ module.exports = (Enrollment) => {
   Enrollment.getEnrollment = (data, cb) => {
 
     let sid = data.studentId
-    let cid = data.courseId
+    let cid = data.createDate
     if (sid == null || cid == null) {
 
       return cb(null, {})
     }
 
-    Enrollment.find({where: {studentId: sid, courseId: cid}}, (err, enrol) => {
+    Enrollment.find({where: {studentId: sid, createDate: cid}}, (err, enrol) => {
       if (err){
         console.error(err)
         return cb(err)
