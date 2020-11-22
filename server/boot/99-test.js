@@ -1,5 +1,5 @@
 'use strict';
-// i test this
+
 //import * as sampleCourse from "../../common/samplecourse.json"
 
 module.exports = function(server) {
@@ -153,5 +153,140 @@ module.exports = function(server) {
         console.log("Sample Course exists")
         
     });
+
+    Course.findOrCreate({where: { name: 'Testkurs - TT', category: 'Beschreibungen' }}, {
+        abstract: null,
+        authorId: 1, 
+        category: "Beschreibungen", 
+        content: [
+            {
+                "name": "laya-dialog",
+                "input":{
+                    "bg": "",
+                    "question": "New Stuff",
+                    "answers":[
+                        "Sample Answer",
+                        "Sample Answer"]
+                },
+                "nextStep": "2,3"
+            },
+            {
+                "name": "laya-plyr-vimeo",
+                "input": {
+                    "url": "https://vimeo.com/27244727"
+                },
+                "nextStep": "4"
+            },
+            {
+                "name": "laya-wysiwyg",
+                "input": {
+                    "contents": {
+                        "ops":[
+                            {"insert": "This Concludes our very small sample course.\n"}
+                        ]
+                    }
+                },
+                "nextStep": "4"
+            },
+            {
+                "name": "laya-course-feedback",
+                "input":{
+                    "title": "Course Feedback",
+                    "task": "This content block allows you to give feedback. Our goal is to make our courses as comprehesible and accessible as possible. Therefore, we kindly ask you to give your opinion about our content and conveyance. The feedback is given anonymously. If you agree to answer any question we might have about your feedback, please click the corresponding button.",
+                    "taskAudio": "",
+                    "items":[
+                        "The course has a discernible structure.",
+                        "The course has interesting contents",
+                        "The course difficulty was adequate.",
+                        "I did not feel underchallenged at any point.",
+                        "I did not feel overwhelmed at any point.",
+                        "The assessment blocks helped me understand.",
+                        "I would recommend this course to others."
+                    ],
+                    "categories":[
+                        "Do not agree",
+                        "Rather do not agree",
+                        "Neutral",
+                        "Rather agree",
+                        "Agree"
+                    ]
+                },
+                "nextStep": "0"
+            },
+            {
+                "name": "laya-wysiwyg",
+                "input": {
+                    "contents": {
+                        "ops":[
+                            {"insert": "This Concludes our very small sample course.\n"}
+                        ]
+                    }
+                },
+                "nextStep": "4"
+            },
+            {
+                "name": "laya-ableplayer",
+                "input": {
+                    "sign": "",
+                    "src": "",
+                    "sub": ""
+                },
+                "nextStep": "5"
+            },
+            {
+                "name": "laya-scmc",
+                "input": {
+                    "maxTries": 1,
+                    "multiple": "false",
+                    "options": [
+                        "Antwort 1"
+                    ],
+                    "solutions": [
+                        ""
+                    ],
+                    "task": "",
+                    "taskAudio": "",
+                    "title": ""
+                },
+                "nextStep": "6"
+            },
+            {
+                "name": "laya-quiz-drag-drop",
+                "input": {
+                    "categories": ["Kategorie 1","Kategorie 2"],
+                    "items": [{"label":"Antwort 1","category":-1}],
+                    "task": "",
+                    "taskAudio": "",
+                    "title": ""
+                },
+                "nextStep": "7"
+            },
+            {
+                "name": "laya-quiz-relate",
+                "input": {
+                    "pairs": [{"img":"","audio":"","relation":-1}],
+                    "relations": ["Lösung 1","Lösung 2"],
+                    "task": "",
+                    "taskAudio": "",
+                    "title": ""
+
+                },
+                "nextStep": "0"
+            },
+        ], 
+        createDate: Date.$now, 
+        endDate: null, 
+        feedback: [], 
+        locked: false, 
+        name: "Testkurs - TT",
+        needsEnrollment: false, 
+        startDate: null, 
+        startInteractionId: null
+    }, (err, course) => {
+        if (err) return console.error(err)
+        console.log("Sample Course with Explanations exists")
+        
+    });
+
 };
 
