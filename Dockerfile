@@ -1,20 +1,17 @@
-FROM node:lts-alpine as builder
+# old version of node for compability reasons
+FROM node:9.9.0-alpine as builder
 
-#RUN apk add --update g++ git python python-dev build-base sqlite sqlite-dev gcc make && rm -rf /var/cache/apk/*
+# additional packages needed for installing certain dependencies
+RUN apk add --update python make g++
 
-#RUN npm install -g sqlite3
 
 # Build Production version of LAYA backend
 WORKDIR /var/www/laya/backend
 
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 
 COPY . .
 
-
 EXPOSE 3001
 CMD ["npm", "start"]
-
-
-
