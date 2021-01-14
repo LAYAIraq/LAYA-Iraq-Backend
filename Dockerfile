@@ -12,6 +12,7 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
+RUN mkdir server/files
 
 EXPOSE 3001
 CMD ["npm", "start"]
