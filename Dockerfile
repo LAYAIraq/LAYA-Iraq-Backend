@@ -14,5 +14,8 @@ RUN npm install
 COPY . .
 RUN mkdir server/files
 
+#SET UP DATABASE CORRECTLY FOR THE FIRST TIME
+RUN ./first-setup.sh
+
 EXPOSE 3001
 CMD ["npm", "start"]
