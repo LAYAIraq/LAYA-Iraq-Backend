@@ -5,31 +5,6 @@
 module.exports = function(server) {
     let {Account, Role, Flag, RoleMapping, Course, Enrollment} = server.models;
 
-    
-    //mockup flag
-    Flag.findOrCreate({where: {courseId: 'Testkurs', authorId: 2}}, {
-        created: Date.now(),
-        coordinates: {x: 125, y: 125},
-        question: "Was ist das hier für ein Spasz?",
-        courseId: "Testkurs",
-        authorId: 2,
-        enrollmentId: 1
-    }, err => {
-        if (err) console.error(err)
-        else console.log("Mockup flag exists")
-    })
-
-    //mockup enrollment
-    Enrollment.findOrCreate({where: {courseId: 'Testkurs', studentId: 2}}, {
-        created: Date.now(),
-        courseId: 'Testkurs',
-        studentId: 2,
-        lastActivity: Date.now()
-    }, err =>{
-        if(err) console.error(err)
-        else console.log("Mockup Enrollment exists")
-    })
-
   // test account
     Account.findOrCreate({where: {email: 'test@laya'}}, {
         email: 'test@laya',
@@ -80,6 +55,7 @@ module.exports = function(server) {
         });
     });
 
+    // Test Course
     Course.findOrCreate({where: { name: 'Testkurs', category: 'Kurs' }}, {
         abstract: null,
         authorId: 1, 
@@ -140,7 +116,7 @@ module.exports = function(server) {
                 "nextStep": "0"
             }
         ], 
-        createDate: Date.$now, 
+        lastChanged: Date.$now, 
         endDate: null, 
         feedback: [], 
         locked: false, 
@@ -274,7 +250,7 @@ module.exports = function(server) {
                 "nextStep": "0"
             },
         ], 
-        createDate: Date.$now, 
+        lastChanged: Date.$now, 
         endDate: null, 
         feedback: [], 
         locked: false, 
@@ -288,5 +264,20 @@ module.exports = function(server) {
         
     });
 
+    //mockup flag
+    // FIXME: correct primary key
+    Flag.findOrCreate({where: {courseId: 'Testkurs', authorId: 2}}, {
+        created: Date.now(),
+        coordinates: {x: 125, y: 125},
+        question: "Was ist das hier für ein Spasz?",
+        courseId: "Testkurs",
+        authorId: 2,
+        enrollmentId: 1
+    }, err => {
+        if (err) console.error(err)
+        else console.log("Mockup flag exists")
+    })
+
+    //mockup enrollment removed
 };
 

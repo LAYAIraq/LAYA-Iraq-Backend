@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(Storage) {
-  //
+  
   // set unique name
   Storage.afterRemote('upload', function(ctx, data, next) {
     const newName = ctx.req.query.name;
@@ -23,4 +23,5 @@ module.exports = function(Storage) {
       });
     } else next();
   });
+
 };

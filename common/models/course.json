@@ -9,7 +9,6 @@
   "properties": {
     "name": {
       "type": "string",
-      "id": true,
       "required": true
     },
     "category": {
@@ -23,9 +22,9 @@
       "type": "boolean",
       "default": false
      },
-     "createDate": {
-      "type": "date",
-      "default": "$now",
+     "courseId": {
+      "type": "string",
+      "defaultFn": "uuidv4",
       "id": true
     },
     "lastChanged": {
@@ -47,6 +46,9 @@
     "needsEnrollment": {
       "type": "boolean",
       "default": false
+    },
+    "storageId": {
+      "type": "string"
     }
   },
   "validations": [],
