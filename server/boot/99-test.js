@@ -73,7 +73,7 @@ module.exports = function(server) {
                 "nextStep": "2,3"
             },
             {
-                "name": "laya-plyr-vimeo",
+                "name": "laya-plyr",
                 "input": {
                     "url": "https://vimeo.com/27244727"
                 },
@@ -147,7 +147,7 @@ module.exports = function(server) {
                 "nextStep": "2,3"
             },
             {
-                "name": "laya-plyr-vimeo",
+                "name": "laya-plyr",
                 "input": {
                     "url": "https://vimeo.com/27244727"
                 },

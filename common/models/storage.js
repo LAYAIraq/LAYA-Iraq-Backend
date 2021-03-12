@@ -1,9 +1,11 @@
 'use strict';
 
-module.exports = function(Storage) {
+module.exports = (Storage) => {
   
   // set unique name
-  Storage.afterRemote('upload', function(ctx, data, next) {
+  Storage.afterRemote('upload', (ctx, data, next) => {
+    // console.log(ctx)
+    // console.log(ctx.req.query)
     const newName = ctx.req.query.name;
     const {container, name} = data.result.files.file[0];
 

@@ -49,6 +49,11 @@
     },
     "storageId": {
       "type": "string"
+    },
+    "files": {
+      "type": [
+        "object"
+      ]
     }
   },
   "validations": [],
