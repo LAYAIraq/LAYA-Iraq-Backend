@@ -1,21 +1,47 @@
-'use strict';
+/**
+ * Filename: account.js
+ * Use: Define additional methods for account data model
+ * Creator: core
+ * Date: unknown
+ */
+'use strict'
 
 module.exports = (Account) => {
-  //
-  // hide default create endpoint
-  Account.disableRemoteMethodByName('create');
+  /**
+   * Use: disable default create endpoint
+   * 
+   * Author: core
+   * 
+   * Last Updated: unknown
+   */
+  Account.disableRemoteMethodByName('create')
 
-  //
-  // exists by name
+  /**
+   * Function existsByName: check if the username exists
+   * 
+   * Author: core
+   * 
+   * Last Updated: unknown
+   * 
+   * @param {string} name user name to be found
+   * @param {Function} cb callback function
+   */
   Account.existsByName = (name, cb) => {
     Account.find({where: {username: name}}, (err, accounts) => {
       if (accounts.length > 0)
-        cb(null, true);
+        cb(null, true)
       else
-        cb(null, false);
-    });
-  };
+        cb(null, false)
+    })
+  }
 
+  /**
+   * Use: expose existsByName to API
+   * 
+   * Author: core
+   * 
+   * Last Updated: unknown
+   */
   Account.remoteMethod('existsByName', {
     http: {
       path: '/name/:name',
@@ -29,19 +55,34 @@ module.exports = (Account) => {
       root: true,
       type: 'boolean',
     },
-  });
+  })
 
-  //
-  // exists by email
+  /**
+   * Function existsByEmail: checks if user email exists
+   * 
+   * Author: core
+   * 
+   * Last Updated: unknown
+   * 
+   * @param {string} email user email to be found
+   * @param {Function} cb callback function
+   */
   Account.existsByEmail = (email, cb) => {
-    Account.find({where: {email: email}}, (err, accounts) => {
+    Account.find({ where: { email: email } }, (err, accounts) => {
       if (accounts.length > 0)
-        cb(null, true);
+        cb(null, true)
       else
-        cb(null, false);
-    });
-  };
+        cb(null, false)
+    })
+  }
 
+  /**
+   * Use: expose existsByEmail to API
+   * 
+   * Author: core
+   * 
+   * Last Updated: unknown
+   */
   Account.remoteMethod('existsByEmail', {
     http: {
       path: '/email/:email',
@@ -55,37 +96,51 @@ module.exports = (Account) => {
       root: true,
       type: 'boolean',
     },
-  });
+  })
 
-  //
-  // create student
+  /**
+   * Function createStudent: create a user in 'student' role
+   * 
+   * Author: core
+   * 
+   * Last Updated: unknown
+   * 
+   * @param {object} user user object to be inserted
+   * @param {Function} cb callback function
+   */
   Account.createStudent = (user, cb) => {
-    const ROLE_NAME = 'student';
-    const {Role, RoleMapping} = Account.app.models;
+    const ROLE_NAME = 'student'
+    const { Role, RoleMapping } = Account.app.models
 
     Account.create(user, (err, newUser) => {
-      if (err) return cb(err);
+      if (err) return cb(err)
 
-      //
       // set role
-      Role.findOrCreate({where: {name: ROLE_NAME}}, {
+      Role.findOrCreate({ where: { name: ROLE_NAME } }, {
         name: ROLE_NAME,
       }, (err, role) => {
-        if (err) return cb(err);
+        if (err) return cb(err)
         role.principals.create({
           principalId: newUser.id,
           principalType: RoleMapping.USER,
         }, (err, principal) => {
-          if (err) return cb(err);
+          if (err) return cb(err)
 
           //
           // return new student
-          cb(null, newUser);
-        });
-      });
-    });
-  };
+          cb(null, newUser)
+        })
+      })
+    })
+  }
 
+  /**
+   * Use: expose createStudent to API
+   * 
+   * Author: core
+   * 
+   * Last Updated: unknown
+   */
   Account.remoteMethod('createStudent', {
     http: {
       path: '/student',
@@ -100,39 +155,50 @@ module.exports = (Account) => {
       root: true,
       type: 'object',
     },
-  });
+  })
 
- 
-
-  //
-  // create author
+  /**
+   * Function createAuthor: create user in 'author' role
+   * 
+   * Author: core
+   * 
+   * Last Updated: unknown
+   * 
+   * @param {object} user user settings
+   * @param {Function} cb callback function
+   */
   Account.createAuthor = (user, cb) => {
-    const ROLE_NAME = 'author';
-    const {Role, RoleMapping} = Account.app.models;
+    const ROLE_NAME = 'author'
+    const {Role, RoleMapping} = Account.app.models
 
     Account.create(user, (err, newUser) => {
-      if (err) return cb(err);
+      if (err) return cb(err)
 
-      //
       // set role
-      Role.findOrCreate({where: {name: ROLE_NAME}}, {
+      Role.findOrCreate({ where: { name: ROLE_NAME } }, {
         name: ROLE_NAME,
       }, (err, role) => {
-        if (err) return cb(err);
+        if (err) return cb(err)
         role.principals.create({
           principalId: newUser.id,
           principalType: RoleMapping.USER,
         }, (err, principal) => {
-          if (err) return cb(err);
+          if (err) return cb(err)
+        
+          // return new author
+          cb(null, newUser)
+        })
+      })
+    })
+  }
 
-          //
-          // return new student
-          cb(null, newUser);
-        });
-      });
-    });
-  };
-
+  /**
+   * Use: expose createAuthor to API
+   * 
+   * Author: core
+   * 
+   * Last Updated: unknown
+   */
   Account.remoteMethod('createAuthor', {
     http: {
       path: '/author',
@@ -147,23 +213,47 @@ module.exports = (Account) => {
       root: true,
       type: 'object',
     },
-  });
+  })
 
-  //
-  // get Role by userId ( returns student if error )
+  
+  /**
+   * Function getRole: get the Role of a user 
+   * 
+   * Author: core
+   * 
+   * Last Updated: unknown
+   * 
+   * @param {string} userId user ID
+   * @param {Function} cb callback function
+   * @returns student if error
+   */
   Account.getRole = (userId, cb) => {
-    const {Role} = Account.app.models;
+    const { Role } = Account.app.models
     Role.getRoles({principalId: userId}, (err, roles) => {
-      if (err) return cb(null, 'student');
-      const lyRoles = roles.filter(Number);
-      if (lyRoles.length == 0) return cb(null, 'student');
-      Role.findOne({where: {id: lyRoles[0]}}, (err, role) => {
-        if (err) return cb(null, 'student');
-        cb(null, role.name);
-      });
-    });
-  };
+      if (err) {
+        return cb(null, 'student')
+      }
+      const lyRoles = roles.filter(Number)
+      // console.log(lyRoles)
+      if (lyRoles.length == 0) {
+        return cb(null, 'student')
+      }
+      Role.findOne({ where: { id: lyRoles[0] } }, (err, role) => {
+        if (err) {
+          return cb(null, 'student')
+        }
+        cb(null, role.name)
+      })
+    })
+  }
 
+  /**
+   * Use: expose getRole to API
+   * 
+   * Author: core
+   * 
+   * Last Updated: unknown
+   */
   Account.remoteMethod('getRole', {
     http: {
       path: '/:id/role',
@@ -177,26 +267,52 @@ module.exports = (Account) => {
     returns: {
       arg: 'role',
       type: 'string',
-    },
-  });
+    }
+  })
 
-  //change user's language
-
+  /**
+   * Function changeLanguage: change user's language
+   * 
+   * Author: cmc 
+   * 
+   * Last Updated: August 19, 2020
+   * 
+   * @param {object} data user uid and new language
+   * @param {Function} cb callback function
+   */
   Account.changeLanguage = (data, cb) => {
     let uid = data.uid
     let newlang = data.lang
+
+    // find user, if found update attributes
     Account.findById(uid, (err, user) => {
-      if(err) console.error(err)
+      if(err) {
+        console.error(err)
+        cb(null, false)
+      }
       else {
-        user.updateAttributes({lang: newlang}, (err, user) => {
-          if (err) console.error(err)
-          console.log(`User #${user.id}'s language updated to ${user.lang}`)
+        user.updateAttributes({ lang: newlang }, (err, user) => {
+          if (err) {
+            console.error(err)
+            cb(null, false)
+          }
+          else {
+            console.log(`User #${user.id}'s language updated to ${user.lang}`)
+            cb(null, true)
+          }
         })
       }
     })
-    cb(null, true)
-  };
 
+  }
+
+  /**
+   * Use: expose changelanguage to API
+   * 
+   * Author: cmc
+   * 
+   * Last Updated: August 19, 2020
+   */
   Account.remoteMethod('changeLanguage', {
     http: {
       path: '/:id/change-language',
@@ -213,6 +329,6 @@ module.exports = (Account) => {
       type: 'boolean'
     },
     description: 'Change language for the user with ID'
-  });
-};
+  })
+}
 

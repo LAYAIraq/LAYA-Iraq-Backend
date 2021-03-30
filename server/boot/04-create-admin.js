@@ -1,7 +1,14 @@
-'use strict';
+/**
+ * Filename: 04-create-admin.js
+ * Use: creates admin user if it doesn't exist
+ * Creator: core
+ * Date: unknown
+ */
 
-module.exports = function(server) {
-  let {Account, Role, RoleMapping} = server.models;
+'use strict'
+
+module.exports = (server) => {
+  let {Account, Role, RoleMapping} = server.models
 
   //
   // admin account
@@ -11,7 +18,7 @@ module.exports = function(server) {
     password: 'secret',
   }, function(err, admin) {
     if (err) {
-      return console.error(err);
+      return console.error(err)
     }
 
     //
@@ -20,14 +27,14 @@ module.exports = function(server) {
       name: 'admin',
     }, function(err, role) {
       if (err) {
-        return console.error(err);
+        return console.error(err)
       }
 
       role.principals.find({
         where: {principalId: admin.id},
       }, function(err, principals) {
         if (err) {
-          return console.error(err);
+          return console.error(err)
         }
 
         // create if needed
@@ -37,21 +44,21 @@ module.exports = function(server) {
             principalId: admin.id,
           }, function(err, principal) {
             if (err) {
-              return console.error(err);
+              return console.error(err)
             }
-            return console.log('Admin Role Principal created:', principal);
-          });
+            return console.log('Admin Role Principal created:', principal)
+          })
         }
 
         if (principals.length == 1) {
-          return console.log('Admin Role Principals exists');
+          return console.log('Admin Role Principals exists')
         }
 
         if (principals.length > 1) {
-          throw console.error('Multiple Admin Role Principals exist!');
+          throw console.error('Multiple Admin Role Principals exist!')
         }
-      });
-    });
-  });
-};
+      })
+    })
+  })
+}
 

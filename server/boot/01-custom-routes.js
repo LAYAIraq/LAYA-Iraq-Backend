@@ -1,17 +1,22 @@
-'use strict';
+/**
+ * Filename: 01-custom-routes.js
+ * Use: Set Up custom routes
+ * Creator: core
+ * Date: unknown
+ */
 
-module.exports = function(server) {
-  console.log('Setting up custom routes');
+'use strict'
 
-  //
+module.exports = (server) => {
+  console.log('Setting up custom routes')
+
   // server status
-  server.get('/', server.loopback.status());
+  server.get('/', server.loopback.status())
 
-  //
   // return client language header
   server.get('/api/lang', function(req, res) {
-    var langHeader = req.headers['accept-language'];
-    res.send(langHeader);
-  });
-};
+    var langHeader = req.headers['accept-language']
+    res.send(langHeader)
+  })
+}
 

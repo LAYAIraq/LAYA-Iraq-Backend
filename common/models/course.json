@@ -53,7 +53,8 @@
     "files": {
       "type": [
         "object"
-      ]
+      ],
+      "default": []
     }
   },
   "validations": [],

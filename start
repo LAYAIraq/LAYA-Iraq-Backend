@@ -1,3 +1,8 @@
+# Filename: start
+# Use: Start Loopback on Production
+# Creator: core
+# Date: unknown
+
 #! /usr/bin/env bash
 cd /var/www/laya/backend
 npm install && npm start
