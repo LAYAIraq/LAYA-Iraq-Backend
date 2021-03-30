@@ -1,5 +1,8 @@
-# this script is for cleaning up database. 
-# DO NOT USE ON LIVE SYSTEM
+# Filename: cleanup.sh
+# Use: this script is for cleaning up database in development
+#       DO NOT USE ON LIVE SYSTEM
+# Creator: cmc
+# Date: September 23, 2020
 #! /bin/bash
 
 # remove fucked up database

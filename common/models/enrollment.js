@@ -1,24 +1,41 @@
-'use strict';
+/**
+ * Filename: enrollment.js
+ * Use: Declare functions for enrollment data model
+ * Creator: cmc
+ * Date: September 23, 2020
+ */
+
+'use strict'
 
 module.exports = (Enrollment) => {
-  let app = require('../../server/server');
+  let app = require('../../server/server')
 
   //legacy function
   Enrollment.observe('before save', (ctx, next) => {
-    let Course = app.models.Course;
+    let Course = app.models.Course
     // if (ctx.instance !== undefined) {
     //   ctx.instance.position.get().then(function(d) {
     //     if (d === undefined) {
-    //       let c = Course.find(ctx.courseId);
-    //       console.log(c.startInteraction);
-    //       ctx.instance.position = c.startInteraction;
+    //       let c = Course.find(ctx.courseId)
+    //       console.log(c.startInteraction)
+    //       ctx.instance.position = c.startInteraction
     //     }
-    //   });
+    //   })
     // }
-    next();
-  });
+    next()
+  })
 
-  //creates Enrollment if it doesn't exist, returns existing otherwise
+  /**
+   * Function createEnrollment: creates Enrollment if it doesn't exist, 
+   *  returns existing otherwise
+   * 
+   * Author: cmc
+   * 
+   * Last Updated: September 23, 2020
+   * 
+   * @param {object} data studentId, courseId
+   * @param {Function} cb callback function
+   */
   Enrollment.createEnrollment = (data, cb) => {
     let sid = data.studentId
     let cid = data.courseId
@@ -38,6 +55,13 @@ module.exports = (Enrollment) => {
 
   }
 
+  /**
+   * Use: expose createEnrollment to API
+   * 
+   * Author: cmc
+   * 
+   * Last Updated: September 23, 2020
+   */
   Enrollment.remoteMethod('createEnrollment', {
     http: {
       path: '/create',
@@ -56,17 +80,32 @@ module.exports = (Enrollment) => {
     description: 'Checks if Mapping exists, updates if yes, creates if no'
   })
 
-
-  // returns a List of all Course Names that the User is Enrolled in
+  /**
+   * Function getAllByStudentId: returns a List of Courses that User is Enrolled in
+   * 
+   * Author: cmc
+   * 
+   * Last Updated: September 23, 2020
+   * 
+   * @param {number} userId id of user
+   * @param {Function} cb callback function
+   */
   Enrollment.getAllByStudentId = (userId, cb) => {
     
-    Enrollment.find({where: {studentId: userId}}, (err, list)  => {
+    Enrollment.find({ where: { studentId: userId } }, (err, list)  => {
       if (err) return cb(null, err)
       else return cb(null, list)
     })
     
   }
 
+  /**
+   * Use: expose getAllByStudentId to API
+   * 
+   * Author: cmc
+   * 
+   * Last Updated: September 23, 2020
+   */
   Enrollment.remoteMethod('getAllByStudentId', {
     http: {
       path: '/getAllByStudentId',
@@ -84,7 +123,16 @@ module.exports = (Enrollment) => {
     description: 'Get all Enrollments of user by User ID'
   })
 
-  // returns all enrollments for one course
+  /**
+   * Function getCourseEnrollments: returns a List all enrollements of a course
+   * 
+   * Author: cmc
+   * 
+   * Last Updated: September 23, 2020
+   * 
+   * @param {string} cid id of course
+   * @param {Function} cb callback function
+   */
   Enrollment.getCourseEnrollments = (cid, cb) => {
     Enrollment.find({where: {courseId: cid}}, (err, list) =>{
       console.log(list)
@@ -93,6 +141,13 @@ module.exports = (Enrollment) => {
     })
   } 
 
+  /**
+   * Use: expose getCourseEnrollments to API
+   * 
+   * Author: cmc
+   * 
+   * Last Updated: September 23, 2020
+   */
   Enrollment.remoteMethod('getCourseEnrollments', {
     http: {
       path: '/getAllByCourseId',
@@ -111,9 +166,17 @@ module.exports = (Enrollment) => {
 
   })
 
-  //checks if a Mapping exists, returns it if yes FIXME
-  //does the same as findOne 
-
+  /**
+   * Function getEnrollment: checks if a Mapping exists, returns it if yes
+   *  (Does the same as findOne)
+   * 
+   * Author: cmc
+   * 
+   * Last Updated: September 23, 2020
+   * 
+   * @param {object} data studentId, courseId
+   * @param {Function} cb callback function
+   */
   Enrollment.getEnrollment = (data, cb) => {
 
     let sid = data.studentId
@@ -136,6 +199,13 @@ module.exports = (Enrollment) => {
 
   }
 
+  /**
+   * Use: expose getEnrollment to API
+   * 
+   * Author: cmc
+   * 
+   * Last Updated: September 23, 2020
+   */
   Enrollment.remoteMethod('getEnrollment', {
     http: {
       path: '/getEnrollment',
@@ -154,4 +224,4 @@ module.exports = (Enrollment) => {
     description: 'Get an Enrollment by User ID and Course Name'
   })
   
-};
+}

@@ -1,3 +1,8 @@
+# Filename: Dockerfile
+# Use: Build a Docker Container
+# Creator: cmc
+# Date: January 16, 2021
+
 # old version of node for compability reasons
 FROM node:9.9.0-alpine as builder
 
