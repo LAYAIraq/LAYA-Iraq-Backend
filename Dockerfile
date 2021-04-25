@@ -11,13 +11,17 @@ RUN apk add --update python make g++
 
 
 # Build Production version of LAYA backend
-WORKDIR /var/www/laya/backend
+WORKDIR /laya-backend
 
 COPY package*.json ./
 RUN npm install
 
 COPY . .
-RUN mkdir server/files
+
+# uncomment next 3 lines in fresh clone
+# RUN mkdir server/files
+# RUN mkdir server/files/st0r31d
+# RUN mkdir server/files/st0r31d700l
 
 # USE SAMPLE DATABASE AS DB
 RUN mv sample-database.sqlite3 data.sqlite3
