@@ -1,3 +1,10 @@
-"use strict";
+/**
+ * Filename: assessment.js
+ * Use: declare functions for assessment data model
+ * Creator: core
+ * Date: unknown
+ */
 
-module.exports = function(AssessmentContent) {};
+'use strict'
+
+module.exports = function(AssessmentContent) {}

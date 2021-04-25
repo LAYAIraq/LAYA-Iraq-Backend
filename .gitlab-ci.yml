@@ -2,4 +2,4 @@ Build:
   only:
     - master
   script:
-    - sudo systemctl restart laya-khuf-backend.service
+    - sudo systemctl restart laya-backend.service

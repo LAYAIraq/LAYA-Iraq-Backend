@@ -15,6 +15,7 @@
     "name": "files",
     "connector": "loopback-component-storage",
     "provider": "filesystem",
+    "nameConflict": "makeUnique",
     "root": "./server/files",
     "maxFileSize": 500000000
   },

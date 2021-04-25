@@ -9,7 +9,6 @@
   "properties": {
     "name": {
       "type": "string",
-      "id": true,
       "required": true
     },
     "category": {
@@ -22,11 +21,16 @@
     "locked": {
       "type": "boolean",
       "default": false
+     },
+     "courseId": {
+      "type": "string",
+      "defaultFn": "uuidv4",
+      "id": true
     },
-    "createDate": {
+    "lastChanged": {
       "type": "date",
       "default": "$now"
-    },
+     },
     "startDate": {
       "type": "date"
     },
@@ -42,6 +46,15 @@
     "needsEnrollment": {
       "type": "boolean",
       "default": false
+    },
+    "storageId": {
+      "type": "string"
+    },
+    "files": {
+      "type": [
+        "object"
+      ],
+      "default": []
     }
   },
   "validations": [],
