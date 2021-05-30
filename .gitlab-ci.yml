@@ -1,5 +1,3 @@
 Build:
-  only:
-    - master
-  script:
-    - sudo systemctl restart laya-backend.service
+  stage: build
+  script: docker build .
