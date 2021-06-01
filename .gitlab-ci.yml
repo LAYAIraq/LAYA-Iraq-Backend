@@ -19,6 +19,7 @@ Lint:
 
 Posttest:
   stage: test
-  before_script: npm i -g nsp
+  before_script: 
+    - npm i -g nsp
   script : npm run posttest
 
