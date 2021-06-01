@@ -7,11 +7,7 @@ cache:
     - .npm/
 
 before_script:
-  - npm ci --cache .npm --prefer-offline
-
-test_async:
-  script:
-    - node ./specs/start.js ./specs/async.spec.js
+  - npm i --cache .npm --prefer-offline
 
 Lint:
   stage: test
