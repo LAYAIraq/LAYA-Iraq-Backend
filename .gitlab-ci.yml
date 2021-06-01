@@ -1,5 +1,7 @@
 Build:
   stage: build
   before_script: 
-    - apt update && apt install npm -y && npm i
+    - apt update 
+    - apt  install -y tzdata && dpkg-reconfigure noninteractive tzdata
+    - apt install npm -y && npm i
   script: npm build
