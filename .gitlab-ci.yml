@@ -1,3 +1,5 @@
 Build:
   stage: build
-  script: docker build .
+  before_script: 
+    - apt update && apt install npm && npm i
+  script: npm build
