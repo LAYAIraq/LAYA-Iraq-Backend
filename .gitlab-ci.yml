@@ -1,5 +1,5 @@
 Build:
   stage: build
   before_script: 
-    - apt update && apt install npm -Y && npm i
+    - apt update && apt install npm -y && npm i
   script: npm build
