@@ -1,8 +1,24 @@
-Test:
+image: node:latest
+
+# Cache modules in between jobs
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .npm/
+
+before_script:
+  - npm ci --cache .npm --prefer-offline
+
+test_async:
+  script:
+    - node ./specs/start.js ./specs/async.spec.js
+
+Lint:
   stage: test
-  before_script: 
-    - apt update 
-    - apt  install -y tzdata && dpkg-reconfigure -f noninteractive tzdata 
-    - apt install npm -y && npm i
-  script: npm run posttest
+  script: npm run lint
+
+Posttest:
+  stage: test
+  before_script: npm i -g nsp
+  script : npm run posttest
 
