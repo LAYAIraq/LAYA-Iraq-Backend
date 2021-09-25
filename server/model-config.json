@@ -58,7 +58,7 @@
   },
   "Flag": {
     "dataSource": "sqlite",
-    "public": false
+    "public": true
   },
   "CourseTopic": {
     "dataSource": "sqlite",
@@ -95,5 +95,9 @@
   "AssessmentScmcItem": {
     "dataSource": "transient",
     "public": false
+  },
+  "Notification": {
+    "dataSource": "sqlite",
+    "public": true
   }
 }

@@ -1,43 +1,36 @@
 {
-  "name": "Flag",
-  "plural": "flags",
+  "name": "Notification",
+  "plural": "notifications",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "created": {
+    "noteId": {
+      "type": "string",
+      "id": true,
+      "defaultFn": "uuidv4"
+    },
+    "time": {
       "type": "date",
       "default": "$now"
     },
-    "referenceId": {
-      "type": "string",
-      "id": true
+    "data": {
+      "type": "object",
+      "default": {}
     },
-    "question": {
-      "type": "string",
-      "default": ""
+    "type": {
+      "type": "string"
     },
-    "answered": {
+    "read": {
       "type": "boolean",
       "default": "false"
-    },
-    "answers": {
-      "type": [
-        "object"
-      ],
-      "default": []
     }
   },
   "validations": [],
   "relations": {
-    "course": {
-      "type": "belongsTo",
-      "model": "Course",
-      "foreignKey": ""
-    },
-    "author": {
+    "user": {
       "type": "belongsTo",
       "model": "Account",
       "foreignKey": ""

@@ -21,16 +21,16 @@
     "locked": {
       "type": "boolean",
       "default": false
-     },
-     "courseId": {
+    },
+    "courseId": {
       "type": "string",
-      "defaultFn": "uuidv4",
-      "id": true
+      "id": true,
+      "defaultFn": "uuidv4"
     },
     "lastChanged": {
       "type": "date",
       "default": "$now"
-     },
+    },
     "startDate": {
       "type": "date"
     },
