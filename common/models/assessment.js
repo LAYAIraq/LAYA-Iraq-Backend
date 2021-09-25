@@ -5,6 +5,6 @@
  * Date: unknown
  */
 
-'use strict'
+'use strict';
 
-module.exports = function(AssessmentContent) {}
+module.exports = (AssessmentContent) => {};

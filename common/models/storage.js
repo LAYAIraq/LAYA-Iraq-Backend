@@ -5,15 +5,14 @@
  * Date: unknown
  */
 
-'use strict'
+'use strict';
 
 module.exports = (Storage) => {
-  
   /**
    * Use: set unique name
-   * 
+   *
    * Author: core
-   * 
+   *
    * Last Updated: unknown
    */
   Storage.afterRemote('upload', (ctx, data, next) => {
@@ -39,8 +38,6 @@ module.exports = (Storage) => {
     //     })
     //   })
     // } else next()
-    next()
-  })
-
-
-}
+    next();
+  });
+};

@@ -4,8 +4,8 @@
  * Creator: core
  * Date: unknown
  */
-'use strict'
+'use strict';
 
 module.exports = function(Coursequiz) {
 
-}
+};

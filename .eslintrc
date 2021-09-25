@@ -1,3 +1,7 @@
 {
-  "extends": "loopback"
+  "extends": "loopback",
+  "rules": {
+    "brace-style": "off",
+    "function-paren-newline": "off"
+  }
 }

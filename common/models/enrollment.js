@@ -5,14 +5,14 @@
  * Date: September 23, 2020
  */
 
-'use strict'
+'use strict';
 
 module.exports = (Enrollment) => {
-  let app = require('../../server/server')
+  const app = require('../../server/server');
 
-  //legacy function
+  // legacy function
   Enrollment.observe('before save', (ctx, next) => {
-    let Course = app.models.Course
+    const Course = app.models.Course;
     // if (ctx.instance !== undefined) {
     //   ctx.instance.position.get().then(function(d) {
     //     if (d === undefined) {
@@ -22,44 +22,46 @@ module.exports = (Enrollment) => {
     //     }
     //   })
     // }
-    next()
-  })
+    next();
+  });
 
   /**
-   * Function createEnrollment: creates Enrollment if it doesn't exist, 
+   * Function createEnrollment: creates Enrollment if it doesn't exist,
    *  returns existing otherwise
-   * 
+   *
    * Author: cmc
-   * 
-   * Last Updated: September 23, 2020
-   * 
+   *
+   * Last Updated: June 16, 2021
    * @param {object} data studentId, courseId
    * @param {Function} cb callback function
    */
   Enrollment.createEnrollment = (data, cb) => {
-    let sid = data.studentId
-    let cid = data.courseId
+    const sid = data.studentId;
+    const cid = data.courseId;
 
-    Enrollment.findOrCreate({where: {studentId: sid, courseId: cid}}, 
-      {studentId: sid, courseId: cid, created: Date.$now}, 
+    Enrollment.findOrCreate({where: {studentId: sid, courseId: cid}},
+      {studentId: sid, courseId: cid, created: Date.now()},
       (err, newEnrollment, isNewInstance) => {
-
         if (err) {
-          console.error(err)
-          return cb(err)
+          console.error(err);
+          return cb(err);
         }
-        else { 
-          cb(null, newEnrollment)
+        else {
+          const {Notification} = Enrollment.app.models;
+          Notification.newSubscriber({
+            studentId: sid,
+            courseId: cid,
+          });
+          cb(null, newEnrollment);
         }
-    })
-
-  }
+      });
+  };
 
   /**
    * Use: expose createEnrollment to API
-   * 
+   *
    * Author: cmc
-   * 
+   *
    * Last Updated: September 23, 2020
    */
   Enrollment.remoteMethod('createEnrollment', {
@@ -67,43 +69,41 @@ module.exports = (Enrollment) => {
       path: '/create',
       verb: 'post',
     },
-    accepts: { 
+    accepts: {
       arg: 'data',
       type: 'object',
       http: {source: 'body'},
-      required: true
+      required: true,
     },
     returns: {
       arg: 'enrol',
-      type: 'Enrollment'
+      type: 'Enrollment',
     },
-    description: 'Checks if Mapping exists, updates if yes, creates if no'
-  })
+    description: 'Checks if Mapping exists, updates if yes, creates if no',
+  });
 
   /**
    * Function getAllByStudentId: returns a List of Courses that User is Enrolled in
-   * 
+   *
    * Author: cmc
-   * 
+   *
    * Last Updated: September 23, 2020
-   * 
+   *
    * @param {number} userId id of user
    * @param {Function} cb callback function
    */
   Enrollment.getAllByStudentId = (userId, cb) => {
-    
-    Enrollment.find({ where: { studentId: userId } }, (err, list)  => {
-      if (err) return cb(null, err)
-      else return cb(null, list)
-    })
-    
-  }
+    Enrollment.find({where: {studentId: userId}}, (err, list) => {
+      if (err) return cb(null, err);
+      else return cb(null, list);
+    });
+  };
 
   /**
    * Use: expose getAllByStudentId to API
-   * 
+   *
    * Author: cmc
-   * 
+   *
    * Last Updated: September 23, 2020
    */
   Enrollment.remoteMethod('getAllByStudentId', {
@@ -111,99 +111,95 @@ module.exports = (Enrollment) => {
       path: '/getAllByStudentId',
       verb: 'get',
     },
-    accepts: { 
+    accepts: {
       arg: 'uid',
       type: 'any',
-      required: true
+      required: true,
     },
     returns: {
       arg: 'sublist',
-      type: 'array'
+      type: 'array',
     },
-    description: 'Get all Enrollments of user by User ID'
-  })
+    description: 'Get all Enrollments of user by User ID',
+  });
 
   /**
    * Function getCourseEnrollments: returns a List all enrollements of a course
-   * 
+   *
    * Author: cmc
-   * 
+   *
    * Last Updated: September 23, 2020
-   * 
+   *
    * @param {string} cid id of course
    * @param {Function} cb callback function
    */
   Enrollment.getCourseEnrollments = (cid, cb) => {
     Enrollment.find({where: {courseId: cid}}, (err, list) =>{
-      console.log(list)
-      if(err) return cb(null, err)
-      else return cb (null, list)
-    })
-  } 
+      console.log(list);
+      if (err) return cb(null, err);
+      else return cb(null, list);
+    });
+  };
 
   /**
    * Use: expose getCourseEnrollments to API
-   * 
+   *
    * Author: cmc
-   * 
+   *
    * Last Updated: September 23, 2020
    */
   Enrollment.remoteMethod('getCourseEnrollments', {
     http: {
       path: '/getAllByCourseId',
-      verb: 'get'
+      verb: 'get',
     },
     accepts: {
       arg: 'courseId',
       type: 'any',
-      required: true
+      required: true,
     },
-    returns:  {
+    returns: {
       arg: 'subs',
-      type: 'array'
+      type: 'array',
     },
-    description: 'Returns a list of enrollments for a Course'
-
-  })
+    description: 'Returns a list of enrollments for a Course',
+  });
 
   /**
    * Function getEnrollment: checks if a Mapping exists, returns it if yes
    *  (Does the same as findOne)
-   * 
+   *
    * Author: cmc
-   * 
+   *
    * Last Updated: September 23, 2020
-   * 
+   *
    * @param {object} data studentId, courseId
    * @param {Function} cb callback function
    */
   Enrollment.getEnrollment = (data, cb) => {
-
-    let sid = data.studentId
-    let cid = data.courseId
+    const sid = data.studentId;
+    const cid = data.courseId;
     if (sid == null || cid == null) {
-
-      return cb(null, {})
+      return cb(null, {});
     }
 
     Enrollment.find({where: {studentId: sid, courseId: cid}}, (err, enrol) => {
-      if (err){
-        console.error(err)
-        return cb(err)
-      } 
-      else {
-        console.log(enrol)
-        return cb(null, enrol[0])
+      if (err) {
+        console.error(err);
+        return cb(err);
       }
-    })
-
-  }
+      else {
+        console.log(enrol);
+        return cb(null, enrol[0]);
+      }
+    });
+  };
 
   /**
    * Use: expose getEnrollment to API
-   * 
+   *
    * Author: cmc
-   * 
+   *
    * Last Updated: September 23, 2020
    */
   Enrollment.remoteMethod('getEnrollment', {
@@ -211,17 +207,16 @@ module.exports = (Enrollment) => {
       path: '/getEnrollment',
       verb: 'get',
     },
-    accepts: { 
+    accepts: {
       arg: 'data',
       type: 'object',
       http: {source: 'body'},
-      required: true
+      required: true,
     },
     returns: {
       arg: 'enrol',
-      type: 'Enrollment'
+      type: 'Enrollment',
     },
-    description: 'Get an Enrollment by User ID and Course Name'
-  })
-  
-}
+    description: 'Get an Enrollment by User ID and Course Name',
+  });
+};

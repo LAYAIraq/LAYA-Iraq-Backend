@@ -1,13 +1,7 @@
-image: node:latest
-
-# Cache modules in between jobs
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - .npm/
+image: node:9.11.2
 
 before_script:
-  - npm i --cache .npm --prefer-offline
+  - npm install --progress=false
 
 Lint:
   stage: test
@@ -15,7 +9,9 @@ Lint:
 
 Posttest:
   stage: test
+  allow_failure: true
   before_script: 
+    - npm install --progress=false
     - npm i -g nsp
-  script : npm run posttest
+  script : npm start && nsp run check
 
