@@ -233,7 +233,7 @@ module.exports = (Account) => {
       }
       const lyRoles = roles.filter(Number);
       // console.log(lyRoles)
-      if (lyRoles.length == 0) {
+      if (lyRoles.length === 0) {
         return cb(null, 'student');
       }
       Role.findOne({where: {id: lyRoles[0]}}, (err, role) => {
@@ -327,4 +327,24 @@ module.exports = (Account) => {
     },
     description: 'Change language for the user with ID',
   });
+
+  Account.afterRemote('createStudent', (ctx, model, next) => {
+    console.log(model);
+    const addr = model.email;
+    Account.sendEmail(addr);
+    next();
+  });
+  // send an email
+  Account.sendEmail = (addr, cb) => {
+    Account.app.models.Email.send({
+      to: addr,
+      from: 'laya.noreply@gmail.com',
+      subject: 'my subject',
+      text: 'my text',
+      html: 'my <em>html</em>',
+    }, function(err, mail) {
+      console.log('email sent!');
+      cb(err);
+    });
+  };
 };

@@ -22,5 +22,19 @@
   "transient": {
     "name": "transient",
     "connector": "transient"
+  },
+  "mail": {
+    "name": "mail",
+    "connector": "mail",
+    "transports": [{
+      "type": "SMTP",
+      "host": "smtp.gmail.com",
+      "secure": true,
+      "port": 465,
+      "auth": {
+        "user": "laya@gmail.com",
+        "pass": "pass"
+      }
+    }]
   }
 }

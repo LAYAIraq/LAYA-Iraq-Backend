@@ -99,5 +99,8 @@
   "Notification": {
     "dataSource": "sqlite",
     "public": true
+  },
+  "Email": {
+    "dataSource": "mail"
   }
 }
