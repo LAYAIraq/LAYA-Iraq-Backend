@@ -96,11 +96,7 @@ module.exports = function(server) {
       {
         'name': 'laya-plyr',
         'input': {
-          'src': {
-            'flagged': false,
-            'id':'99test30',
-            'text': 'https://vimeo.com/27244727'
-          },
+          'src': 'https://vimeo.com/27244727',
           'title': {
             'text': 'Video',
             'id': '99test33',
