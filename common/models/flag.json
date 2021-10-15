@@ -28,6 +28,10 @@
         "object"
       ],
       "default": []
+    },
+    "anonymous":  {
+      "type": "boolean",
+      "default": false
     }
   },
   "validations": [],
