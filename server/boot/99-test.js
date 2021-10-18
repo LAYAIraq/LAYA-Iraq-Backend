@@ -484,8 +484,9 @@ module.exports = function(server) {
     answers: [
       {
         'text': 'Sample Answer',
-        'authorId': '42',
-        'timestamp': Date.now()
+        'authorId': 42,
+        'timestamp': Date.now(),
+        'score': 1
       }
     ]
   }, err => {
