@@ -16,7 +16,7 @@
       "id": true
     },
     "question": {
-      "type": "string",
+      "type": "object",
       "default": ""
     },
     "answered": {

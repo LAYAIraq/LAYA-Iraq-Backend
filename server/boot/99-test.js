@@ -477,7 +477,11 @@ module.exports = function(server) {
   }, {
     created: Date.now(),
     referenceId: 't3stfl4g',
-    question: 'Was ist das hier für ein Spasz?',
+    question: {
+      text: 'Was ist das hier für ein Spasz?',
+      edited: false,
+      editTime: null
+    },
     courseId: 't3stkur5700l',
     authorId: 1,
     enrollmentId: 1,
