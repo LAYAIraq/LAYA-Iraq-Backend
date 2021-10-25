@@ -434,40 +434,35 @@ module.exports = function(server) {
       console.log('Sample Course with Explanations exists');
     });
 
-    //  mockup flag
-    Flag.findOrCreate({
-      where: {
-        courseId: 't3stkur5700l',
-        authorId: adminId
-      }
-    }, {
-      created: Date.now(),
-      referenceId: 't3stfl4g',
-      question: 'Was ist das hier für ein Spasz?',
+  //  mockup flag
+  Flag.findOrCreate({
+    where: {
       courseId: 't3stkur5700l',
-      authorId: adminId,
-      answers: [
-        {
-          'text': 'Sample Answer',
-          'authorId': '42',
-          'timestamp': Date.now()
-        }
-      ]
-    }, err => {
-      if (err) console.error(err);
-      else console.log('Mockup flag exists');
-    });
-  })
-
-  // test account
-  Account.findOrCreate({where: {email: 'test@laya'}}, {
-    email: 'test@laya',
-    username: 'test',
-    password: 'test',
-  }, (err, test) => {
-    if (err) {
-      return console.error(err);
+      authorId: adminId
     }
+  }, {
+    created: Date.now(),
+    referenceId: 't3stfl4g',
+    question: {
+      text: 'Was ist das hier für ein Spasz?',
+      edited: false,
+      editTime: null
+    },
+    courseId: 't3stkur5700l',
+    authorId: adminId,
+    enrollmentId: 1,
+    answers: [
+      {
+        'text': 'Sample Answer',
+        'authorId': 42,
+        'timestamp': Date.now(),
+        'score': 1
+      }
+    ]
+  }, err => {
+    if (err) console.error(err);
+    else console.log('Mockup flag exists');
+  });
 
     // Set Role
     Role.findOrCreate({where: {name: 'test'}}, {
