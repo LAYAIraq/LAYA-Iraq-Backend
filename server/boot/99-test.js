@@ -216,7 +216,7 @@ module.exports = function(server) {
       name: 'Testkurs',
       courseId: 't3stkur5',
       storageId: 'st0r31d',
-      settings: {
+      properties: {
         enrollment: true,
         simpleLanguage: false
       },
@@ -474,7 +474,7 @@ module.exports = function(server) {
           'nextStep': '0'
         }
       ],
-      'settings': {
+      'properties': {
         'enrollment': false,
         'simpleLanguage': false
       },

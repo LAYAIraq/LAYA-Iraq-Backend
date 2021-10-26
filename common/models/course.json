@@ -37,7 +37,7 @@
       ],
       "default": []
     },
-    "settings": {
+    "properties": {
       "type": "object",
       "default": {
         "enrollment": false,
