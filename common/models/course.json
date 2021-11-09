@@ -31,21 +31,20 @@
       "type": "date",
       "default": "$now"
     },
-    "startDate": {
-      "type": "date"
-    },
-    "endDate": {
-      "type": "date"
-    },
     "content": {
       "type": [
         "object"
       ],
       "default": []
     },
-    "needsEnrollment": {
-      "type": "boolean",
-      "default": false
+    "properties": {
+      "type": "object",
+      "default": {
+        "enrollment": false,
+        "simpleLanguage": false,
+        "startDate": null,
+        "endDate": null
+      }
     },
     "storageId": {
       "type": "string"
@@ -69,20 +68,6 @@
       "model": "Account",
       "foreignKey": "",
       "through": "Enrollment"
-    },
-    "topics": {
-      "type": "hasMany",
-      "model": "CourseTopic",
-      "foreignKey": ""
-    },
-    "quizzes": {
-      "type": "hasMany",
-      "model": "CourseQuiz",
-      "foreignKey": ""
-    },
-    "startInteraction": {
-      "type": "belongsTo",
-      "model": "Learninteraction"
     },
     "flags": {
       "type": "hasMany",
