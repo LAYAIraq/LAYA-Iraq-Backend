@@ -1,0 +1,136 @@
+{
+  "abstract": null,
+  "authorId": 1,
+  "category": "Kurs",
+  "content": [
+  {
+    "name": "laya-dialog",
+    "input": {
+      "bg": "",
+      "question": {
+        "flagged": true,
+        "id": "t3stfl4g",
+        "text": "New Stuff"
+      },
+      "answers": [
+        {
+          "flagged": false,
+          "text": "Sample Answer 1",
+          "id": "99test31"
+        },
+        {
+          "text": "Sample Answer 2",
+          "id": "99test32",
+          "flagged": false
+        }
+      ],
+      "title": {
+        "text": "Dialog Sample",
+        "flagged": false,
+        "id": "99test45"
+      }
+    },
+    "nextStep": "2,3"
+  },
+  {
+    "name": "laya-plyr",
+    "input": {
+      "src": "https://vimeo.com/27244727",
+      "title": {
+        "text": "Video",
+        "id": "99test33",
+        "flagged": false
+      }
+    },
+    "nextStep": "4"
+  },
+  {
+    "name": "laya-wysiwyg",
+    "input": {
+      "title": {
+        "text": "WYSIWYG",
+        "id": "99test34",
+        "flagged": false
+      },
+      "contents": {
+        "ops": [
+          {
+            "insert": "This Concludes our very small sample course.\n"
+          }
+        ]
+      }
+    },
+    "nextStep": "4"
+  },
+  {
+    "input":
+    {
+      "maxTries": "1",
+      "multiple": false,
+      "options": [
+        {
+          "id": "99test21",
+          "flagged": false,
+          "text": "Antwort 1"
+        }
+      ],
+      "solutions": [""],
+      "task": {
+        "id": "99test22",
+        "flagged": false,
+        "text": ""
+      },
+      "taskAudio": "",
+      "title": {
+        "flagged": false,
+        "id": "99test23",
+        "text": ""
+      }
+    },
+    "name": "laya-scmc",
+    "nextStep": "6"
+},
+  {
+    "input":
+    {
+      "categories": [
+        {
+          "text": "Kategorie 1",
+          "simple": "Sache 1"
+        },
+        {
+          "text": "Kategorie 2",
+          "simple": "Sache 2"
+        }
+      ],
+      "items": [
+        {
+          "category": -1,
+          "label": "Antwort 1",
+          "id": "99test24",
+          "flagged": false
+        }
+      ],
+      "task": {
+        "id": "99test25",
+        "flagged": false,
+        "text": ""
+      },
+      "taskAudio": "",
+      "title": {
+        "flagged": false,
+        "id": "99test26",
+        "text": ""
+      }
+    },
+    "name": "laya-quiz-drag-drop",
+    "nextStep": "7"
+  }
+  ],
+  "feedback": [],
+  "files": [],
+  "locked": false,
+  "name": "Testkurs",
+  "courseId": "t3stkur5",
+  "storageId": "st0r31d"
+}
