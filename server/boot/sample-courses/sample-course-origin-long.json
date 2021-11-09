@@ -1,0 +1,259 @@
+{
+  "name": "Testkurs - Tooltips",
+  "category": "Descriptions",
+  "abstract": null,
+  "locked": false,
+  "courseId": "t3stkur5700l",
+  "content": [
+    {
+      "input": {
+        "answers":
+        [{
+          "text": "Sample Answer",
+          "id": "99test38",
+          "flagged": false
+        }, {
+          "text": "Sample Answer",
+          "id": "99test40",
+          "flagged": false
+        }],
+        "bg": "",
+        "question": {
+          "flagged": false,
+          "id": "t3stfl4g",
+          "text": "New Stuff"
+        },
+        "title": {
+          "flagged": true,
+          "id": "0th3rfl4g",
+          "text": "Our dialog"
+        }
+      },
+      "name": "laya-dialog",
+      "nextStep": "2,3"
+    },
+    {
+      "input": {
+        "title": {
+          "flagged": false,
+          "id": "99test36",
+          "text": "Vimeo Video"
+        },
+        "src": "https://vimeo.com/27244727"
+      },
+      "name": "laya-plyr",
+      "nextStep": "4"
+    },
+    {
+      "input": {
+        "contents": {
+          "ops": [
+            {
+              "insert": "This Concludes our very small sample course.\n"
+            }
+          ]
+        },
+        "title": {
+          "flagged": false,
+          "id": "99test37",
+          "text": "WYSIWYG 2"
+        }
+      },
+      "name": "laya-wysiwyg",
+      "nextStep": "4"
+    },
+    {
+      "input": {
+        "categories": [
+          "Do not agree",
+          "Rather do not agree",
+          "Neutral",
+          "Rather agree",
+          "Agree"
+        ],
+        "items": [
+          {
+            "id": "99test10",
+            "flagged": false,
+            "text": "The course has a discernible structure."
+          },
+          {
+            "id": "99test11",
+            "flagged": false,
+            "text": "The course has interesting contents"
+          },
+          {
+            "id": "99test12",
+            "flagged": false,
+            "text": "The course difficulty was adequate."
+          },
+          {
+            "id": "99test13",
+            "flagged": false,
+            "text": "I did not feel underchallenged at any point."
+          },
+          {
+            "id": "99test14",
+            "flagged": false,
+            "text": "I did not feel overwhelmed at any point."
+          },
+          {
+            "id": "99test15",
+            "flagged": false,
+            "text": "The assessment blocks helped me understand."
+          },
+          {
+            "id": "99test16",
+            "flagged": false,
+            "text": "I would recommend this course to others."
+          }
+        ],
+        "task": {
+          "id": "99test17",
+          "flagged": false,
+          "text": "This content block allows you to give feedback. Our goal is to make our courses as comprehesible and accessible as possible. Therefore, we kindly ask you to give your opinion about our content and conveyance. The feedback is given anonymously. If you agree to answer any question we might have about your feedback, please click the corresponding button."
+        },
+        "taskAudio": "",
+        "title": {
+          "flagged": false,
+          "id": "99test18",
+          "text": "Course Feedback"
+        }
+      },
+      "name": "laya-course-feedback",
+      "nextStep": "0"
+    },
+    {
+      "input": {
+        "contents": {
+          "ops": [
+            { "insert": "This Concludes our very small sample course.\n" }
+          ]
+        },
+        "title": {
+          "flagged": false,
+          "id": "99test19",
+          "text": "WYSIWYG 3"
+        }
+      },
+      "name": "laya-wysiwyg",
+      "nextStep": "4"
+    },
+    {
+      "input": {
+        "sign": "",
+        "src": "",
+        "sub": "",
+        "title": {
+          "flagged": false,
+          "id": "99test20",
+          "text": "AblePlayerSample"
+        }
+      },
+      "name": "laya-ableplayer",
+      "nextStep": "5"
+    },
+    {
+      "input":
+      {
+        "maxTries": "1",
+        "multiple": false,
+        "options": [
+          {
+            "id": "99test21",
+            "flagged": false,
+            "text": "Antwort 1"
+          }
+        ],
+        "solutions": [""],
+        "task": {
+          "id": "99test22",
+          "flagged": false,
+          "text": ""
+        },
+        "taskAudio": "",
+        "title": {
+          "flagged": false,
+          "id": "99test23",
+          "text": ""
+        }
+      },
+      "name": "laya-scmc",
+      "nextStep": "6"
+    },
+    {
+      "input":
+      {
+        "categories": [
+          {
+            "text": "Kategorie 1",
+            "simple": "Sache 1"
+          },
+          {
+            "text": "Kategorie 2",
+            "simple": "Sache 2"
+          }
+        ],
+        "items": [
+          {
+            "category": -1,
+            "label": "Antwort 1",
+            "id": "99test24",
+            "flagged": false
+          }
+        ],
+        "task": {
+          "id": "99test25",
+          "flagged": false,
+          "text": ""
+        },
+        "taskAudio": "",
+        "title": {
+          "flagged": false,
+          "id": "99test26",
+          "text": ""
+        }
+      },
+      "name": "laya-quiz-drag-drop",
+      "nextStep": "7"
+    },
+    {
+      "input": {
+        "pairs": [
+          {
+            "audio": "",
+            "img": "",
+            "label": "",
+            "relation": -1,
+            "id": "99test27",
+            "flagged": false
+          }
+        ],
+        "relations": [
+          "Lösung 1",
+          "Lösung 2"
+        ],
+        "task": {
+          "id": "99test28",
+          "flagged": false,
+          "text": ""
+        },
+        "taskAudio": "",
+        "title": {
+          "flagged": false,
+          "id": "99test29",
+          "text": ""
+        }
+      },
+      "name": "laya-quiz-relate",
+      "nextStep": "0"
+    }
+  ],
+  "properties": {
+    "enrollment": false,
+    "simpleLanguage": false
+  },
+  "storageId": "st0r31d700l",
+  "files": [],
+  "authorId": 1
+}

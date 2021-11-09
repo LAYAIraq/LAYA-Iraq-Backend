@@ -1,0 +1,150 @@
+{
+  "abstract": null,
+  "authorId": 1,
+  "category": "Kurs",
+  "content": [
+  {
+    "name": "laya-dialog",
+    "input": {
+      "bg": "",
+      "question": {
+        "flagged": true,
+        "id": "99test001",
+        "text": "New Properties",
+        "simple": "New Stuff"
+      },
+      "answers": [
+        {
+          "flagged": false,
+          "text": "Sample Response 1",
+          "simple": "Sample Answer 1",
+          "id": "99test61"
+        },
+        {
+          "simple": "Sample Answer 2",
+          "text": "Sample Response 2",
+          "id": "99test62",
+          "flagged": false
+        }
+      ],
+      "title": {
+        "text": "Dialog Sample",
+        "simple": "Dialog Sample",
+        "flagged": false,
+        "id": "99test65"
+      }
+    },
+    "nextStep": "2,3"
+  },
+  {
+    "name": "laya-plyr",
+    "input": {
+      "src": "https://vimeo.com/27244727",
+      "title": {
+        "text": "Video",
+        "simple": "Video",
+        "id": "99test63",
+        "flagged": false
+      }
+    },
+    "nextStep": "3"
+  },
+  {
+    "name": "laya-wysiwyg",
+    "input": {
+      "title": {
+        "text": "WYSIWYG",
+        "simple": "What you see is what you get",
+        "id": "99test74",
+        "flagged": false
+      },
+      "contents": {
+        "ops": [
+          {
+            "insert": "This ends our very small sample course.\n"
+          }
+        ]
+      }
+    },
+    "nextStep": "4"
+  },
+  {
+    "input":
+    {
+      "maxTries": "1",
+      "multiple": false,
+      "options": [
+        {
+          "id": "99test71",
+          "flagged": false,
+          "text": "Response 1",
+          "simple": "Answer 1"
+        }
+      ],
+      "solutions": [],
+      "task": {
+        "id": "99test72",
+        "flagged": false,
+        "text": ""
+      },
+      "taskAudio": "",
+      "title": {
+        "flagged": false,
+        "id": "99test83",
+        "text": "Multiple Choice Test",
+        "simple": "Many Choices Test"
+      }
+    },
+    "name": "laya-scmc",
+    "nextStep": "5"
+},
+  {
+    "input":
+    {
+      "categories": [
+        {
+          "text": "Category 1",
+          "simple": "Thing 1"
+        },
+        {
+          "text": "Category 2",
+          "simple": "Thing 2"
+        }
+      ],
+      "items": [
+        {
+          "category": -1,
+          "label": "Response 1",
+          "simple": "Answer 1",
+          "id": "99test88",
+          "flagged": false
+        }
+      ],
+      "task": {
+        "id": "99test98",
+        "flagged": false,
+        "text": "This is a proliferate clause of incomprehensible gibberish.",
+        "simple": "This is a simple sentence."
+      },
+      "taskAudio": "",
+      "title": {
+        "flagged": false,
+        "id": "99test99",
+        "text": "Drag & Drop Sample",
+        "simple": "Drag and Drop Example"
+      }
+    },
+    "name": "laya-quiz-drag-drop",
+    "nextStep": "0"
+  }
+  ],
+  "feedback": [],
+  "files": [],
+  "locked": false,
+  "name": "Testkurs (Simple Language)",
+  "properties": {
+    "simpleLanguage": true
+  },
+  "courseId": "t3stkur5s1mp",
+  "storageId": "s1mpl3st0r3"
+}
