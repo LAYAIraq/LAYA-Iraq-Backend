@@ -61,10 +61,10 @@ module.exports = function(server) {
     });
   });
 
-  Account.find({ where: { username: 'admin' } }, (err, userList) =>
+  Account.find({ where: { username: 'admin' } }, (err) =>
   {
     if (err) console.error(err);
-    console.log(userList)
+    // console.log(userList)
     // const adminId = userList[0]['id'];
     // console.log('Admin is id: ', userList[0] )
     // Test Course
@@ -80,7 +80,7 @@ module.exports = function(server) {
   });
 
     // second test course
-    Course.findOrCreate({ where: { name: 'Testkurs - Tooltips', category: 'Descriptions' } },
+    Course.findOrCreate({ where: { name: 'Testkurs (Simple Language)', category: 'Kurs' } },
       sampleCourseSimple, (err) => {
       if (err) return console.error(err);
       console.log('Sample Course with Simple Language exists');
@@ -88,13 +88,16 @@ module.exports = function(server) {
 
     //  mockup flag
     Flag.findOrCreate({
-      where: {
-        courseId: 't3stkur5simp',
-        authorId: 1
+      filter: {
+        where: {
+          courseId: 't3stkur5simp',
+          referenceId: '99test001',
+          authorId: 1
+        }
       }
     }, {
       created: Date.now(),
-      referenceId: 't3stfl4g',
+      referenceId: '99test001',
       question: {
         text: 'Was ist das hier für ein Spasz?',
         edited: false,
@@ -111,7 +114,7 @@ module.exports = function(server) {
           'score': 1
         }
       ]
-    }, err => {
+    }, (err) => {
       if (err) console.error(err);
       else console.log('Mockup flag exists');
     });
