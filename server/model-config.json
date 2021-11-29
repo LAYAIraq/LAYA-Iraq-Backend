@@ -28,10 +28,6 @@
       }
     }
   },
-  "User": {
-    "dataSource": "sqlite",
-    "public": false
-  },
   "Role": {
     "dataSource": "sqlite",
     "public": false

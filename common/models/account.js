@@ -111,7 +111,9 @@ module.exports = (Account) => {
   Account.createStudent = (user, cb) => {
     const ROLE_NAME = 'student';
     const {Role, RoleMapping} = Account.app.models;
-
+    if (!user.password) {
+      user.password = Account.randomPassword(16);
+    }
     Account.create(user, (err, newUser) => {
       if (err) return cb(err);
 
@@ -123,7 +125,7 @@ module.exports = (Account) => {
         role.principals.create({
           principalId: newUser.id,
           principalType: RoleMapping.USER,
-        }, (err, principal) => {
+        }, (err) => {
           if (err) return cb(err);
 
           //
@@ -182,7 +184,7 @@ module.exports = (Account) => {
         role.principals.create({
           principalId: newUser.id,
           principalType: RoleMapping.USER,
-        }, (err, principal) => {
+        }, (err) => {
           if (err) return cb(err);
           // return new author
           cb(null, newUser);
@@ -289,13 +291,13 @@ module.exports = (Account) => {
         cb(null, false);
       }
       else {
-        user.updateAttributes({lang: newlang}, (err, user) => {
+        user.updateAttributes({lang: newlang}, (err) => {
           if (err) {
             console.error(err);
             cb(null, false);
           }
           else {
-            console.log(`User #${user.id}'s language updated to ${user.lang}`);
+            // console.log(`User #${user.id}'s language updated to ${user.lang}`);
             cb(null, true);
           }
         });
@@ -326,6 +328,146 @@ module.exports = (Account) => {
       type: 'boolean',
     },
     description: 'Change language for the user with ID',
+  });
+
+  /**
+   * Function pwdReset: fire password reset for userId
+   *
+   * Author: cmc
+   *
+   * Last Updated: November 26, 2021
+   * @param userId
+   * @param cb callback function to return boolean
+   */
+  Account.pwdReset = (userId, cb) => {
+    Account.findById(userId, (err, user) => {
+      Account.resetPassword({email: user.email}, err => {
+        if (err) {
+          console.error(err);
+          cb(null, false);
+        } else {
+          // console.log('password change request done');
+          cb(null, true);
+        }
+      });
+    });
+  };
+
+  /**
+   * Use: expose pwdReset to API
+   *
+   * Author: cmc
+   *
+   * Last Updated: November 26, 2021
+   */
+  Account.remoteMethod('pwdReset', {
+    http: {
+      path: '/pwd-reset/:userId',
+      verb: 'post',
+    },
+    accepts: {
+      arg: 'userId',
+      type: 'number',
+      required: true,
+    },
+    returns: {
+      arg: 'successful',
+      type: 'boolean',
+    },
+    description: 'Fire Pwd Change Request for userId',
+  });
+
+  /**
+   * function randomPassword: create (pseudo)- random password of length num
+   *
+   * Author: cmc
+   *
+   * Last Updated: November 26, 2021
+   * @param num
+   * @returns {string}
+   */
+  Account.randomPassword = (num) => {
+    // eslint-disable-next-line
+    const chars = 'qwertzuopü+asdfghjklöä#yxcvbnmQWERTZUIOPÜ+ASDFGHJKLÖÄ#YXCVBNM,.-<>1234567890ß!§$%&/()"\'[]{}=?';
+    // console.log(chars.length);
+    let pwd = '';
+    for (let i = 0; i < num; i++) {
+      pwd = pwd + chars[Math.floor(Math.random() * chars.length)];
+    }
+    // console.log(pwd);
+    return pwd;
+  };
+
+  /**
+   * function changeRole: change role of given userId
+   *
+   * Author: cmc
+   *
+   * Last Updated: November 26, 2021
+   * @param data userId: number, role: string
+   * @param cb returns roleMapping instance if successful
+   */
+  Account.changeRole = (data, cb) => {
+    const {RoleMapping} = Account.app.models;
+    RoleMapping.findOne({where: {principalId: data.userId}}, (err, map) => {
+      if (err) {
+        const error = new Error(`No user with id ${data.userId} found!`);
+        error.status = 404;
+        cb(error);
+      }
+      RoleMapping.findOne({where: {principalId: data.role}},
+        (err, roleMap) => {
+          if (err) {
+            // console.error(`No role ${data.role} found!`);
+            const error = new Error('No role ${data.role} found!');
+            error.status = 404;
+            cb(error);
+          }
+          if (!roleMap) {
+            const error = new Error('No such role found!');
+            error.status = 404;
+            cb(error);
+          } else {
+            map.updateAttributes({roleId: roleMap.roleId},
+              (err, updatedMap) => {
+                if (err) {
+                  // console.error('Some failure with updating the attribute: ', err);
+                  cb(new Error('Attribute missing!').status(400));
+                } else {
+                  // console.log(
+                  //   `user ${data.userId}'s role changed to: ${data.role}`
+                  // );
+                  cb(null, updatedMap);
+                }
+              });
+          }
+        });
+    });
+  };
+
+  /**
+   * use: expose changeRole to API
+   *
+   * Author: cmc
+   *
+   * Last Updated: November 26, 2021
+   */
+  Account.remoteMethod('changeRole', {
+    http: {
+      path: '/change-role',
+      verb: 'post',
+    },
+    accepts: {
+      arg: 'data',
+      http: {source: 'body'},
+      type: 'object',
+      required: true,
+    },
+    returns: {
+      arg: 'user',
+      type: 'object',
+    },
+    description: 'Fire Role Change Request for userId',
   });
 
   Account.afterRemote('createStudent', (ctx, model, next) => {

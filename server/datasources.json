@@ -28,12 +28,12 @@
     "connector": "mail",
     "transports": [{
       "type": "SMTP",
-      "host": "smtp.gmail.com",
+      "host": "smtp.informatik.hu-berlin.de",
       "secure": true,
-      "port": 465,
+      "port": 587,
       "auth": {
-        "user": "laya@gmail.com",
-        "pass": "pass"
+        "user": "laya-support",
+        "pass": "wXZkfKY75BRSGpg"
       }
     }]
   }
