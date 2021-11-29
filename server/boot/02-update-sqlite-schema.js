@@ -8,7 +8,13 @@
 'use strict';
 
 // all data tables
-const base = ['AccessToken', 'ACL', 'RoleMapping', 'Role'];
+const base = [
+  'AccessToken',
+  'ACL',
+  'RoleMapping',
+  'Role',
+  'User',
+];
 const custom = [
   'Account',
   // 'AssessmentScmc',
@@ -45,4 +51,3 @@ module.exports = (app, cb) => {
     }
   });
 };
-

@@ -480,13 +480,44 @@ module.exports = (Account) => {
   Account.sendEmail = (addr, cb) => {
     Account.app.models.Email.send({
       to: addr,
-      from: 'laya.noreply@gmail.com',
+      from: 'laya-support@informatik.hu-berlin.de',
       subject: 'my subject',
       text: 'my text',
       html: 'my <em>html</em>',
-    }, function(err, mail) {
+    }, (err, mail) => {
       console.log('email sent!');
-      cb(err);
+      if (err) cb(err);
+      console.log(err);
+      cb(mail);
     });
   };
+
+  Account.afterRemote('createAuthor', function(context, userInstance, next) {
+    console.log('> user.afterRemote triggered');
+
+    const verifyOptions = {
+      type: 'email',
+      to: userInstance.email,
+      from: 'laya-support@informatik.hu-berlin.de',
+      subject: 'Thanks for registering.',
+      text: '',
+      redirect: '/verified',
+      user: userInstance,
+    };
+
+    userInstance.verify(verifyOptions, function(err, response, next) {
+      if (err) return next(err);
+
+      console.log('> verification email sent:', response);
+
+      context.res.render('response', {
+        title: 'Signed up successfully',
+        content: 'Please check your email and click on the verification link ' -
+          'before logging in.',
+        redirectTo: '/',
+        redirectToLinkText: 'Log in',
+      });
+    });
+    next();
+  });
 };
