@@ -1,0 +1,134 @@
+{
+  "abstract": null,
+  "authorId": 1,
+  "category": "Kurs",
+  "content": [
+  {
+    "name": "laya-dialog",
+    "input": {
+      "bg": "",
+      "question": {
+        "flagged": true,
+        "id": "99test001",
+        "text": "New Stuff"
+      },
+      "answers": [
+        {
+          "flagged": false,
+          "text": "Sample Answer 1",
+          "id": "99test31"
+        },
+        {
+          "text": "Sample Answer 2",
+          "id": "99test32",
+          "flagged": false
+        }
+      ]
+    },
+    "nextStep": "2,3"
+  },
+  {
+    "name": "laya-plyr",
+    "input": {
+      "src": "https://vimeo.com/27244727",
+      "title": {
+        "text": "Video",
+        "id": "99test33",
+        "flagged": false
+      }
+    },
+    "nextStep": "4"
+  },
+  {
+    "name": "laya-wysiwyg",
+    "input": {
+      "title": {
+        "text": "WYSIWYG",
+        "id": "99test34",
+        "flagged": false
+      },
+      "contents": {
+        "ops": [
+          {
+            "insert": "This Concludes our very small sample course.\n"
+          }
+        ]
+      }
+    },
+    "nextStep": "4"
+  },
+  {
+    "name": "laya-course-feedback",
+    "input": {
+      "title": {
+        "text": "Course Feedback",
+        "flagged": false,
+        "id": "99test35"
+      },
+      "task": {
+        "flagged": false,
+        "id": "99test002",
+        "text": "This content block allows you to give feedback. Our goal is to make our courses as comprehesible and accessible as possible. Therefore, we kindly ask you to give your opinion about our content and conveyance. The feedback is given anonymously. If you agree to answer any question we might have about your feedback , please click the corresponding button."
+      },
+      "taskAudio": "",
+      "items": [
+        {
+          "flagged": false,
+          "id": "99test003",
+          "text": "The course has a discernible structure."
+        },
+        {
+          "flagged": false,
+          "id": "99test004",
+          "text": "The course has interesting contents"
+        },
+        {
+          "flagged": false,
+          "id": "99test005",
+          "text": "The course difficulty was adequate."
+        },
+        {
+          "flagged": false,
+          "id": "99test006",
+          "text": "I did not feel underchallenged at any point."
+        },
+        {
+          "flagged": false,
+          "id": "99test007",
+          "text": "I did not feel overwhelmed at any point."
+        },
+        {
+          "flagged": false,
+          "id": "99test008",
+          "text": "The assessment blocks helped me understand."
+        },
+        {
+          "flagged": false,
+          "id": "99test009",
+          "text": "I would recommend this course to others."
+        }
+      ],
+      "categories": [
+        "Do not agree",
+        "Rather do not agree",
+        "Neutral",
+        "Rather agree",
+        "Agree"
+      ]
+
+    },
+    "nextStep": "0"
+  }
+],
+  "lastChanged": 1636462997259,
+  "endDate": null,
+  "feedback": [],
+  "files": [],
+  "locked": false,
+  "name": "Testkurs",
+  "courseId": "t3stkur5",
+  "storageId": "st0r31d",
+  "needsEnrollment": true,
+  "startDate": null,
+  "startInteractionId": null
+}

@@ -10,7 +10,6 @@
 module.exports = (server) => {
   const {Account, Role, RoleMapping} = server.models;
 
-  //
   // admin account
   Account.findOrCreate({where: {email: 'admin@laya'}}, {
     email: 'admin@laya',
@@ -38,7 +37,7 @@ module.exports = (server) => {
         }
 
         // create if needed
-        if (principals.length == 0) {
+        if (principals.length === 0) {
           role.principals.create({
             principalType: RoleMapping.USER,
             principalId: admin.id,
@@ -50,12 +49,12 @@ module.exports = (server) => {
           });
         }
 
-        if (principals.length == 1) {
+        if (principals.length === 1) {
           return console.log('Admin Role Principals exists');
         }
 
         if (principals.length > 1) {
-          throw console.error('Multiple Admin Role Principals exist!');
+          throw new Error('Multiple Admin Role Principals exist!');
         }
       });
     });

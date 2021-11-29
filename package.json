@@ -1,6 +1,6 @@
 {
   "name": "laya-vechta-backend",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "main": "server/server.js",
   "engines": {
     "node": "9.11.x"

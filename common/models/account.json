@@ -9,11 +9,17 @@
   "properties": {
     "prefs": {
       "type": "object",
-      "default": {}
+      "default": {
+          "media": {},
+          "font": {
+            "chosen": "standard",
+            "size": 18
+          }
+      }
     },
     "lang": {
       "type": "string",
-      "default": "de"
+      "default": "en"
     },
     "avatar": {
       "type": "string",
