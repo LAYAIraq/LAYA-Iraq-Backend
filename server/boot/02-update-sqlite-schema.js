@@ -8,18 +8,20 @@
 'use strict';
 
 // all data tables
-const base = ['User', 'AccessToken', 'ACL', 'RoleMapping', 'Role'];
-const custom = ['Account',
-  'AssessmentScmc',
+const base = ['AccessToken', 'ACL', 'RoleMapping', 'Role'];
+const custom = [
+  'Account',
+  // 'AssessmentScmc',
   'Course',
-  'CourseQuiz',
-  'CourseQuizContent',
-  'CourseTopic',
-  'CourseTopicContent',
+  // 'CourseQuiz',
+  // 'CourseQuizContent',
+  // 'CourseTopic',
+  // 'CourseTopicContent',
   'Enrollment',
   'Flag',
-  'Learninteraction',
-  'Notification'];
+  // 'Learninteraction',
+  'Notification',
+];
 
 module.exports = (app, cb) => {
   const {sqlite} = app.dataSources;
@@ -35,7 +37,7 @@ module.exports = (app, cb) => {
       cb();
     else { // update if they aren't
       console.log('Updating Database...');
-      sqlite.autoupdate(models, (err, result) => {
+      sqlite.autoupdate(models, (err) => {
         if (err) throw err;
         console.log('\nUpdating database completed!');
       });
