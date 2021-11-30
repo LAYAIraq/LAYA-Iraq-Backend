@@ -487,17 +487,10 @@ module.exports = (Account) => {
     };
     model.verify(verifyOptions, (err, response, next) => {
       if (err) return next(err);
-
       console.log('> verification email sent:', response);
-      next();
-      ctx.res.render('response', {
-        title: 'Signed up successfully',
-        content: 'Please check your email and click on the verification link ' +
-          'before logging in.',
-        redirectTo: '/',
-        redirectToLinkText: 'Log in',
-      });
+      // next();
     });
+    next();
     // model.verify(verifyOptions, (err, response) => {
     //   if (err) {
     //     Account.deleteById(model.id);
