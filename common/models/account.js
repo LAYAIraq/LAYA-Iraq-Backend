@@ -6,6 +6,7 @@
  */
 'use strict';
 
+const path = require('path');
 module.exports = (Account) => {
   /**
    * Use: disable default create endpoint
@@ -229,7 +230,7 @@ module.exports = (Account) => {
    */
   Account.getRole = (userId, cb) => {
     const {Role} = Account.app.models;
-    Role.getRoles({principalId: userId}, (err, roles) => {
+    Role.getRoles({userId}, {principalId: userId}, (err, roles) => {
       if (err) {
         return cb(null, 'student');
       }
@@ -472,52 +473,84 @@ module.exports = (Account) => {
 
   Account.afterRemote('createStudent', (ctx, model, next) => {
     console.log(model);
-    const addr = model.email;
-    Account.sendEmail(addr);
-    next();
-  });
-  // send an email
-  Account.sendEmail = (addr, cb) => {
-    Account.app.models.Email.send({
-      to: addr,
-      from: 'laya-support@informatik.hu-berlin.de',
-      subject: 'my subject',
-      text: 'my text',
-      html: 'my <em>html</em>',
-    }, (err, mail) => {
-      console.log('email sent!');
-      if (err) cb(err);
-      console.log(err);
-      cb(mail);
+    const verifyOptions = {
+      type: 'email',
+      to: model.email,
+      from: 'laya-support@informatik.hu-berlin.de', // TODO: set variable for support email address
+      subject: 'Thanks for registering.',
+      host: 'localhost', // TODO: set variable for front end host
+      port: '8080',
+      template: path.resolve(__dirname, '../../server/views/template.ejs'),
+      // TODO: use templateFn from https://github.com/strongloop/loopback/blob/master/common/models/user.js
+      redirect: '/',
+      user: model,
+    };
+    model.verify(verifyOptions, (err, response, next) => {
+      if (err) return next(err);
+
+      console.log('> verification email sent:', response);
+      next();
+      ctx.res.render('response', {
+        title: 'Signed up successfully',
+        content: 'Please check your email and click on the verification link ' +
+          'before logging in.',
+        redirectTo: '/',
+        redirectToLinkText: 'Log in',
+      });
     });
-  };
+    // model.verify(verifyOptions, (err, response) => {
+    //   if (err) {
+    //     Account.deleteById(model.id);
+    //     return next(err);
+    //   }
+    //   // console.log(ctx.res);
+    //   // console.log(ctx.req);
+    //   console.log(response);
+    //   // next(response);
+    //   next();
+    // });
+  });
+
+  // Method to render FIXME: seems to never be called
+  Account.afterRemote('prototype.verify', (context, user, next) => {
+    console.log('> after verify hook');
+    console.log(user);
+    next('kekw');
+    // context.res.render('response', {
+    //   title: 'A Link to reverify your identity has been sent ' +
+    //     'to your email successfully',
+    //   content: 'Please check your email and click on the verification link ' +
+    //     'before logging in',
+    //   redirectTo: '/login',
+    //   redirectToLinkText: 'Log in',
+    // });
+  });
 
   Account.afterRemote('createAuthor', function(context, userInstance, next) {
-    console.log('> user.afterRemote triggered');
+    console.log('> afterRemote on createAuthor triggered');
 
     const verifyOptions = {
       type: 'email',
       to: userInstance.email,
       from: 'laya-support@informatik.hu-berlin.de',
       subject: 'Thanks for registering.',
-      text: '',
+      template: path.resolve(__dirname, '../../server/views/template.ejs'),
       redirect: '/verified',
       user: userInstance,
     };
 
-    userInstance.verify(verifyOptions, function(err, response, next) {
+    userInstance.verify(verifyOptions, (err, response, next) => {
       if (err) return next(err);
 
       console.log('> verification email sent:', response);
 
       context.res.render('response', {
         title: 'Signed up successfully',
-        content: 'Please check your email and click on the verification link ' -
+        content: 'Please check your email and click on the verification link ' +
           'before logging in.',
         redirectTo: '/',
         redirectToLinkText: 'Log in',
       });
     });
-    next();
   });
 };
