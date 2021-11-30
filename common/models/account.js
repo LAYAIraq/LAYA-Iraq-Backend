@@ -230,7 +230,7 @@ module.exports = (Account) => {
    */
   Account.getRole = (userId, cb) => {
     const {Role} = Account.app.models;
-    Role.getRoles({userId}, {principalId: userId}, (err, roles) => {
+    Role.getRoles({principalId: userId}, (err, roles) => {
       if (err) {
         return cb(null, 'student');
       }
@@ -481,8 +481,6 @@ module.exports = (Account) => {
       host: 'localhost', // TODO: set variable for front end host
       port: '8080',
       template: path.resolve(__dirname, '../../server/views/template.ejs'),
-      // TODO: use templateFn from https://github.com/strongloop/loopback/blob/master/common/models/user.js
-      redirect: '/',
       user: model,
     };
     model.verify(verifyOptions, (err, response, next) => {
@@ -505,10 +503,25 @@ module.exports = (Account) => {
   });
 
   // Method to render FIXME: seems to never be called
-  Account.afterRemote('prototype.verify', (context, user, next) => {
+  Account.afterRemote('prototype.verify', (ctx, model, next) => {
+    const user = ctx.req.remotingContext.instance;
     console.log('> after verify hook');
-    console.log(user);
-    next('kekw');
+    const verifyOptions = {
+      type: 'email',
+      to: user.email,
+      from: 'laya-support@informatik.hu-berlin.de', // TODO: set variable for support email address
+      subject: 'Your new verification link.',
+      host: 'localhost', // TODO: set variable for front end host
+      port: '8080',
+      template: path.resolve(__dirname, '../../server/views/template.ejs'),
+      user: user,
+    };
+    user.verify(verifyOptions, (err, response, next) => {
+      if (err) return next(err);
+      console.log('> verification email sent:', response);
+      // next();
+    });
+    next();
     // context.res.render('response', {
     //   title: 'A Link to reverify your identity has been sent ' +
     //     'to your email successfully',
@@ -545,5 +558,6 @@ module.exports = (Account) => {
         redirectToLinkText: 'Log in',
       });
     });
+    next();
   });
 };
