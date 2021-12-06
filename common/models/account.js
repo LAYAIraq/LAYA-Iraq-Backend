@@ -7,6 +7,7 @@
 'use strict';
 
 const path = require('path');
+const ejs = require('ejs');
 module.exports = (Account) => {
   /**
    * Use: disable default create endpoint
@@ -230,7 +231,7 @@ module.exports = (Account) => {
    */
   Account.getRole = (userId, cb) => {
     const {Role} = Account.app.models;
-    Role.getRoles({principalId: userId}, (err, roles) => {
+    Role.getRoles({principalId: userId}, {}, (err, roles) => {
       if (err) {
         return cb(null, 'student');
       }
@@ -342,15 +343,46 @@ module.exports = (Account) => {
    */
   Account.pwdReset = (userId, cb) => {
     Account.findById(userId, (err, user) => {
-      Account.resetPassword({email: user.email}, err => {
-        if (err) {
-          console.error(err);
-          cb(null, false);
-        } else {
-          // console.log('password change request done');
-          cb(null, true);
-        }
-      });
+      if (err) {
+        console.error(err);
+        cb(null, false);
+      } else {
+        const pwd = Account.randomPassword(12);
+        user.updateAttributes({password: pwd}, (err) => {
+          if (err) {
+            cb(null, false);
+          } else {
+            // const ejs = require('ejs');
+            let html = '';
+            ejs.renderFile(
+              // eslint-disable-next-line
+              path.resolve(__dirname, '../../server/views/template-pwd-reset.ejs'),
+              {user: user, pwd: pwd},
+              (err, resp) => {
+                if (err) console.error(err);
+                html = resp;
+              });
+            console.log(html);
+            Account.app.models.Email.send({
+              type: 'email',
+              to: user.email,
+              from: 'laya-support@informatik.hu-berlin.de', // TODO: set variable for support email address
+              subject: 'Your new password',
+              host: 'localhost', // TODO: set variable for front end host
+              port: '8080',
+              html: html,
+              // pwd: Account.randomPassword(12),
+              // // eslint-disable-next-line
+              // template: path.resolve(__dirname, '../../server/views/template-pwd-reset.ejs'),
+              // user: user,
+            }, err => {
+              if (err) console.error(err);
+              // console.log('sending email');
+            });
+            cb(null, true);
+          }
+        });
+      }
     });
   };
 
