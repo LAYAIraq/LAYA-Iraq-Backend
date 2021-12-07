@@ -113,9 +113,9 @@ module.exports = (Account) => {
   Account.createStudent = (user, cb) => {
     const ROLE_NAME = 'student';
     const {Role, RoleMapping} = Account.app.models;
-    if (!user.password) {
-      user.password = Account.randomPassword(16);
-    }
+    // if (!user.password) {
+    //   user.password = Account.randomPassword(16);
+    // }
     Account.create(user, (err, newUser) => {
       if (err) return cb(err);
 
@@ -162,49 +162,68 @@ module.exports = (Account) => {
   });
 
   /**
-   * Function createAuthor: create user in 'author' role
+   * Function createUser: create user from admin panel
    *
    * Author: core
    *
-   * Last Updated: unknown
+   * Last Updated: December 7, 2021
    *
-   * @param {object} user user settings
+   * @param {email, username, role} user new user
    * @param {Function} cb callback function
    */
-  Account.createAuthor = (user, cb) => {
-    const ROLE_NAME = 'author';
+  Account.createUser = ({email, username, role}, cb) => {
     const {Role, RoleMapping} = Account.app.models;
+    const pwd = Account.randomPassword(12);
+    // create new user
+    Account.create({
+      username: username,
+      email: email,
+      password: pwd,
+    }, (err, newUser) => {
+      if (err) return cb(null, err);
+      else {
+        // create RoleMapping
+        Role.findOne({where: {name: role}}, (err, userRole) => {
+          if (err) cb(null, err);
+          userRole.principals.create({
+            principalId: newUser.id,
+            principalType: RoleMapping.USER,
+          }, (err) => {
+            if (err) return cb(null, err);
+            cb(null, newUser);
+            // send verification email
+            const verifyOptions = {
+              type: 'email',
+              to: newUser.email,
+              from: 'laya-support@informatik.hu-berlin.de',
+              subject: 'You have been registered for LAYA',
+              template: path.resolve(__dirname, '../../server/views/template-create.ejs'),
+              user: newUser,
+              host: 'localhost',
+              port: '8080',
+              pwd: pwd
+            };
 
-    Account.create(user, (err, newUser) => {
-      if (err) return cb(err);
-
-      // set role
-      Role.findOrCreate({where: {name: ROLE_NAME}}, {
-        name: ROLE_NAME,
-      }, (err, role) => {
-        if (err) return cb(err);
-        role.principals.create({
-          principalId: newUser.id,
-          principalType: RoleMapping.USER,
-        }, (err) => {
-          if (err) return cb(err);
-          // return new author
-          cb(null, newUser);
-        });
-      });
+            newUser.verify(verifyOptions, (err, response, next) => {
+              if (err) return next(err);
+              next();
+            });
+          });
+        })
+      }
     });
   };
 
   /**
-   * Use: expose createAuthor to API
+   * Use: expose createUser to API
    *
    * Author: core
    *
-   * Last Updated: unknown
+   * Last Updated: December 7, 2021
    */
-  Account.remoteMethod('createAuthor', {
+  Account.remoteMethod('createUser', {
     http: {
-      path: '/author',
+      path: '/create',
       verb: 'post',
     },
     accepts: {
@@ -216,6 +235,7 @@ module.exports = (Account) => {
       root: true,
       type: 'object',
     },
+    description: 'Create new user with random password'
   });
 
   /**
@@ -353,15 +373,10 @@ module.exports = (Account) => {
             cb(null, false);
           } else {
             // const ejs = require('ejs');
-            let html = '';
-            ejs.renderFile(
-              // eslint-disable-next-line
-              path.resolve(__dirname, '../../server/views/template-pwd-reset.ejs'),
-              {user: user, pwd: pwd},
-              (err, resp) => {
-                if (err) console.error(err);
-                html = resp;
-              });
+            let html = Account.renderTemplate(
+              '../../server/views/template-pwd-reset.ejs',
+              {username: user.username, pwd: pwd}
+            );
             console.log(html);
             Account.app.models.Email.send({
               type: 'email',
@@ -384,6 +399,27 @@ module.exports = (Account) => {
         });
       }
     });
+  };
+
+  /**
+   * function renderTemplate: render html string from template
+   *
+   * Author: cmc
+   *
+   * Last Updated: December 7, 2021
+   * @param {string} src path to ejs template
+   * @param {object} params used in the template
+   */
+  Account.renderTemplate = (src, params) => {
+    let html = '';
+    ejs.renderFile(
+      path.resolve(__dirname, src),
+      params,
+      (err, resp) => {
+        if (err) return null;
+        html = resp;
+      });
+    return html;
   };
 
   /**
@@ -550,45 +586,8 @@ module.exports = (Account) => {
     };
     user.verify(verifyOptions, (err, response, next) => {
       if (err) return next(err);
-      console.log('> verification email sent:', response);
+      // console.log('> verification email sent:', response);
       // next();
-    });
-    next();
-    // context.res.render('response', {
-    //   title: 'A Link to reverify your identity has been sent ' +
-    //     'to your email successfully',
-    //   content: 'Please check your email and click on the verification link ' +
-    //     'before logging in',
-    //   redirectTo: '/login',
-    //   redirectToLinkText: 'Log in',
-    // });
-  });
-
-  Account.afterRemote('createAuthor', function(context, userInstance, next) {
-    console.log('> afterRemote on createAuthor triggered');
-
-    const verifyOptions = {
-      type: 'email',
-      to: userInstance.email,
-      from: 'laya-support@informatik.hu-berlin.de',
-      subject: 'Thanks for registering.',
-      template: path.resolve(__dirname, '../../server/views/template.ejs'),
-      redirect: '/verified',
-      user: userInstance,
-    };
-
-    userInstance.verify(verifyOptions, (err, response, next) => {
-      if (err) return next(err);
-
-      console.log('> verification email sent:', response);
-
-      context.res.render('response', {
-        title: 'Signed up successfully',
-        content: 'Please check your email and click on the verification link ' +
-          'before logging in.',
-        redirectTo: '/',
-        redirectToLinkText: 'Log in',
-      });
     });
     next();
   });
