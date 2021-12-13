@@ -586,27 +586,34 @@ module.exports = (Account) => {
   });
 
   // Method to render FIXME: seems to never be called
-  Account.afterRemote('prototype.verify', (ctx, model, next) => {
-    const user = ctx.req.remotingContext.instance;
-    console.log('> after verify hook');
-    const verifyOptions = {
-      type: 'email',
-      to: user.email,
-      from: 'laya-support@informatik.hu-berlin.de', // TODO: set variable for support email address
-      subject: 'Your new verification link.',
-      host: 'localhost', // TODO: set variable for front end host
-      port: '8080',
-      template: path.resolve(__dirname, '../../server/templates/register.ejs'),
-      user: user,
-    };
-    user.verify(verifyOptions, (err, response, next) => {
-      if (err) return next(err);
-      // console.log('> verification email sent:', response);
-      // next();
-    });
-    next();
-  });
+  // Account.afterRemote('prototype.verify', (ctx, model, next) => {
+  //   const user = ctx.req.remotingContext.instance;
+  //   console.log('> after verify hook');
+  //   const verifyOptions = {
+  //     type: 'email',
+  //     to: user.email,
+  //     from: 'laya-support@informatik.hu-berlin.de', // TODO: set variable for support email address
+  //     subject: 'Your new verification link.',
+  //     host: 'localhost', // TODO: set variable for front end host
+  //     port: '8080',
+  //     template: path.resolve(__dirname, '../../server/templates/register.ejs'),
+  //     user: user,
+  //   };
+  //   user.verify(verifyOptions, (err, response, next) => {
+  //     if (err) return next(err);
+  //     // console.log('> verification email sent:', response);
+  //     // next();
+  //   });
+  //   next();
+  // });
 
+  /**
+   * use: send verification email for promoted user
+   *
+   * Author: cmc
+   *
+   * Last Updated: December 13, 2021
+   */
   Account.afterRemote('changeRole', (ctx, {user}, next) => {
     console.log(user);
     // const ejs = require('ejs');
@@ -643,31 +650,48 @@ module.exports = (Account) => {
       });
   });
 
+  /**
+   * function deleteUser: delete user and corresponding rolemapping
+   *
+   * Author: cmc
+   *
+   * Last Updated: December 13, 2021
+   * @param userId user to be deleted
+   * @param cb returns false if no RoleMapping existed, true if both gone
+   */
   Account.deleteUser = (userId, cb) => {
-    Account.findById({where: {id: userId}}, (err, user) => {
+    console.log('User to be deleted: ' + userId);
+    Account.findById(userId, (err, user) => {
       if (!user) {
-        cb(new Error('No User found!').status(404)); // FIXME
+        const error = new Error('No User found!')
+        error.status = 404
+        cb(error);
       } else {
+        user.destroy();
         const {RoleMapping} = Account.app.models;
         RoleMapping.findOne({where: {principalId: userId}}, (err, map) => {
           if (!map) {
-            cb(new Error('Your mom!').status(404)); // FIXME
+            console.error('mapping not found!');
+            cb(null, false);
           } else {
-            RoleMapping.destroy(map);
-            Account.destroy(user);
+            map.destroy();
             cb(null, true);
           }
         });
       }
     });
   };
+
+  /**
+   * expose deleteUser to API
+   */
   Account.remoteMethod('deleteUser', {
     http: {
       path: '/:id/full',
       verb: 'delete',
     },
     accepts: {
-      arg: 'userId',
+      arg: 'id',
       type: 'number',
       required: true,
     },
@@ -676,9 +700,5 @@ module.exports = (Account) => {
       type: 'boolean',
     },
     description: 'Delete User and corresponding role mapping',
-  });
-  Account.afterRemote('deleteUser', (ctx, user, next) => {
-    console.log(user);
-    next();
   });
 };
