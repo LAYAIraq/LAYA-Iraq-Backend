@@ -660,11 +660,11 @@ module.exports = (Account) => {
    * @param cb returns false if no RoleMapping existed, true if both gone
    */
   Account.deleteUser = (userId, cb) => {
-    console.log('User to be deleted: ' + userId);
+    // console.log('User to be deleted: ' + userId);
     Account.findById(userId, (err, user) => {
       if (!user) {
-        const error = new Error('No User found!')
-        error.status = 404
+        const error = new Error('No User found!');
+        error.status = 404;
         cb(error);
       } else {
         user.destroy();
