@@ -1,5 +1,9 @@
 # Changes
 
+
+## v1.7.1
+- added email communication
+
 ## v1.7.0
 
 - Added user management methods to Account.js
