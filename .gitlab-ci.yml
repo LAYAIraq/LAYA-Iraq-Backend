@@ -29,7 +29,7 @@ build_img:
     - echo $CI_REGISTRY
     - echo $CI_DEPLOY_USER
     - docker login -u 'gitlab+deploy-token-80' -p '35DskgwvDXhbuHhvwcEp' $CI_REGISTRY
-    #- docker build --pull
+    - docker build --pull
     - docker build -t $IMAGE_TAG .
     - docker push $IMAGE_TAG
   only:
