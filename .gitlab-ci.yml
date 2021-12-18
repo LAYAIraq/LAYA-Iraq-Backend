@@ -1,17 +1,36 @@
 image: node:9.11.2
 
-before_script:
-  - npm install --progress=false
+stages:
+  - test
+  - deploy
 
 Lint:
+  before_script:
+    - npm install --progress=false
   stage: test
   script: npm run lint
 
 Posttest:
   stage: test
   allow_failure: true
-  before_script: 
+  before_script:
     - npm install --progress=false
     - npm i -g nsp
   script : npm start && nsp run check
 
+build_img:
+  stage: deploy
+  image: docker:19.03.12
+  services:
+    - docker:19.03.12-dind
+  variables:
+    IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  script:
+    - echo $CI_REGISTRY
+    - echo $CI_DEPLOY_USER
+    - docker login -u 'gitlab+deploy-token-80' -p '35DskgwvDXhbuHhvwcEp' $CI_REGISTRY
+    #- docker build --pull
+    - docker build -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
+  only:
+    - master
