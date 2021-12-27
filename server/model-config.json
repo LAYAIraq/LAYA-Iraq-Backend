@@ -28,6 +28,10 @@
       }
     }
   },
+  "User": {
+    "dataSource": "sqlite",
+    "public": false
+  },
   "Role": {
     "dataSource": "sqlite",
     "public": false
@@ -95,5 +99,8 @@
   "Notification": {
     "dataSource": "sqlite",
     "public": true
+  },
+  "Email": {
+    "dataSource": "mail"
   }
 }

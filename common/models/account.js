@@ -6,16 +6,13 @@
  */
 'use strict';
 
+const path = require('path');
+const ejs = require('ejs');
 module.exports = (Account) => {
-  /**
-   * Use: disable default create endpoint
-   *
-   * Author: core
-   *
-   * Last Updated: unknown
-   */
+  // disable default create endpoint
   Account.disableRemoteMethodByName('create');
-
+  // use Email, Role, RoleMapping models
+  // const {Email, Role, RoleMapping} = Account.app.models;
   /**
    * Function existsByName: check if the username exists
    *
@@ -110,13 +107,12 @@ module.exports = (Account) => {
    */
   Account.createStudent = (user, cb) => {
     const ROLE_NAME = 'student';
-    const {Role, RoleMapping} = Account.app.models;
-    if (!user.password) {
-      user.password = Account.randomPassword(16);
-    }
+    // if (!user.password) {
+    //   user.password = Account.randomPassword(16);
+    // }
     Account.create(user, (err, newUser) => {
       if (err) return cb(err);
-
+      const {Role, RoleMapping} = Account.app.models;
       // set role
       Role.findOrCreate({where: {name: ROLE_NAME}}, {
         name: ROLE_NAME,
@@ -160,49 +156,69 @@ module.exports = (Account) => {
   });
 
   /**
-   * Function createAuthor: create user in 'author' role
+   * Function createUser: create user from admin panel
    *
-   * Author: core
+   * Author: cmc
    *
-   * Last Updated: unknown
+   * Last Updated: December 7, 2021
    *
-   * @param {object} user user settings
+   * @param {email, username, role} user new user
    * @param {Function} cb callback function
    */
-  Account.createAuthor = (user, cb) => {
-    const ROLE_NAME = 'author';
-    const {Role, RoleMapping} = Account.app.models;
+  Account.createUser = ({email, username, role}, cb) => {
+    const pwd = Account.randomPassword(12);
+    // create new user
+    Account.create({
+      username: username,
+      email: email,
+      password: pwd,
+    }, (err, newUser) => {
+      if (err) return cb(null, err);
+      else {
+        const {Role, RoleMapping} = Account.app.models;
+        // create RoleMapping
+        Role.findOne({where: {name: role}}, (err, userRole) => {
+          if (err) cb(null, err);
+          userRole.principals.create({
+            principalId: newUser.id,
+            principalType: RoleMapping.USER,
+          }, (err) => {
+            if (err) return cb(null, err);
+            cb(null, newUser);
+            // send verification email
+            const verifyOptions = {
+              type: 'email',
+              to: newUser.email,
+              from: 'laya-support@informatik.hu-berlin.de',
+              subject: 'You have been registered for LAYA',
+              template: path.resolve(__dirname,
+                '../../server/templates/created-by-admin.ejs'),
+              user: newUser,
+              host: 'localhost',
+              port: '8080',
+              pwd: pwd,
+            };
 
-    Account.create(user, (err, newUser) => {
-      if (err) return cb(err);
-
-      // set role
-      Role.findOrCreate({where: {name: ROLE_NAME}}, {
-        name: ROLE_NAME,
-      }, (err, role) => {
-        if (err) return cb(err);
-        role.principals.create({
-          principalId: newUser.id,
-          principalType: RoleMapping.USER,
-        }, (err) => {
-          if (err) return cb(err);
-          // return new author
-          cb(null, newUser);
+            newUser.verify(verifyOptions, (err, response, next) => {
+              if (err) return next(err);
+              next();
+            });
+          });
         });
-      });
+      }
     });
   };
 
   /**
-   * Use: expose createAuthor to API
+   * Use: expose createUser to API
    *
    * Author: core
    *
-   * Last Updated: unknown
+   * Last Updated: December 7, 2021
    */
-  Account.remoteMethod('createAuthor', {
+  Account.remoteMethod('createUser', {
     http: {
-      path: '/author',
+      path: '/create',
       verb: 'post',
     },
     accepts: {
@@ -214,6 +230,7 @@ module.exports = (Account) => {
       root: true,
       type: 'object',
     },
+    description: 'Create new user with random password',
   });
 
   /**
@@ -229,7 +246,7 @@ module.exports = (Account) => {
    */
   Account.getRole = (userId, cb) => {
     const {Role} = Account.app.models;
-    Role.getRoles({principalId: userId}, (err, roles) => {
+    Role.getRoles({principalId: userId}, {}, (err, roles) => {
       if (err) {
         return cb(null, 'student');
       }
@@ -341,16 +358,65 @@ module.exports = (Account) => {
    */
   Account.pwdReset = (userId, cb) => {
     Account.findById(userId, (err, user) => {
-      Account.resetPassword({email: user.email}, err => {
-        if (err) {
-          console.error(err);
-          cb(null, false);
-        } else {
-          // console.log('password change request done');
-          cb(null, true);
-        }
-      });
+      if (err) {
+        console.error(err);
+        cb(null, false);
+      } else {
+        const pwd = Account.randomPassword(12);
+        user.updateAttributes({password: pwd}, (err) => {
+          if (err) {
+            cb(null, false);
+          } else {
+            // const ejs = require('ejs');
+            const html = Account.renderTemplate(
+              '../../server/templates/pwd-reset.ejs',
+              {username: user.username, pwd: pwd}
+            );
+            console.log(html);
+            const {Email} = Account.app.models;
+            Email.send({
+              type: 'email',
+              to: user.email,
+              from: 'laya-support@informatik.hu-berlin.de', // TODO: set variable for support email address
+              subject: 'Your new password',
+              host: 'localhost', // TODO: set variable for front end host
+              port: '8080',
+              html: html,
+              // pwd: Account.randomPassword(12),
+              // // eslint-disable-next-line
+              // template: path.resolve(__dirname, '../../server/templates/pwd-reset.ejs'),
+              // user: user,
+            }, err => {
+              if (err) console.error(err);
+              // console.log('sending email');
+            });
+            cb(null, true);
+          }
+        });
+      }
     });
+  };
+
+  /**
+   * function renderTemplate: render html string from template
+   *
+   * Author: cmc
+   *
+   * Last Updated: December 7, 2021
+   * @param {string} src path to ejs template
+   * @param {object} params used in the template
+   */
+  Account.renderTemplate = (src, params) => {
+    let text = '';
+    ejs.renderFile(
+      path.resolve(__dirname, src),
+      params,
+      (err, resp) => {
+        if (err) return null;
+        text = resp;
+      }
+    );
+    return text;
   };
 
   /**
@@ -408,41 +474,52 @@ module.exports = (Account) => {
    * @param cb returns roleMapping instance if successful
    */
   Account.changeRole = (data, cb) => {
-    const {RoleMapping} = Account.app.models;
-    RoleMapping.findOne({where: {principalId: data.userId}}, (err, map) => {
-      if (err) {
-        const error = new Error(`No user with id ${data.userId} found!`);
-        error.status = 404;
-        cb(error);
-      }
-      RoleMapping.findOne({where: {principalId: data.role}},
-        (err, roleMap) => {
-          if (err) {
-            // console.error(`No role ${data.role} found!`);
-            const error = new Error('No role ${data.role} found!');
-            error.status = 404;
-            cb(error);
-          }
-          if (!roleMap) {
-            const error = new Error('No such role found!');
-            error.status = 404;
-            cb(error);
-          } else {
-            map.updateAttributes({roleId: roleMap.roleId},
-              (err, updatedMap) => {
-                if (err) {
-                  // console.error('Some failure with updating the attribute: ', err);
-                  cb(new Error('Attribute missing!').status(400));
-                } else {
-                  // console.log(
-                  //   `user ${data.userId}'s role changed to: ${data.role}`
-                  // );
-                  cb(null, updatedMap);
-                }
-              });
-          }
-        });
-    });
+    if (!data.role || !data.userId) {
+      const error = new Error('Not all params given!');
+      error.status = 400;
+      cb(error);
+    } else if (data.role === 'admin') {
+      const error = new Error('Changing role to admin is not allowed!');
+      error.status = 403;
+      cb(error);
+    } else {
+      const {RoleMapping} = Account.app.models;
+      RoleMapping.findOne({where: {principalId: data.userId}}, (err, map) => {
+        if (!map) {
+          const error = new Error(`No user with id ${data.userId} found!`);
+          error.status = 404;
+          cb(error);
+        } else {
+          RoleMapping.findOne({where: {principalId: data.role}},
+            (err, roleMap) => {
+              if (err) {
+                // console.error(`No role ${data.role} found!`);
+                const error = new Error('No role ${data.role} found!');
+                error.status = 404;
+                cb(error);
+              }
+              if (!roleMap) {
+                const error = new Error('No such role found!');
+                error.status = 404;
+                cb(error);
+              } else {
+                map.updateAttributes({roleId: roleMap.roleId},
+                  (err, updatedMap) => {
+                    if (err) {
+                      // console.error('Some failure with updating the attribute: ', err);
+                      cb(new Error('Attribute missing!').status(400));
+                    } else {
+                      // console.log(
+                      //   `user ${data.userId}'s role changed to: ${data.role}`
+                      // );
+                      cb(null, updatedMap);
+                    }
+                  });
+              }
+            });
+        }
+      });
+    }
   };
 
   /**
@@ -468,5 +545,160 @@ module.exports = (Account) => {
       type: 'object',
     },
     description: 'Fire Role Change Request for userId',
+  });
+
+  /**
+   * use: send verification email for self-registered users
+   *
+   * Author: cmc
+   *
+   * Last Updated: December 13, 2021
+   */
+  Account.afterRemote('createStudent', (ctx, model, next) => {
+    console.log(model);
+    const verifyOptions = {
+      type: 'email',
+      to: model.email,
+      from: 'laya-support@informatik.hu-berlin.de', // TODO: set variable for support email address
+      subject: 'Thanks for registering.',
+      host: 'localhost', // TODO: set variable for front end host
+      port: '8080',
+      template: path.resolve(__dirname, '../../server/templates/register.ejs'),
+      user: model,
+    };
+    model.verify(verifyOptions, (err, response, next) => {
+      if (err) return next(err);
+      // console.log('> verification email sent:', response);
+      // next();
+    });
+    next();
+    // model.verify(verifyOptions, (err, response) => {
+    //   if (err) {
+    //     Account.deleteById(model.id);
+    //     return next(err);
+    //   }
+    //   // console.log(ctx.res);
+    //   // console.log(ctx.req);
+    //   console.log(response);
+    //   // next(response);
+    //   next();
+    // });
+  });
+
+  // Method to render FIXME: seems to never be called
+  // Account.afterRemote('prototype.verify', (ctx, model, next) => {
+  //   const user = ctx.req.remotingContext.instance;
+  //   console.log('> after verify hook');
+  //   const verifyOptions = {
+  //     type: 'email',
+  //     to: user.email,
+  //     from: 'laya-support@informatik.hu-berlin.de', // TODO: set variable for support email address
+  //     subject: 'Your new verification link.',
+  //     host: 'localhost', // TODO: set variable for front end host
+  //     port: '8080',
+  //     template: path.resolve(__dirname, '../../server/templates/register.ejs'),
+  //     user: user,
+  //   };
+  //   user.verify(verifyOptions, (err, response, next) => {
+  //     if (err) return next(err);
+  //     // console.log('> verification email sent:', response);
+  //     // next();
+  //   });
+  //   next();
+  // });
+
+  /**
+   * use: send verification email for promoted user
+   *
+   * Author: cmc
+   *
+   * Last Updated: December 13, 2021
+   */
+  Account.afterRemote('changeRole', (ctx, {user}, next) => {
+    console.log(user);
+    // const ejs = require('ejs');
+    const {Email, Role} = Account.app.models;
+    Role.findOne(
+      {where: {principalType: 'ROLE', roleId: user.roleId}},
+      (err, role) => {
+        // console.log(role);
+        Account.findOne({where: {id: user.principalId}}, (err, model) => {
+          if (err) console.error(err);
+          // console.log(model);
+          const html = Account.renderTemplate(
+            '../../server/templates/promoted.ejs',
+            {username: model.username, role: role.name}
+          );
+          // console.log(html);
+          Email.send({
+            type: 'email',
+            to: model.email,
+            from: 'laya-support@informatik.hu-berlin.de', // TODO: set variable for support email address
+            subject: 'Your role has changed!',
+            host: 'localhost', // TODO: set variable for front end host
+            port: '8080',
+            html: html,
+          // pwd: Account.randomPassword(12),
+          // // eslint-disable-next-line
+          // template: path.resolve(__dirname, '../../server/templates/pwd-reset.ejs'),
+          // user: user,
+          }, err => {
+            if (err) console.error(err);
+            next();
+          });
+        });
+      });
+  });
+
+  /**
+   * function deleteUser: delete user and corresponding rolemapping
+   *
+   * Author: cmc
+   *
+   * Last Updated: December 13, 2021
+   * @param userId user to be deleted
+   * @param cb returns false if no RoleMapping existed, true if both gone
+   */
+  Account.deleteUser = (userId, cb) => {
+    // console.log('User to be deleted: ' + userId);
+    Account.findById(userId, (err, user) => {
+      if (!user) {
+        const error = new Error('No User found!');
+        error.status = 404;
+        cb(error);
+      } else {
+        user.destroy();
+        const {RoleMapping} = Account.app.models;
+        RoleMapping.findOne({where: {principalId: userId}}, (err, map) => {
+          if (!map) {
+            console.error('mapping not found!');
+            cb(null, false);
+          } else {
+            map.destroy();
+            cb(null, true);
+          }
+        });
+      }
+    });
+  };
+
+  /**
+   * expose deleteUser to API
+   */
+  Account.remoteMethod('deleteUser', {
+    http: {
+      path: '/:id/full',
+      verb: 'delete',
+    },
+    accepts: {
+      arg: 'id',
+      type: 'number',
+      required: true,
+    },
+    returns: {
+      arg: 'deleted',
+      type: 'boolean',
+    },
+    description: 'Delete User and corresponding role mapping',
   });
 };

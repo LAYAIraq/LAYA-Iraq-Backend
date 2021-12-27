@@ -22,5 +22,22 @@
   "transient": {
     "name": "transient",
     "connector": "transient"
+  },
+  "mail": {
+    "name": "mail",
+    "connector": "mail",
+    "transports": [{
+      "type": "SMTP",
+      "host": "smtp.informatik.hu-berlin.de",
+      "secure": false,
+      "port": 587,
+      "tls": {
+        "rejectUnauthorized": false
+      },
+      "auth": {
+        "user": "laya-support",
+        "pass": "LaSu.5508"
+      }
+    }]
   }
 }

@@ -21,3 +21,4 @@ npm-debug.log
 data.sqlite3
 server/files/**/*
 db-backups/
+.env
