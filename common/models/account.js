@@ -189,13 +189,13 @@ module.exports = (Account) => {
             const verifyOptions = {
               type: 'email',
               to: newUser.email,
-              from: 'laya-support@informatik.hu-berlin.de',
+              from: process.env.MAIL_FROM,
               subject: 'You have been registered for LAYA',
               template: path.resolve(__dirname,
                 '../../server/templates/created-by-admin.ejs'),
               user: newUser,
-              host: 'localhost',
-              port: '8080',
+              host: process.env.FRONTEND_HOST || 'localhost',
+              port: process.env.FRONTEND_PORT,
               pwd: pwd,
             };
 
@@ -377,10 +377,10 @@ module.exports = (Account) => {
             Email.send({
               type: 'email',
               to: user.email,
-              from: 'laya-support@informatik.hu-berlin.de', // TODO: set variable for support email address
+              from: process.env.MAIL_FROM,
               subject: 'Your new password',
-              host: 'localhost', // TODO: set variable for front end host
-              port: '8080',
+              host: process.env.FRONTEND_HOST || 'localhost',
+              port: process.env.FRONTEND_PORT,
               html: html,
               // pwd: Account.randomPassword(12),
               // // eslint-disable-next-line
@@ -559,10 +559,10 @@ module.exports = (Account) => {
     const verifyOptions = {
       type: 'email',
       to: model.email,
-      from: 'laya-support@informatik.hu-berlin.de', // TODO: set variable for support email address
+      from: process.env.MAIL_FROM,
       subject: 'Thanks for registering.',
-      host: 'localhost', // TODO: set variable for front end host
-      port: '8080',
+      host: process.env.FRONTEND_HOST || 'localhost',
+      port: process.env.FRONTEND_PORT,
       template: path.resolve(__dirname, '../../server/templates/register.ejs'),
       user: model,
     };
@@ -592,10 +592,10 @@ module.exports = (Account) => {
   //   const verifyOptions = {
   //     type: 'email',
   //     to: user.email,
-  //     from: 'laya-support@informatik.hu-berlin.de', // TODO: set variable for support email address
+  //     from: process.env.MAIL_FROM,
   //     subject: 'Your new verification link.',
-  //     host: 'localhost', // TODO: set variable for front end host
-  //     port: '8080',
+  //     host: process.env.FRONTEND_HOST || 'localhost',
+  //     port: process.env.FRONTEND_PORT,
   //     template: path.resolve(__dirname, '../../server/templates/register.ejs'),
   //     user: user,
   //   };
@@ -633,10 +633,10 @@ module.exports = (Account) => {
           Email.send({
             type: 'email',
             to: model.email,
-            from: 'laya-support@informatik.hu-berlin.de', // TODO: set variable for support email address
+            from: process.env.MAIL_FROM,
             subject: 'Your role has changed!',
-            host: 'localhost', // TODO: set variable for front end host
-            port: '8080',
+            host: process.env.FRONTEND_HOST || 'localhost',
+            port: process.env.FRONTEND_PORT,
             html: html,
           // pwd: Account.randomPassword(12),
           // // eslint-disable-next-line

@@ -1,5 +1,5 @@
 # Filename: Dockerfile
-# Use: Build a Docker Container
+# Use: Run LAYA Backend in Docker
 # Creator: cmc
 # Date: January 16, 2021
 
@@ -18,13 +18,18 @@ RUN npm install
 
 COPY . .
 
-# uncomment next 3 lines in fresh clone
-# RUN mkdir server/files
-# RUN mkdir server/files/st0r31d
-# RUN mkdir server/files/st0r31d700l
+# create directories for files, including sample courses
+ARG FILES_PATH
+RUN mkdir -p ${FILES_PATH}
+RUN mkdir -p ${FILES_PATH}/st0r31d
+RUN mkdir -p ${FILES_PATH}/st0r31d700l
 
 # USE SAMPLE DATABASE AS DB
-RUN mv sample-database.sqlite3 data.sqlite3
+ARG DB_PATH
+ARG DB_NAME
+RUN mkdir -p ${DB_PATH}
+RUN cp sample-database.sqlite3 ${DB_PATH}/${DB_NAME}
 
-EXPOSE 3001
+ARG API_PORT
+EXPOSE ${API_PORT}
 CMD ["npm", "start"]
