@@ -14,9 +14,8 @@ module.exports = (server) => {
   server.get('/', server.loopback.status());
 
   // return client language header
-  server.get('/api/lang', function(req, res) {
+  server.get('/api/lang', (req, res) => {
     const langHeader = req.headers['accept-language'];
     res.send(langHeader);
   });
 };
-

@@ -18,7 +18,8 @@ coverage
 node_modules/
 npm-debug.log
 # package-lock.json
-data.sqlite3
+*.sqlite3
 server/files/**/*
 db-backups/
 .env
+/server/db/db.sqlite3

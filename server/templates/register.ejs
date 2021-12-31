@@ -4,8 +4,8 @@
 
 <p>Please verify your e-mail address by clicking on the link below:</p>
 
-<strong><a href="<%= protocol + '://' + host + ':' + port + '/#/verify?uid=' + user.id +
-    '&token=' + user.verificationToken %>"><%= protocol + '://' + host + ':' + port + '/#/verify?uid=' + user.id +
+<strong><a href="<%= protocol + '://' + host + (port? `:${port}`: '') + '/#/verify?uid=' + user.id +
+    '&token=' + user.verificationToken %>"><%= protocol + '://' + host + (port? `:${port}`: '') + '/#/verify?uid=' + user.id +
         '&token=' + user.verificationToken %></a></strong>
 
 <p>If you didn't register for LAYA, you don't have to do anything: We delete unverified E-mail addresses after 48 hours.</p>
