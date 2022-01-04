@@ -1,8 +1,6 @@
 'use strict';
 module.exports = {
   mail: {
-    name: 'mail',
-    connector: 'mail',
     transports: [{
       type: process.env.MAIL_CONNECTOR,
       host: process.env.MAIL_HOST,

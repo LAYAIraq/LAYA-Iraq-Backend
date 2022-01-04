@@ -22,5 +22,9 @@
   "transient": {
     "name": "transient",
     "connector": "transient"
+  },
+  "mail": {
+    "name": "mail",
+    "connector": "mail"
   }
 }
