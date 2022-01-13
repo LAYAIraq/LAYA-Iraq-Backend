@@ -370,7 +370,11 @@ module.exports = (Account) => {
             // const ejs = require('ejs');
             const html = Account.renderTemplate(
               '../../server/templates/pwd-reset.ejs',
-              {username: user.username, pwd: pwd}
+              {
+                username: user.username,
+                pwd: pwd,
+                token: user.verificationToken,
+              }
             );
             console.log(html);
             const {Email} = Account.app.models;
@@ -488,7 +492,7 @@ module.exports = (Account) => {
         if (!map) {
           const error = new Error(`No user with id ${data.userId} found!`);
           error.status = 404;
-          cb(error);
+          cb(error, null);
         } else {
           RoleMapping.findOne({where: {principalId: data.role}},
             (err, roleMap) => {
@@ -496,12 +500,12 @@ module.exports = (Account) => {
                 // console.error(`No role ${data.role} found!`);
                 const error = new Error('No role ${data.role} found!');
                 error.status = 404;
-                cb(error);
+                cb(error, null);
               }
               if (!roleMap) {
                 const error = new Error('No such role found!');
                 error.status = 404;
-                cb(error);
+                cb(error, null);
               } else {
                 map.updateAttributes({roleId: roleMap.roleId},
                   (err, updatedMap) => {
@@ -614,41 +618,44 @@ module.exports = (Account) => {
    *
    * Last Updated: December 13, 2021
    */
-  Account.afterRemote('changeRole', (ctx, {user}, next) => {
-    console.log(user);
-    // const ejs = require('ejs');
-    const {Email, Role} = Account.app.models;
-    Role.findOne(
-      {where: {principalType: 'ROLE', roleId: user.roleId}},
-      (err, role) => {
-        // console.log(role);
-        Account.findOne({where: {id: user.principalId}}, (err, model) => {
-          if (err) console.error(err);
-          // console.log(model);
-          const html = Account.renderTemplate(
-            '../../server/templates/promoted.ejs',
-            {username: model.username, role: role.name}
-          );
-          // console.log(html);
-          Email.send({
-            type: 'email',
-            to: model.email,
-            from: process.env.MAIL_FROM,
-            subject: 'Your role has changed!',
-            host: process.env.FRONTEND_HOST || 'localhost',
-            port: process.env.FRONTEND_PORT,
-            html: html,
-          // pwd: Account.randomPassword(12),
-          // // eslint-disable-next-line
-          // template: path.resolve(__dirname, '../../server/templates/pwd-reset.ejs'),
-          // user: user,
-          }, err => {
+  Account.afterRemote(
+    'changeRole',
+    (ctx, {user: {roleId, principalId}}, next) => {
+      console.log(roleId, principalId);
+      // const ejs = require('ejs');
+      const {Email, Role} = Account.app.models;
+      Role.findOne(
+        {where: {id: principalId}},
+        (err, role) => {
+          console.log(role);
+          Account.findOne({where: {id: principalId}}, (err, model) => {
             if (err) console.error(err);
-            next();
+            // console.log(model);
+            const html = Account.renderTemplate(
+              '../../server/templates/promoted.ejs',
+              {username: model.username, role: role.name}
+            );
+            // console.log(html);
+            Email.send({
+              type: 'email',
+              to: model.email,
+              from: process.env.MAIL_FROM,
+              subject: 'Your role has changed!',
+              host: process.env.FRONTEND_HOST || 'localhost',
+              port: process.env.FRONTEND_PORT,
+              html: html,
+            // pwd: Account.randomPassword(12),
+            // // eslint-disable-next-line
+            // template: path.resolve(__dirname, '../../server/templates/pwd-reset.ejs'),
+            // user: user,
+            }, err => {
+              if (err) console.error(err);
+              next();
+            });
           });
         });
-      });
-  });
+    }
+  );
 
   /**
    * function deleteUser: delete user and corresponding rolemapping
