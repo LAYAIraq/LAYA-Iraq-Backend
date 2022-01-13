@@ -8,11 +8,11 @@
 'use strict';
 
 module.exports = (Enrollment) => {
-  const app = require('../../server/server');
+  // const app = require('../server');
 
   // legacy function
   Enrollment.observe('before save', (ctx, next) => {
-    const Course = app.models.Course;
+    // const Course = app.models.Course;
     // if (ctx.instance !== undefined) {
     //   ctx.instance.position.get().then(function(d) {
     //     if (d === undefined) {
@@ -41,7 +41,7 @@ module.exports = (Enrollment) => {
 
     Enrollment.findOrCreate({where: {studentId: sid, courseId: cid}},
       {studentId: sid, courseId: cid, created: Date.now()},
-      (err, newEnrollment, isNewInstance) => {
+      (err, newEnrollment) => {
         if (err) {
           console.error(err);
           return cb(err);

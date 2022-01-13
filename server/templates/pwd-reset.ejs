@@ -2,10 +2,12 @@
 
 <p>Your password has been reset. This might be at your own action or by an admin.</p>
 
-<p>This is your new password:</p>
+<p>Click on the following link to set a new password:</p>
 
-<p><%= pwd %></p>
+<strong><a href="<%= protocol + '://' + host + (port? `:${port}`: '') + '/#/resetPassword?uid=' + user.id +
+    '&token=' + user.verificationToken %>"><%= protocol + '://' + host + (port? `:${port}`: '') + '/#/verify?uid=' + user.id +
+        '&token=' + user.verificationToken %></a></strong>
 
-<p>Copy it and use it to login to LAYA. Please don't forget to change the password after you logged on.</p>
+<p>If you didn't reset your password, please get in contact with the LAYA administrator.</p>
 
 <p>We wish you ongoing fun and success using LAYA!</p>
