@@ -62,7 +62,8 @@
       "property": [
         "createStudent",
         "existsByName",
-        "existsByEmail"
+        "existsByEmail",
+        "setNewPwd"
       ]
     },
     {
