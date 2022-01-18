@@ -8,6 +8,7 @@
 
 const path = require('path');
 const ejs = require('ejs');
+const crypto = require('crypto');
 module.exports = (Account) => {
   // disable default create endpoint
   Account.disableRemoteMethodByName('create');
@@ -302,49 +303,94 @@ module.exports = (Account) => {
    *
    * Author: cmc
    *
-   * Last Updated: November 26, 2021
+   * Last Updated: January 18, 2022
    * @param userId
    * @param cb callback function to return boolean
    */
   Account.pwdReset = (userId, cb) => {
     Account.findById(userId, (err, user) => {
       if (err) {
-        console.error(err);
-        cb(null, false);
-      } else {
-        const pwd = Account.randomPassword(12);
-        user.updateAttributes({password: pwd}, (err) => {
-          if (err) {
-            cb(null, false);
-          } else {
-            // const ejs = require('ejs');
-            const html = Account.renderTemplate(
-              '../../server/templates/pwd-reset.ejs',
-              {
-                username: user.username,
-                pwd: pwd,
-                token: user.verificationToken,
+        cb('user not found!');
+      } else { // userID exists
+        crypto.randomBytes(64, (err, buf) => { // create new verificationToken
+          const pwd = Account.randomPassword(12);
+          const token = buf.toString('hex');
+          // console.log(pwd, token);
+          user.updateAttributes({
+            password: pwd,
+            verificationToken: token,
+          },
+            (err) => {
+            // Account.generateVerificationToken(user, (err, token) => {
+              if (err) {
+                cb('password reset failed');
+              } else {
+                // console.log(token);
+                // const ejs = require('ejs');
+                const html = Account.renderTemplate(
+                  '../templates/pwd-reset.ejs',
+                  {
+                    host: process.env.FRONTEND_HOST || 'localhost',
+                    port: process.env.FRONTEND_PORT || 80,
+                    user: user,
+                  }
+                );
+                console.log(html);
+                const {Email} = Account.app.models;
+                Email.send({
+                  type: 'email',
+                  to: user.email,
+                  from: process.env.MAIL_FROM,
+                  subject: 'Your password has been reset',
+                  // host: process.env.FRONTEND_HOST || 'localhost',
+                  // port: process.env.FRONTEND_PORT,
+                  html: html,
+                  // pwd: Account.randomPassword(12),
+                  // // eslint-disable-next-line
+                  // template: path.resolve(__dirname, '../../server/templates/pwd-reset.ejs'),
+                  // user: user,
+                }, err => {
+                  if (err) console.error(err);
+                  // console.log('sending email');
+                });
+                cb(null, true);
               }
-            );
-            console.log(html);
-            const {Email} = Account.app.models;
-            Email.send({
-              type: 'email',
-              to: user.email,
-              from: process.env.MAIL_FROM,
-              subject: 'Your new password',
-              host: process.env.FRONTEND_HOST || 'localhost',
-              port: process.env.FRONTEND_PORT,
-              html: html,
-              // pwd: Account.randomPassword(12),
-              // // eslint-disable-next-line
-              // template: path.resolve(__dirname, '../../server/templates/pwd-reset.ejs'),
-              // user: user,
-            }, err => {
-              if (err) console.error(err);
-              // console.log('sending email');
             });
-            cb(null, true);
+        });
+      }
+    });
+  };
+
+  /**
+   * Function setNewPwd: set new password when verification token exists
+   *
+   * Author: cmc
+   *
+   * Last Updated: January 18, 2022
+   * @param userId id of user
+   * @param password new password
+   * @param verificationToken verification token
+   * @param cb callback
+   */
+  Account.setNewPwd = ({userId, password, verificationToken}, cb) => {
+    Account.findById(userId, (err, user) => {
+      if (err) {
+        const {name, message, statusCode} = err;
+        cb({name, message, statusCode});
+      } else {
+        Account.confirm(userId, verificationToken, '', err => {
+          if (err) {
+            const {name, message, statusCode} = err;
+            cb({name, message, statusCode});
+          } else {
+            user.setPassword(password, err => {
+              if (err) {
+                const {name, message, statusCode} = err;
+                cb({name, message, statusCode});
+              } else {
+                cb(null, true);
+              }
+            });
           }
         });
       }
@@ -507,6 +553,24 @@ module.exports = (Account) => {
     description: 'Fire Pwd Change Request for userId',
   });
 
+  Account.remoteMethod('setNewPwd', {
+    http: {
+      path: '/set-pwd/',
+      verb: 'post',
+    },
+    accepts: {
+      arg: 'data',
+      type: 'object',
+      http: {source: 'body'},
+      required: true,
+    },
+    returns: {
+      arg: 'successful',
+      type: 'boolean',
+    },
+    description: 'Change password for user (verification token needed).',
+  });
+
   /****************************************************************************
    **************************** HELPER FUNCTIONS ******************************
    ****************************************************************************/
@@ -547,7 +611,10 @@ module.exports = (Account) => {
       path.resolve(__dirname, src),
       params,
       (err, resp) => {
-        if (err) return null;
+        if (err) {
+          console.error(err);
+          return null;
+        }
         text = resp;
       }
     );
@@ -641,22 +708,22 @@ module.exports = (Account) => {
    *
    * Last Updated: December 13, 2021
    */
-  Account.afterRemote('pwdReset', (ctx, model, next) => {
-    // console.log(model);
-    const verifyOptions = {
-      type: 'email',
-      to: model.email,
-      from: process.env.MAIL_FROM,
-      subject: 'Your password has been reset.',
-      host: process.env.FRONTEND_HOST || 'localhost',
-      port: process.env.FRONTEND_PORT,
-      template: path.resolve(__dirname, '../templates/pwd-reset.ejs'),
-      user: model,
-    };
-    model.verify(verifyOptions, (err, response, next) => {
-      if (err) return next(err);
-      next();
-    });
-    next();
-  });
+  // Account.afterRemote('pwdReset', (ctx, model, next) => {
+  //   // console.log(model);
+  //   const verifyOptions = {
+  //     type: 'email',
+  //     to: model.email,
+  //     from: process.env.MAIL_FROM,
+  //     subject: 'Your password has been reset.',
+  //     host: process.env.FRONTEND_HOST || 'localhost',
+  //     port: process.env.FRONTEND_PORT,
+  //     template: path.resolve(__dirname, '../templates/pwd-reset.ejs'),
+  //     user: model,
+  //   };
+  //   model.verify(verifyOptions, (err, response, next) => {
+  //     if (err) return next(err);
+  //     next();
+  //   });
+  //   next();
+  // });
 };
