@@ -6,18 +6,47 @@
  */
 
 'use strict';
-
+const path = require('path');
 module.exports = (server) => {
   const {Account, Role, RoleMapping} = server.models;
 
+  const adminEmail = process.env.ADMIN_MAIL || 'admin@laya';
+  console.log(adminEmail);
   // create admin account
-  Account.findOrCreate({where: {email: 'admin@laya'}}, {
-    email: 'admin@laya',
+  Account.findOrCreate({where: {username: 'admin'}}, {
+    email: adminEmail,
     username: 'admin',
     password: 'secret',
   }, (err, admin) => {
     if (err) {
       return console.error(err);
+    }
+
+    // update email address if it's still admin@laya
+    if (admin.email === 'admin@laya') {
+      admin.updateAttribute('email', adminEmail, (err, admin) => {
+        if (err) {
+          console.error('admin email reset failed!');
+        } else {
+          // console.log('admin email address set to ', admin.email);
+          const verifyOptions = {
+            type: 'email',
+            to: admin.email,
+            from: process.env.MAIL_FROM,
+            subject: 'LAYA: You are the admin now!',
+            host: process.env.FRONTEND_HOST || 'localhost',
+            port: process.env.FRONTEND_PORT,
+            template: path.resolve(__dirname, '../templates/admin-verify.ejs'),
+            user: admin,
+          };
+          admin.verify(verifyOptions, (err, next) => {
+            if (err) {
+              console.log('admin verification email failed!');
+            }
+            next();
+          });
+        }
+      });
     }
 
     // Set Role

@@ -1,0 +1,9 @@
+<p>Dear <%= user.username %></p>
+
+<p>This email address has been connected to the LAYA admin account.</p>
+
+<p>Please verify your e-mail address by clicking on the link below:</p>
+
+<strong><a href="<%= protocol + '://' + host + (port? `:${port}`: '') + '/#/verify?uid=' + user.id +
+    '&token=' + user.verificationToken %>"><%= protocol + '://' + host + (port? `:${port}`: '') + '/#/verify?uid=' + user.id +
+        '&token=' + user.verificationToken %></a></strong>
