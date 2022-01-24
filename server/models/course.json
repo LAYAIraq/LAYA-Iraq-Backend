@@ -40,7 +40,10 @@
     "properties": {
       "type": "object",
       "default": {
+        "audio": false,
         "simpleLanguage": false,
+        "text": false,
+        "video": false,
         "startDate": null,
         "endDate": null
       }
