@@ -40,10 +40,9 @@
     "properties": {
       "type": "object",
       "default": {
-        "audio": false,
+        "enrollment": null,
+        "simple": false,
         "simpleLanguage": false,
-        "text": false,
-        "video": false,
         "startDate": null,
         "endDate": null
       }
