@@ -1,10 +1,5 @@
 # Changes
 
 
-## v1.7.1
-- added email communication
-
-## v1.7.0
-
-- Added user management methods to Account.js
-- Synchronized version with front end
+## v1.0
+First live version for LAYA Iraq.
