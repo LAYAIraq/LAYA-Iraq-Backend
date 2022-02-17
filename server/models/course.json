@@ -40,6 +40,8 @@
     "properties": {
       "type": "object",
       "default": {
+        "enrollment": null,
+        "simple": false,
         "simpleLanguage": false,
         "startDate": null,
         "endDate": null

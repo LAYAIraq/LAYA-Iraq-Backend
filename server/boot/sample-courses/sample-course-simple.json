@@ -85,7 +85,8 @@
       "task": {
         "id": "99test72",
         "flagged": false,
-        "text": ""
+        "simple": "Choose",
+        "text": "Please choose one of the given options"
       },
       "taskAudio": "",
       "title": {

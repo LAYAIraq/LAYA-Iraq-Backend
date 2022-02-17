@@ -22,7 +22,7 @@ module.exports = (Course) => {
     Course.find({where: {name: courseName}}, (err, list) => {
       if (list.length > 1) console.log('Not a unique Course Name!');
       if (err) return cb(null, err);
-      if (list.length != 0) return cb(null, list[0].courseId);
+      if (list.length !== 0) return cb(null, list[0].courseId);
       else {
         const error = new Error('Course Name not Found!');
         error.status = 404;
@@ -69,7 +69,7 @@ module.exports = (Course) => {
     Course.find({where: {courseId: courseId}}, (err, list) => {
       if (list.length > 1) console.log('Not a unique Course Id!');
       if (err) return cb(null, err);
-      if (list.length != 0) return cb(null, list[0].name);
+      if (list.length !== 0) return cb(null, list[0].name);
       else {
         const error = new Error('Course ID not Found!');
         error.status = 404;
@@ -109,6 +109,7 @@ module.exports = (Course) => {
    *
    * Last Updated: April 21, 2021
    *
+   * @param {number} id courseId that the files belong to
    * @param {array} newFiles the new file list
    * @param {function} cb callback function
    */
