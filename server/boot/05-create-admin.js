@@ -1,6 +1,6 @@
 /**
- * Filename: 04-create-roles.js
- * Use: creates admin user, editor, author roles
+ * Filename: 05-create-admin.js
+ * Use: creates admin, changes email if set in .env
  * Creator: core
  * Date: unknown
  */
@@ -11,7 +11,7 @@ module.exports = (server) => {
   const {Account, Role, RoleMapping} = server.models;
 
   const adminEmail = process.env.ADMIN_MAIL || 'admin@laya';
-  console.log(adminEmail);
+  // console.log(adminEmail);
   // create admin account
   Account.findOrCreate({where: {username: 'admin'}}, {
     email: adminEmail,
@@ -23,19 +23,20 @@ module.exports = (server) => {
     }
 
     // update email address if it's still admin@laya
-    if (admin.email === 'admin@laya') {
+    if (admin.email !== adminEmail) {
       admin.updateAttribute('email', adminEmail, (err, admin) => {
         if (err) {
           console.error('admin email reset failed!');
-        } else {
+        } else if (process.env.NODE_ENV === 'production') {
           // console.log('admin email address set to ', admin.email);
           const verifyOptions = {
             type: 'email',
             to: admin.email,
-            from: process.env.MAIL_FROM,
+            from: process.env.MAIL_FROM ||
+              'laya-support@informatik.hu-berlin.de',
             subject: 'LAYA: You are the admin now!',
             host: process.env.FRONTEND_HOST || 'localhost',
-            port: process.env.FRONTEND_PORT,
+            port: process.env.FRONTEND_PORT || '80',
             template: path.resolve(__dirname, '../templates/admin-verify.ejs'),
             user: admin,
           };

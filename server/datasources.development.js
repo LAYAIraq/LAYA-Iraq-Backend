@@ -4,10 +4,10 @@ module.exports = {
     name: 'mail',
     connector: 'mail',
     transports: [{
-      type: process.env.MAIL_CONNECTOR,
-      host: process.env.MAIL_HOST,
-      secure: process.env.MAIL_PORT != 587,
-      port: process.env.MAIL_PORT,
+      type: 'smtp',
+      host: 'webmail.informatik.hu-berlin.de',
+      secure: false,
+      port: 587,
       tls: {
         rejectUnauthorized: false,
       },
