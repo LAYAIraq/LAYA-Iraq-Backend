@@ -39,12 +39,7 @@ module.exports = (server) => {
             template: path.resolve(__dirname, '../templates/admin-verify.ejs'),
             user: admin,
           };
-          admin.verify(verifyOptions, (err, next) => {
-            if (err) {
-              console.log('admin verification email failed!');
-            }
-            next();
-          });
+          admin.verify(verifyOptions);
         }
       });
     }
