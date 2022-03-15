@@ -187,10 +187,7 @@ module.exports = (Account) => {
               pwd: pwd,
             };
 
-            newUser.verify(verifyOptions, (err, response, next) => {
-              if (err) return next(err);
-              next();
-            });
+            newUser.verify(verifyOptions);
           });
         });
       }
@@ -682,11 +679,7 @@ module.exports = (Account) => {
       template: path.resolve(__dirname, '../../server/templates/register.ejs'),
       user: model,
     };
-    model.verify(verifyOptions, (err, response, next) => {
-      if (err) return next(err);
-      // console.log('> verification email sent:', response);
-      // next();
-    });
+    model.verify(verifyOptions);
     next();
     // model.verify(verifyOptions, (err, response) => {
     //   if (err) {
