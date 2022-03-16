@@ -237,11 +237,15 @@ module.exports = (Account) => {
    * @param {Function} cb callback function
    */
   Account.existsByEmail = (email, cb) => {
-    Account.find({where: {email: email}}, (err, accounts) => {
-      if (accounts.length > 0)
-        cb(null, true);
-      else
-        cb(null, false);
+    Account.findOne({where: {email: email}}, (err, account) => {
+      if (account) {
+        cb(null, account.id);
+      }
+      else {
+        const err = new Error('email not found');
+        err.status = 404;
+        cb(err);
+      }
     });
   };
 
@@ -495,9 +499,9 @@ module.exports = (Account) => {
     },
     returns: {
       root: true,
-      type: 'boolean',
+      type: 'number',
     },
-    description: 'Returns true if given email exists',
+    description: 'Returns user id if given email exists',
   });
 
   Account.remoteMethod('existsByName', {
