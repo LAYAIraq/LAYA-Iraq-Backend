@@ -63,6 +63,7 @@
         "createStudent",
         "existsByName",
         "existsByEmail",
+        "pwdReset",
         "setNewPwd"
       ]
     },
