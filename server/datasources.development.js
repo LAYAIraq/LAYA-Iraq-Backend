@@ -4,7 +4,7 @@ module.exports = {
     name: 'mail',
     connector: 'mail',
     transports: [{
-      type: process.env.MAIL_CONNECTOR,
+      type: 'smtp',
       host: process.env.MAIL_HOST,
       secure: process.env.MAIL_PORT != 587,
       port: process.env.MAIL_PORT,
