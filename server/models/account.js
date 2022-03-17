@@ -312,7 +312,7 @@ module.exports = (Account) => {
     Account.findById(userId, (err, user) => {
       if (err) {
         cb('user not found!');
-      } else { // userID exists
+      } else if (user) { // userID exists
         crypto.randomBytes(64, (err, buf) => { // create new verificationToken
           const pwd = Account.randomPassword(12);
           const token = buf.toString('hex');
@@ -358,6 +358,10 @@ module.exports = (Account) => {
               }
             });
         });
+      } else {
+        const err = new Error('no user exists with this ID');
+        err.status = 404;
+        cb(err);
       }
     });
   };
