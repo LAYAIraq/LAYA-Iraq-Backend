@@ -332,7 +332,7 @@ module.exports = (Account) => {
                   '../templates/pwd-reset.ejs',
                   {
                     host: process.env.FRONTEND_HOST || 'localhost',
-                    port: process.env.FRONTEND_PORT || 80,
+                    port: process.env.FRONTEND_PORT,
                     user: user,
                   }
                 );
