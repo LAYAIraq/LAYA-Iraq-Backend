@@ -27,7 +27,8 @@ Loopback uses several environment variables. You can provide them by `.env` file
 - `FILES_PATH`: path to files associated with courses. Defaults to `./server/files`.
 - `FILES_SIZE`: maximum byte size for file uploads. Defaults to `500000000`
 - `FRONTEND_HOST`: host on which the front end listens. Defaults to `localhost`
-- `FRONTEND_PORT`: port on which the front end listens. Defaults to `80`
+- `FRONTEND_PORT`: port on which the front end listens. Needs to be set for testing in
+  `development` mode
 - `MAIL_AUTH_PASS`: password for e-mail account. Not providing any breaks the application even in `development` mode.
 - `MAIL_AUTH_USER`: username for e-mail account. Not providing any breaks the application even in `development` mode.
 - `MAIL_FROM`: e-mail address that sends e-mails to users. Not providing any breaks the application even in `development` mode.
