@@ -6,7 +6,7 @@ module.exports = {
     transports: [{
       type: 'smtp',
       host: process.env.MAIL_HOST || 'mock@laya-mail.com',
-      secure: process.env.MAIL_PORT != 587 || true,
+      secure: process.env.MAIL_PORT != 587,
       port: process.env.MAIL_PORT || 183,
       tls: {
         rejectUnauthorized: false,
