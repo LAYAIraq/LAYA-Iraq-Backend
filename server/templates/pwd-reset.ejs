@@ -4,9 +4,9 @@
 
 <p>Click on the following link to set a new password:</p>
 
-<strong><a href="<%= 'http://' + host + (port? `:${port}`: '') + '/#/reset-password?uid=' + user.id +
-    '&token=' + user.verificationToken %>"><%= 'http://' + host + (port? `:${port}`: '') + '/#/reset-password?uid=' + user.id +
-        '&token=' + user.verificationToken %></a></strong>
+<strong><a href="<%- `http://${host}${port? `:${port}`: ''}/#/reset-password?uid=${user.id}&token=${user.verificationToken}` %>">
+        <%- `http://${host}${port? `:${port}`: ''}/#/reset-password?uid=${user.id}&token=${user.verificationToken}` %>
+</a></strong>
 
 <p>If you didn't reset your password, please get in contact with the LAYA administrator.</p>
 

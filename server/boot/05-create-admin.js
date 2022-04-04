@@ -32,19 +32,14 @@ module.exports = (server) => {
           const verifyOptions = {
             type: 'email',
             to: admin.email,
-            from: process.env.MAIL_FROM,
+            from: process.env.MAIL_FROM || 'mock@laya-mail.com',
             subject: 'LAYA: You are the admin now!',
             host: process.env.FRONTEND_HOST || 'localhost',
             port: process.env.FRONTEND_PORT,
             template: path.resolve(__dirname, '../templates/admin-verify.ejs'),
             user: admin,
           };
-          admin.verify(verifyOptions, (err, next) => {
-            if (err) {
-              console.log('admin verification email failed!');
-            }
-            next();
-          });
+          admin.verify(verifyOptions);
         }
       });
     }

@@ -1,5 +1,9 @@
 # Changes
 
+## v1.1
+- changed ACL to make some API calls publicly available
+- changed handling of `FRONTEND_PORT` env variable: it's now omitted when not set instead
+of defaulting to `80` in notification templates
 
 ## v1.0
 First live version for LAYA Iraq.

@@ -187,10 +187,7 @@ module.exports = (Account) => {
               pwd: pwd,
             };
 
-            newUser.verify(verifyOptions, (err, response, next) => {
-              if (err) return next(err);
-              next();
-            });
+            newUser.verify(verifyOptions);
           });
         });
       }
@@ -240,11 +237,15 @@ module.exports = (Account) => {
    * @param {Function} cb callback function
    */
   Account.existsByEmail = (email, cb) => {
-    Account.find({where: {email: email}}, (err, accounts) => {
-      if (accounts.length > 0)
-        cb(null, true);
-      else
-        cb(null, false);
+    Account.findOne({where: {email: email}}, (err, account) => {
+      if (account) {
+        cb(null, account.id);
+      }
+      else {
+        const err = new Error('email not found');
+        err.status = 404;
+        cb(err);
+      }
     });
   };
 
@@ -311,7 +312,7 @@ module.exports = (Account) => {
     Account.findById(userId, (err, user) => {
       if (err) {
         cb('user not found!');
-      } else { // userID exists
+      } else if (user) { // userID exists
         crypto.randomBytes(64, (err, buf) => { // create new verificationToken
           const pwd = Account.randomPassword(12);
           const token = buf.toString('hex');
@@ -331,7 +332,7 @@ module.exports = (Account) => {
                   '../templates/pwd-reset.ejs',
                   {
                     host: process.env.FRONTEND_HOST || 'localhost',
-                    port: process.env.FRONTEND_PORT || 80,
+                    port: process.env.FRONTEND_PORT,
                     user: user,
                   }
                 );
@@ -357,6 +358,10 @@ module.exports = (Account) => {
               }
             });
         });
+      } else {
+        const err = new Error('no user exists with this ID');
+        err.status = 404;
+        cb(err);
       }
     });
   };
@@ -498,9 +503,9 @@ module.exports = (Account) => {
     },
     returns: {
       root: true,
-      type: 'boolean',
+      type: 'number',
     },
-    description: 'Returns true if given email exists',
+    description: 'Returns user id if given email exists',
   });
 
   Account.remoteMethod('existsByName', {
@@ -682,11 +687,7 @@ module.exports = (Account) => {
       template: path.resolve(__dirname, '../../server/templates/register.ejs'),
       user: model,
     };
-    model.verify(verifyOptions, (err, response, next) => {
-      if (err) return next(err);
-      // console.log('> verification email sent:', response);
-      // next();
-    });
+    model.verify(verifyOptions);
     next();
     // model.verify(verifyOptions, (err, response) => {
     //   if (err) {
