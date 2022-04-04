@@ -8,8 +8,8 @@
 <p>Use it for your first login, then immediately change it. Furthermore,
     please verify your e-mail address by clicking on the link below:</p>
 
-<strong><a href="<%= protocol + '://' + host + (port? `:${port}`: '') + '/#/verify?uid=' + user.id +
-    '&token=' + user.verificationToken %>"><%= protocol + '://' + host + (port? `:${port}`: '') + '/#/verify?uid=' + user.id +
+<strong><a href="<%- protocol + '://' + host + (port? `:${port}`: '') + '/#/verify?uid=' + user.id +
+    '&token=' + user.verificationToken %>"><%- protocol + '://' + host + (port? `:${port}`: '') + '/#/verify?uid=' + user.id +
         '&token=' + user.verificationToken %></a></strong>
 
 <p>If you don't want to contribute to LAYA, you don't have to do anything. We will
