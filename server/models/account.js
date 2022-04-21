@@ -639,12 +639,12 @@ module.exports = (Account) => {
   Account.afterRemote(
     'changeRole',
     (ctx, {user: {roleId, principalId}}, next) => {
-      console.log(roleId, principalId);
+      // console.log(roleId, principalId);
       const {Email, Role} = Account.app.models;
       Role.findOne(
-        {where: {id: principalId}},
+        {where: {id: roleId}},
         (err, role) => {
-          console.log(role);
+          // console.log(role);
           Account.findOne({where: {id: principalId}}, (err, model) => {
             if (err) console.error(err);
             const html = Account.renderTemplate(

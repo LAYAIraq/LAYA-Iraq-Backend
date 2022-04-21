@@ -1,5 +1,8 @@
 # Changes
 
+## v1.1.1
+- fixed issue where promoted emails weren't correctly sent
+
 ## v1.1
 - changed ACL to make some API calls publicly available
 - changed handling of `FRONTEND_PORT` env variable: it's now omitted when not set instead
