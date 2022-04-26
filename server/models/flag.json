@@ -29,7 +29,7 @@
       ],
       "default": []
     },
-    "anonymous":  {
+    "anonymous": {
       "type": "boolean",
       "default": false
     }

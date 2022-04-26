@@ -10,17 +10,16 @@
     "prefs": {
       "type": "object",
       "default": {
-          "media": {
-            "audio": true,
-            "simple": true,
-            "text": true,
-            "video": true
-
-          },
-          "font": {
-            "chosen": "standard",
-            "size": 18
-          }
+        "media": {
+          "audio": true,
+          "simple": true,
+          "text": true,
+          "video": true
+        },
+        "font": {
+          "chosen": "standard",
+          "size": 18
+        }
       }
     },
     "lang": {

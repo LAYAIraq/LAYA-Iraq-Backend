@@ -18,6 +18,8 @@ const base = [
 const custom = [
   'Account',
   // 'AssessmentScmc',
+  'AuthorApplication',
+  'AuthorApplicationVote',
   'Course',
   // 'CourseQuiz',
   // 'CourseQuizContent',
