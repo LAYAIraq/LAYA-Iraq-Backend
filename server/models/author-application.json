@@ -11,7 +11,15 @@
       "type": "date",
       "default": "$now"
     },
-    "aoe": {
+    "areaOfExpertise": {
+      "type": "string",
+      "default": null
+    },
+    "institution": {
+      "type": "string",
+      "default": null
+    },
+    "fullName": {
       "type": "string",
       "default": null
     },
@@ -26,6 +34,14 @@
     "edited": {
       "type": "array",
       "default": null
+    },
+    "decided": {
+      "type": "boolean",
+      "default": false
+    },
+    "decidedOn": {
+      "type": "date",
+      "default": "null"
     }
   },
   "validations": [],

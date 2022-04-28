@@ -31,10 +31,7 @@
     "application": {
       "type": "belongsTo",
       "model": "AuthorApplication",
-      "foreignKey": "",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": ""
     }
   },
   "acls": [
@@ -47,7 +44,7 @@
     {
       "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "$authenticated",
+      "principalId": "editor",
       "permission": "ALLOW"
     }
   ],
