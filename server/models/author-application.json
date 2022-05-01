@@ -12,16 +12,13 @@
       "default": "$now"
     },
     "areaOfExpertise": {
-      "type": "string",
-      "default": null
+      "type": "string"
     },
     "institution": {
-      "type": "string",
-      "default": null
+      "type": "string"
     },
     "fullName": {
-      "type": "string",
-      "default": null
+      "type": "string"
     },
     "applicationText": {
       "type": "string",
@@ -32,16 +29,13 @@
       "id": true
     },
     "edited": {
-      "type": "array",
-      "default": null
+      "type": "array"
     },
-    "decided": {
-      "type": "boolean",
-      "default": false
+    "accepted": {
+      "type": "boolean"
     },
     "decidedOn": {
-      "type": "date",
-      "default": "null"
+      "type": "date"
     }
   },
   "validations": [],

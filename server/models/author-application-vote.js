@@ -17,7 +17,9 @@ module.exports = (AuthorApplicationVote) => {
         next(err);
       } else {
         if (appVote) {
-          next(new Error('Vote already exists!'));
+          const error = new Error('Vote already exists!');
+          error.status = 403;
+          next(error);
         } else {
           next();
         }
@@ -73,7 +75,7 @@ module.exports = (AuthorApplicationVote) => {
   // expose updateVote to API
   AuthorApplicationVote.remoteMethod('updateVote', {
     http: {
-      path: '/:id/updateVote',
+      path: '/:id/update-vote',
       verb: 'patch',
     },
     accepts: [{
