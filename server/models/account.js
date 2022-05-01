@@ -227,6 +227,34 @@ module.exports = (Account) => {
   };
 
   /**
+   * function editorNo: return number of editors
+   *
+   * Author: cmc
+   *
+   * Last Updated: May 1, 2022
+   * @param cb callback
+   */
+  Account.editorNo = (cb) => {
+    const {Role, RoleMapping} = Account.app.models;
+    Role.findOne({where: {name: 'editor'}}, (err, roleInstance) => {
+      if (err) {
+        cb(err);
+      } else {
+        const editorRoleId = roleInstance.id;
+        RoleMapping.find({where: {principalType: 'USER', roleId: editorRoleId}},
+          (err, roles) => {
+            if (err) {
+              cb(err);
+            } else {
+              cb(null, roles.length);
+            }
+          }
+        );
+      }
+    });
+  };
+
+  /**
    * Function existsByEmail: checks if user email exists
    *
    * Author: core
@@ -490,6 +518,18 @@ module.exports = (Account) => {
       type: 'boolean',
     },
     description: 'Delete User and corresponding role mapping',
+  });
+
+  Account.remoteMethod('editorNo', {
+    http: {
+      path: '/editors',
+      verb: 'get',
+    },
+    returns: {
+      arg: 'editors',
+      type: 'number',
+    },
+    description: 'Returns number of editors in database',
   });
 
   Account.remoteMethod('existsByEmail', {
