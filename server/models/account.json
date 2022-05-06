@@ -79,6 +79,13 @@
     {
       "accessType": "EXECUTE",
       "principalType": "ROLE",
+      "principalId": "editor",
+      "permission": "ALLOW",
+      "property": "editorNo"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
       "principalId": "$owner",
       "permission": "ALLOW",
       "property": [
