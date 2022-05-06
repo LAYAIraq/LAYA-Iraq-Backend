@@ -31,8 +31,9 @@
     "edited": {
       "type": "array"
     },
-    "accepted": {
-      "type": "boolean"
+    "status": {
+      "type": "string",
+      "default": null
     },
     "decidedOn": {
       "type": "date"
