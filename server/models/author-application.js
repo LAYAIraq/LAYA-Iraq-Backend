@@ -33,7 +33,7 @@ module.exports = (AuthorApplication) => {
    * Last Updated: May 6, 2022
    * @param id id of application
    * @param decidedOn date of decision
-   * @param status one of 'accepted', 'refused', 'withdrawn'
+   * @param status one of 'accepted', 'rejected', 'withdrawn'
    * @param cb callback
    */
   AuthorApplication.decideOnApplication = (id, {decidedOn, status}, cb) => {
@@ -47,7 +47,7 @@ module.exports = (AuthorApplication) => {
           cb(err);
         } else if (status !== 'withdrawn' &&
           status !== 'accepted' &&
-          status !== 'refused') { // reject if decision has wrong value
+          status !== 'rejected') { // reject if decision has wrong value
           const err = new Error('Wrong decision string!');
           err.status = 403;
           cb(err);
