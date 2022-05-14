@@ -28,6 +28,44 @@ module.exports = (AuthorApplicationVote) => {
   });
 
   /**
+   * afterRemote('create'): check if application reached threshold
+   *  to be accepted
+   *
+   *  Author: cmc
+   *
+   *  Last Updated: May 14, 2022
+   */
+  AuthorApplicationVote.afterRemote('create', (ctx, instance, next) => {
+    // console.log('checking in 10 minutes if to approve the application...');
+    const approve = () => {
+      const {AuthorApplication} = AuthorApplicationVote.app.models;
+      AuthorApplicationVote.find(
+        {where: {applicationId: instance.applicationId}},
+        (err, list) => {
+          if (err) {
+            console.error(err);
+          }
+          const approvedList = list.filter(e => e.vote === true);
+          if (approvedList.length >= 3) {
+            AuthorApplication.findOne({where: {id: instance.applicationId}},
+              (err, app) => {
+                if (err) {
+                  console.error(err);
+                } else {
+                  app.updateAttributes({
+                    decidedOn: Date.now(),
+                    status: 'accepted',
+                  });
+                }
+              });
+          }
+        });
+    };
+    setTimeout(approve, 600000);
+    next();
+  });
+
+  /**
    * updateVote: change vote, push old decision to edited, update date
    *
    * Author: cmc
