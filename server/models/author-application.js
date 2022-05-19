@@ -98,20 +98,21 @@ module.exports = (AuthorApplication) => {
           (k) =>
             editedData[k] == null && delete editedData[k]
         ); // strip null values from editedData
-        console.log(editedData);
-        application.updateAttributes({
-          areaOfExpertise: editedData.areaOfExpertise ?
-            data.areaOfExpertise : application.areaOfExpertise,
-          applicationText: editedData.applicationText ?
-            data.applicationText : application.applicationText,
-          edited: application.edited ?
-            [... application.edited, editedData] : [editedData],
-          fullName: editedData.fullName ?
-            data.fullName : application.fullName,
-          institution: editedData.institution ?
-            data.institution : application.institution,
-          lastEdited: Date.now(),
-        });
+        if (Object.keys(editedData).length > 1) {
+          application.updateAttributes({
+            areaOfExpertise: editedData.areaOfExpertise ?
+              data.areaOfExpertise : application.areaOfExpertise,
+            applicationText: editedData.applicationText ?
+              data.applicationText : application.applicationText,
+            edited: application.edited ?
+              [...application.edited, editedData] : [editedData],
+            fullName: editedData.fullName ?
+              data.fullName : application.fullName,
+            institution: editedData.institution ?
+              data.institution : application.institution,
+            lastEdited: Date.now(),
+          });
+        }
         cb(null, application);
       } else {
         const err = new Error('Application doesn`t exist!');
