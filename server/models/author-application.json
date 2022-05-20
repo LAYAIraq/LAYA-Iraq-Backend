@@ -1,47 +1,47 @@
 {
-  "name": "Flag",
-  "plural": "flags",
+  "name": "AuthorApplication",
+  "plural": "applications",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "created": {
+    "lastEdited": {
       "type": "date",
       "default": "$now"
     },
-    "referenceId": {
+    "areaOfExpertise": {
+      "type": "string"
+    },
+    "institution": {
+      "type": "string"
+    },
+    "fullName": {
+      "type": "string"
+    },
+    "applicationText": {
       "type": "string",
+      "required": true
+    },
+    "id": {
+      "type": "number",
       "id": true
     },
-    "question": {
-      "type": "object",
-      "default": ""
+    "edited": {
+      "type": "array"
     },
-    "answered": {
-      "type": "boolean",
-      "default": "false"
+    "status": {
+      "type": "string",
+      "default": null
     },
-    "answers": {
-      "type": [
-        "object"
-      ],
-      "default": []
-    },
-    "anonymous": {
-      "type": "boolean",
-      "default": false
+    "decidedOn": {
+      "type": "date"
     }
   },
   "validations": [],
   "relations": {
-    "course": {
-      "type": "belongsTo",
-      "model": "Course",
-      "foreignKey": ""
-    },
-    "author": {
+    "applicant": {
       "type": "belongsTo",
       "model": "Account",
       "foreignKey": ""
@@ -55,7 +55,7 @@
       "permission": "DENY"
     },
     {
-      "accessType": "*",
+      "accessType": "EXECUTE",
       "principalType": "ROLE",
       "principalId": "$authenticated",
       "permission": "ALLOW"

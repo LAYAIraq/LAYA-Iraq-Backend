@@ -1,49 +1,36 @@
 {
-  "name": "Flag",
-  "plural": "flags",
+  "name": "AuthorApplicationVote",
+  "plural": "editor-votes",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "created": {
+    "date": {
       "type": "date",
       "default": "$now"
     },
-    "referenceId": {
-      "type": "string",
-      "id": true
+    "edited": {
+      "type": "array",
+      "default": null
     },
-    "question": {
-      "type": "object",
-      "default": ""
-    },
-    "answered": {
+    "vote": {
       "type": "boolean",
-      "default": "false"
-    },
-    "answers": {
-      "type": [
-        "object"
-      ],
-      "default": []
-    },
-    "anonymous": {
-      "type": "boolean",
+      "required": true,
       "default": false
     }
   },
   "validations": [],
   "relations": {
-    "course": {
-      "type": "belongsTo",
-      "model": "Course",
-      "foreignKey": ""
-    },
-    "author": {
+    "editor": {
       "type": "belongsTo",
       "model": "Account",
+      "foreignKey": ""
+    },
+    "application": {
+      "type": "belongsTo",
+      "model": "AuthorApplication",
       "foreignKey": ""
     }
   },
@@ -57,7 +44,13 @@
     {
       "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "$authenticated",
+      "principalId": "editor",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "admin",
       "permission": "ALLOW"
     }
   ],

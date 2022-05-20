@@ -19,14 +19,7 @@
   },
   "AccessToken": {
     "dataSource": "sqlite",
-    "public": false,
-    "relations": {
-      "account": {
-        "type": "belongsTo",
-        "model": "Account",
-        "foreignKey": "accountId"
-      }
-    }
+    "public": false
   },
   "User": {
     "dataSource": "sqlite",
@@ -102,5 +95,13 @@
   },
   "Email": {
     "dataSource": "mail"
+  },
+  "AuthorApplication": {
+    "dataSource": "sqlite",
+    "public": true
+  },
+  "AuthorApplicationVote": {
+    "dataSource": "sqlite",
+    "public": true
   }
 }
