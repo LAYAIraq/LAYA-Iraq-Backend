@@ -10,17 +10,16 @@
     "prefs": {
       "type": "object",
       "default": {
-          "media": {
-            "audio": true,
-            "simple": true,
-            "text": true,
-            "video": true
-
-          },
-          "font": {
-            "chosen": "standard",
-            "size": 18
-          }
+        "media": {
+          "audio": true,
+          "simple": true,
+          "text": true,
+          "video": true
+        },
+        "font": {
+          "chosen": "standard",
+          "size": 18
+        }
       }
     },
     "lang": {
@@ -76,6 +75,13 @@
         "getRole",
         "changeLanguage"
       ]
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "editor",
+      "permission": "ALLOW",
+      "property": "editorNo"
     },
     {
       "accessType": "EXECUTE",

@@ -1,5 +1,8 @@
 # Changes
 
+## v1.2
+- added editor role, author application
+
 ## v1.1.1
 - fixed issue where promoted emails weren't correctly sent
 

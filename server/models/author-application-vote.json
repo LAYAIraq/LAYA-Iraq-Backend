@@ -1,38 +1,36 @@
 {
-  "name": "Notification",
-  "plural": "notifications",
+  "name": "AuthorApplicationVote",
+  "plural": "editor-votes",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "noteId": {
-      "type": "string",
-      "id": true,
-      "defaultFn": "uuidv4"
-    },
-    "time": {
+    "date": {
       "type": "date",
       "default": "$now"
     },
-    "data": {
-      "type": "object",
-      "default": {}
+    "edited": {
+      "type": "array",
+      "default": null
     },
-    "type": {
-      "type": "string"
-    },
-    "read": {
+    "vote": {
       "type": "boolean",
-      "default": "false"
+      "required": true,
+      "default": false
     }
   },
   "validations": [],
   "relations": {
-    "user": {
+    "editor": {
       "type": "belongsTo",
       "model": "Account",
+      "foreignKey": ""
+    },
+    "application": {
+      "type": "belongsTo",
+      "model": "AuthorApplication",
       "foreignKey": ""
     }
   },
@@ -46,7 +44,13 @@
     {
       "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "$authenticated",
+      "principalId": "editor",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "admin",
       "permission": "ALLOW"
     }
   ],

@@ -1,36 +1,47 @@
 {
-  "name": "Notification",
-  "plural": "notifications",
+  "name": "AuthorApplication",
+  "plural": "applications",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "noteId": {
-      "type": "string",
-      "id": true,
-      "defaultFn": "uuidv4"
-    },
-    "time": {
+    "lastEdited": {
       "type": "date",
       "default": "$now"
     },
-    "data": {
-      "type": "object",
-      "default": {}
-    },
-    "type": {
+    "areaOfExpertise": {
       "type": "string"
     },
-    "read": {
-      "type": "boolean",
-      "default": "false"
+    "institution": {
+      "type": "string"
+    },
+    "fullName": {
+      "type": "string"
+    },
+    "applicationText": {
+      "type": "string",
+      "required": true
+    },
+    "id": {
+      "type": "number",
+      "id": true
+    },
+    "edited": {
+      "type": "array"
+    },
+    "status": {
+      "type": "string",
+      "default": null
+    },
+    "decidedOn": {
+      "type": "date"
     }
   },
   "validations": [],
   "relations": {
-    "user": {
+    "applicant": {
       "type": "belongsTo",
       "model": "Account",
       "foreignKey": ""
@@ -44,7 +55,7 @@
       "permission": "DENY"
     },
     {
-      "accessType": "*",
+      "accessType": "EXECUTE",
       "principalType": "ROLE",
       "principalId": "$authenticated",
       "permission": "ALLOW"
