@@ -1,5 +1,8 @@
 # Changes
 
+## v1.2.1
+- changed ACLs to only restrict file upload, not download
+
 ## v1.2
 - added editor role, author application
 
