@@ -12,9 +12,7 @@
       "default": "$now"
     },
     "feedback": {
-      "type": [
-        "object"
-      ],
+      "type": "object",
       "default": []
     },
     "progress": {
