@@ -29,7 +29,7 @@
           "text": "Our dialog"
         }
       },
-      "name": "laya-dialog",
+      "name": "button-navigation",
       "nextStep": "2,3"
     },
     {
@@ -41,7 +41,7 @@
         },
         "src": "https://vimeo.com/27244727"
       },
-      "name": "laya-plyr",
+      "name": "video-player",
       "nextStep": "4"
     },
     {
@@ -59,7 +59,7 @@
           "text": "WYSIWYG 2"
         }
       },
-      "name": "laya-wysiwyg",
+      "name": "free-text",
       "nextStep": "4"
     },
     {
@@ -120,7 +120,7 @@
           "text": "Course Feedback"
         }
       },
-      "name": "laya-course-feedback",
+      "name": "feedback",
       "nextStep": "0"
     },
     {
@@ -136,7 +136,7 @@
           "text": "WYSIWYG 3"
         }
       },
-      "name": "laya-wysiwyg",
+      "name": "free-text",
       "nextStep": "4"
     },
     {
@@ -178,7 +178,7 @@
           "text": ""
         }
       },
-      "name": "laya-scmc",
+      "name": "choice-question",
       "nextStep": "6"
     },
     {
@@ -214,7 +214,7 @@
           "text": ""
         }
       },
-      "name": "laya-quiz-drag-drop",
+      "name": "category-matching",
       "nextStep": "7"
     },
     {
@@ -245,7 +245,7 @@
           "text": ""
         }
       },
-      "name": "laya-quiz-relate",
+      "name": "image-matching",
       "nextStep": "0"
     }
   ],

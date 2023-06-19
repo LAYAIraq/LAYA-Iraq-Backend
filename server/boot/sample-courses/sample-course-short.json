@@ -4,7 +4,7 @@
   "category": "Kurs",
   "content": [
   {
-    "name": "laya-dialog",
+    "name": "button-navigation",
     "input": {
       "bg": "",
       "question": {
@@ -33,7 +33,7 @@
     "nextStep": "2,3"
   },
   {
-    "name": "laya-plyr",
+    "name": "video-player",
     "input": {
       "src": "https://vimeo.com/27244727",
       "title": {
@@ -45,7 +45,7 @@
     "nextStep": "4"
   },
   {
-    "name": "laya-wysiwyg",
+    "name": "free-text",
     "input": {
       "title": {
         "text": "WYSIWYG",
@@ -87,7 +87,7 @@
         "text": ""
       }
     },
-    "name": "laya-scmc",
+    "name": "choice-question",
     "nextStep": "6"
 },
   {
@@ -123,7 +123,7 @@
         "text": ""
       }
     },
-    "name": "laya-quiz-drag-drop",
+    "name": "category-matching",
     "nextStep": "7"
   }
   ],
