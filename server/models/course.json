@@ -15,7 +15,16 @@
       "type": "string",
       "required": true
     },
+    "authorName": {
+      "type": "string"
+    },
     "abstract": {
+      "type": "string"
+    },
+    "keywords": {
+      "type": "string"
+    },
+    "language": {
       "type": "string"
     },
     "locked": {
