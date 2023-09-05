@@ -7,9 +7,18 @@
     "validateUpsert": true
   },
   "properties": {
-    "fullName": "",
-    "institution": "",
-    "occupation": "",
+    "fullName": {
+      "type": "string",
+      "default": ""
+    },
+    "institution": {
+      "type": "string",
+      "default": ""
+    },
+    "occupation": {
+      "type": "string",
+      "default": ""
+    },
     "prefs": {
       "type": "object",
       "default": {
