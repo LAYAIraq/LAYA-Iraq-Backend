@@ -7,6 +7,18 @@
     "validateUpsert": true
   },
   "properties": {
+    "fullName": {
+      "type": "string",
+      "default": ""
+    },
+    "institution": {
+      "type": "string",
+      "default": ""
+    },
+    "occupation": {
+      "type": "string",
+      "default": ""
+    },
     "prefs": {
       "type": "object",
       "default": {
@@ -19,6 +31,12 @@
         "font": {
           "chosen": "standard",
           "size": 18
+        },
+        "languages": {
+          "english": true,
+          "german": true,
+          "kurdish": true,
+          "arabic": true
         }
       }
     },
