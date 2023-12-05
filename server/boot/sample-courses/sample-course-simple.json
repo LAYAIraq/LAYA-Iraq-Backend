@@ -7,7 +7,7 @@
     "name": "button-navigation",
     "input": {
       "bg": "",
-      "question": {
+      "task": {
         "flagged": true,
         "id": "99test001",
         "text": "New Properties",
