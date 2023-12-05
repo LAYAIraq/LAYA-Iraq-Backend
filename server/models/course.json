@@ -46,12 +46,21 @@
       ],
       "default": []
     },
+    "courseContent": {
+      "type": "object",
+      "default": null
+    },
+    "chapters": {
+      "type": ["object"],
+      "default": null
+    },
     "properties": {
       "type": "object",
       "default": {
         "enrollment": null,
         "simple": false,
         "simpleLanguage": false,
+        "showSingleSubChapterTitleSlug": false,
         "startDate": null,
         "endDate": null
       }
