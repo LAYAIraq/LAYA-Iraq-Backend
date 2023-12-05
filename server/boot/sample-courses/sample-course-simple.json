@@ -4,7 +4,7 @@
   "category": "Kurs",
   "content": [
   {
-    "name": "laya-dialog",
+    "name": "button-navigation",
     "input": {
       "bg": "",
       "question": {
@@ -37,7 +37,7 @@
     "nextStep": "2,3"
   },
   {
-    "name": "laya-plyr",
+    "name": "video-player",
     "input": {
       "src": "https://vimeo.com/27244727",
       "title": {
@@ -50,7 +50,7 @@
     "nextStep": "3"
   },
   {
-    "name": "laya-wysiwyg",
+    "name": "free-text",
     "input": {
       "title": {
         "text": "WYSIWYG",
@@ -96,7 +96,7 @@
         "simple": "Many Choices Test"
       }
     },
-    "name": "laya-scmc",
+    "name": "choice-question",
     "nextStep": "5"
 },
   {
@@ -135,7 +135,7 @@
         "simple": "Drag and Drop Example"
       }
     },
-    "name": "laya-quiz-drag-drop",
+    "name": "category-matching",
     "nextStep": "0"
   }
   ],

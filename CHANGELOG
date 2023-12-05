@@ -2,6 +2,7 @@
 
 ## v1.2.1
 - changed ACLs to only restrict file upload, not download
+- changed properties in sample courses to match news names in front end
 
 ## v1.2
 - added editor role, author application

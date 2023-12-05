@@ -28,7 +28,7 @@
     "eslint": "^3.17",
     "eslint-config-loopback": "^13.1.0",
     "loopback-cli": "^5.2.0",
-    "loopback-component-storage": "^3.6.0",
+    "loopback-component-storage": "^3.7.0",
     "node": "^9.11.2",
     "strong-error-handler": "^4.0.0"
   },
