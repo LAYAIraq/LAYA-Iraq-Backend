@@ -10,7 +10,7 @@ const path = require('path');
 module.exports = (server) => {
   const {Account, Role, RoleMapping} = server.models;
 
-  const superAdminEmail = process.env.ADMIN_MAIL || 'superadmin@laya';
+  const superAdminEmail = process.env.SUPERADMIN_MAIL || 'superadmin@laya';
   console.log(superAdminEmail);
   // create superadmin account
   Account.findOrCreate({where: {username: 'superadmin'}}, {
