@@ -86,6 +86,7 @@
         "createStudent",
         "existsByName",
         "existsByEmail",
+        "existsByPhone",
         "pwdReset",
         "setNewPwd"
       ]

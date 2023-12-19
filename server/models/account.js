@@ -150,15 +150,16 @@ module.exports = (Account) => {
    *
    * Last Updated: December 7, 2021
    *
-   * @param {email, username, role} user new user
+   * @param {email, phone, username, role} user new user
    * @param {Function} cb callback function
    */
-  Account.createUser = ({email, username, role}, cb) => {
+  Account.createUser = ({email, phone, username, role}, cb) => {
     const pwd = Account.randomPassword(12);
-    // create new user
+    // create new useremail
     Account.create({
       username: username,
       email: email,
+      phone: phone,
       password: pwd,
     }, (err, newUser) => {
       if (err) return cb(null, err);
@@ -271,6 +272,26 @@ module.exports = (Account) => {
       }
       else {
         const err = new Error('email not found');
+        err.status = 404;
+        cb(err);
+      }
+    });
+  };
+
+  /**
+   * Function existsByPhone: checks if user Phone exists
+   *
+   * Author: nv
+   *
+   * Since: v1.3.0
+   */
+  Account.existsByPhone = (phone, cb) => {
+    Account.findOne({where: {phone: phone}}, (err, account) => {
+      if (account) {
+        cb(null, account.id);
+      }
+      else {
+        const err = new Error('phone number not found');
         err.status = 404;
         cb(err);
       }
@@ -546,6 +567,22 @@ module.exports = (Account) => {
       type: 'number',
     },
     description: 'Returns user id if given email exists',
+  });
+
+  Account.remoteMethod('existsByPhone', {
+    http: {
+      path: '/phone/:phone',
+      verb: 'get',
+    },
+    accepts: {
+      arg: 'phone',
+      type: 'string',
+    },
+    returns: {
+      root: true,
+      type: 'number',
+    },
+    description: 'Returns user id if given phon number exists',
   });
 
   Account.remoteMethod('existsByName', {
