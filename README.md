@@ -1,4 +1,4 @@
-# laya-vechta-backend
+# laya-iraq-backend
 
 This repository host the backend of LAYA Iraq. It uses a Loopback 3 tech stack to serve an SQLite data base. For convenience,
 it can be served in a Docker container
