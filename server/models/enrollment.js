@@ -124,7 +124,7 @@ module.exports = (Enrollment) => {
   });
 
   /**
-   * Function getCourseEnrollments: returns a List all enrollements of a course
+   * Function getCourseEnrollments: returns a List all enrollments of a course
    *
    * Author: cmc
    *

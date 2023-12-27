@@ -29,6 +29,7 @@ const custom = [
   'Flag',
   // 'Learninteraction',
   'Notification',
+  'Task',
 ];
 
 module.exports = (app, cb) => {
