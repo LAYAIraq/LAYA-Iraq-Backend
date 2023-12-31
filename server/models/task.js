@@ -176,6 +176,60 @@ module.exports = (Task) => {
     },
     description: 'Get an Task by User ID and Course Name',
   });
+
+  /**
+   *
+   * @param {object} data studentId, courseId, taskId
+   * @param {Function} cb callback function
+   */
+  Task.getAllByCourseId = (data, cb) => {
+    const cid = data.courseId;
+    const aid = data.assessmentId;
+    /**
+    Task.destroyAll((err) => {
+      if (err) {
+        console.error('Error deleting entries:', err);
+        // Handle error
+      } else {
+        console.log('Entries deleted successfully');
+        // Handle success
+      }
+    }); */
+    Task.find({where: {courseId: cid, assessmentId: aid}}, (err, task) => {
+      if (err) {
+        console.error(err);
+        console.log('err found---------------------------------------');
+        return cb(err);
+      }
+      else {
+        console.log('tasks found---------------------------------------');
+        console.log(task[0]);
+        if (!task[0]) {
+          console.log(' no task');
+        }
+        return cb(null, task);
+      }
+    });
+  };
+  /**
+   */
+  Task.remoteMethod('getAllByCourseId', {
+    http: {
+      path: '/getAllByCourseId',
+      verb: 'get',
+    },
+    accepts: {
+      arg: 'data',
+      type: 'object',
+      http: {source: 'body'},
+      required: true,
+    },
+    returns: {
+      arg: 'subs',
+      type: 'array',
+    },
+    description: 'Returns a list of Task for a Task in a Course',
+  });
   /**
    */
   Task.remoteMethod('deleteAll', {

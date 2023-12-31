@@ -23,6 +23,14 @@
       "type": "string",
       "default": ""
     },
+    "feedback": {
+      "type": "string",
+      "default": ""
+    },
+    "rated": {
+      "type": "Boolean",
+      "default": false
+    },
     "current": {
       "type": "Boolean",
       "default": false
