@@ -62,8 +62,8 @@ module.exports = (Account) => {
       const error = new Error('Not all params given!');
       error.status = 400;
       cb(error);
-    } else if (data.role === 'admin') {
-      const error = new Error('Changing role to admin is not allowed!');
+    } else if (data.role === 'superadmin') {
+      const error = new Error('Changing role to superadmin is not allowed!');
       error.status = 403;
       cb(error);
     } else {
@@ -248,7 +248,7 @@ module.exports = (Account) => {
             } else {
               cb(null, roles.length);
             }
-          }
+          },
         );
       }
     });
@@ -349,42 +349,42 @@ module.exports = (Account) => {
             password: pwd,
             verificationToken: token,
           },
-            (err) => {
+          (err) => {
             // Account.generateVerificationToken(user, (err, token) => {
-              if (err) {
-                cb('password reset failed');
-              } else {
-                // console.log(token);
-                // const ejs = require('ejs');
-                const html = Account.renderTemplate(
-                  '../templates/pwd-reset.ejs',
-                  {
-                    host: process.env.FRONTEND_HOST || 'localhost',
-                    port: process.env.FRONTEND_PORT,
-                    user: user,
-                  }
-                );
-                console.log(html);
-                const {Email} = Account.app.models;
-                Email.send({
-                  type: 'email',
-                  to: user.email,
-                  from: process.env.MAIL_FROM,
-                  subject: 'Your password has been reset',
-                  // host: process.env.FRONTEND_HOST || 'localhost',
-                  // port: process.env.FRONTEND_PORT,
-                  html: html,
-                  // pwd: Account.randomPassword(12),
-                  // // eslint-disable-next-line
-                  // template: path.resolve(__dirname, '../../server/templates/pwd-reset.ejs'),
-                  // user: user,
-                }, err => {
-                  if (err) console.error(err);
-                  // console.log('sending email');
-                });
-                cb(null, true);
-              }
-            });
+            if (err) {
+              cb('password reset failed');
+            } else {
+              // console.log(token);
+              // const ejs = require('ejs');
+              const html = Account.renderTemplate(
+                '../templates/pwd-reset.ejs',
+                {
+                  host: process.env.FRONTEND_HOST || 'localhost',
+                  port: process.env.FRONTEND_PORT,
+                  user: user,
+                },
+              );
+              console.log(html);
+              const {Email} = Account.app.models;
+              Email.send({
+                type: 'email',
+                to: user.email,
+                from: process.env.MAIL_FROM,
+                subject: 'Your password has been reset',
+                // host: process.env.FRONTEND_HOST || 'localhost',
+                // port: process.env.FRONTEND_PORT,
+                html: html,
+                // pwd: Account.randomPassword(12),
+                // // eslint-disable-next-line
+                // template: path.resolve(__dirname, '../../server/templates/pwd-reset.ejs'),
+                // user: user,
+              }, err => {
+                if (err) console.error(err);
+                // console.log('sending email');
+              });
+              cb(null, true);
+            }
+          });
         });
       } else {
         const err = new Error('no user exists with this ID');
@@ -661,7 +661,7 @@ module.exports = (Account) => {
           return null;
         }
         text = resp;
-      }
+      },
     );
     return text;
   };
@@ -689,7 +689,7 @@ module.exports = (Account) => {
             if (err) console.error(err);
             const html = Account.renderTemplate(
               '../../server/templates/promoted.ejs',
-              {username: model.username, role: role.name}
+              {username: model.username, role: role.name},
             );
             Email.send({
               type: 'email',
@@ -705,7 +705,7 @@ module.exports = (Account) => {
             });
           });
         });
-    }
+    },
   );
 
   /**

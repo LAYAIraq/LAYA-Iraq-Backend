@@ -10,6 +10,32 @@
 module.exports = (server) => {
   const {Role, RoleMapping} = server.models;
 
+  // superadmin role
+  Role.findOrCreate(
+    {where: {name: 'superadmin'}},
+    {name: 'superadmin'},
+    (err, role) => {
+      if (err) {
+        return console.error(err);
+      }
+      role.principals.find({principalId: 'superadmin'},
+        (err, editors) => {
+          if (editors.length === 0) {
+            role.principals.create({
+              principalType: RoleMapping.ROLE,
+              principalId: 'superadmin',
+            }, (err, principal) => {
+              if (err) {
+                return console.error(err);
+              } else
+                return console.log('SuperAdmin Role Principal created: ',
+                  principal);
+            });
+          } else {
+            return console.log('SuperAdmin Role Principal exists');
+          }
+        });
+    });
   // admin role
   Role.findOrCreate(
     {where: {name: 'admin'}},

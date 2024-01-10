@@ -13,13 +13,14 @@
     {
       "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "DENY"
+      "principalId": "$authenticated",
+      "property": "create",
+      "permission": "ALLOW"
     },
     {
       "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "$authenticated",
+      "principalId": "$everyone",
       "permission": "ALLOW"
     }
   ],
